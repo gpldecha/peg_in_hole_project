@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<robot name="peg_wall" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<xacro:property name="r_l"  		value="0.8"    /> 
+<xacro:property name="r_h"  		value="0.4"   /> 
+<xacro:property name="r_w"  		value="0.02"   />
+<xacro:property name="M_PI"  		value="3.14159265359"   />
+
+<xacro:property name="socket_t" 	value = "socket_two"	/>
+
+<xacro:property name="use_socket_one" 	value 	= "false"/>
+<xacro:property name="use_socket_two" 	value 	= "true"/>
+<xacro:property name="use_socket_three" value 	= "false"/>
+
+<xacro:macro name="box_I" params="m w h d">
+    <inertia ixx="${1/12 * m * (d*d  + h * h)}" ixy="0.0" ixz="0.0" iyy="${1/12 * m * (h * h + w * w)}" iyz="0.0" izz="${1/12 * m * (w * w + d * d)}" />
+</xacro:macro>
+
+
+<link name="link_socket">
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+   			<mesh filename="package://objects/meshes/${socket_t}/${socket_t}.dae"/>
+		</geometry>
+        </visual>
+
+	<inertial>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<mass value="1"/>
+		<xacro:box_I m="1.0" w="${r_w}" h="${r_h}" d="${r_l}"/>
+	</inertial>
+
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+   			<mesh filename="package://objects/meshes/${socket_t}/${socket_t}.dae"/>
+		</geometry>
+  	</collision>
+</link>
+
+<joint name="joint_fixed_socket" type="fixed">
+
+	<xacro:if value="${use_socket_one}">
+		<origin xyz="${-0.01} 0 0" rpy="0 0 ${-M_PI/2}"/>
+	</xacro:if>
+	<xacro:if value="${use_socket_two}">
+		<origin xyz="${-0.0025} 0 0" rpy="0 0 ${-M_PI/2}"/>
+	</xacro:if>
+	<xacro:if value="${use_socket_three}">
+		<origin xyz="${-0.0025} 0 0" rpy="0 0 ${-M_PI/2}"/>
+	</xacro:if>
+
+	<parent link="link_socket"/>
+	<child link="link_wall"/>
+</joint>
+
+
+<link name="link_wall">
+
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+   			<mesh filename="package://objects/meshes/wall.dae"/>
+		</geometry>
+        </visual>
+
+	<inertial>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<mass value="1"/>
+		<xacro:box_I m="1.0" w="${r_w}" h="${r_h}" d="${r_l}"/>
+	</inertial>
+
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<box size="${r_l} ${r_h} ${r_w}"/>	
+		</geometry>
+  	</collision>
+
+</link>
+
+
+
+</robot>

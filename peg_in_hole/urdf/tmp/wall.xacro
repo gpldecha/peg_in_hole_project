@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<robot name="average_table" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- Import all Gazebo-customization elements, including Gazebo colors -->
+<xacro:include filename="$(find table_description)/urdf/table.gazebo" /> 
+
+<!-- Import Rviz colors -->
+<xacro:include filename="$(find table_description)/urdf/materials.xacro" />
+
+<xacro:property name="M_PI" value="3.14159265359"  /> 
+
+
+<xacro:property name="wall_l"  value="0.5"    /> 
+<xacro:property name="wall_h"  value="0.9"   /> 
+<xacro:property name="wall_w"  value="0.04"   />
+
+<xacro:macro name="box_I" params="m w h d">
+    <inertia ixx="${1/12 * m * (d*d  + h * h)}" ixy="0.0" ixz="0.0" iyy="${1/12 * m * (h * h + w * w)}" iyz="0.0" izz="${1/12 * m * (w * w + d * d)}" />
+</xacro:macro>
+
+
+
+<xacro:macro name="wall">
+
+
+<link name="wall_link">
+	<visual>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+			<box size="${table_l} ${table_h} ${table_w}"/>	
+		</geometry>
+        </visual>
+</link>
+</xacro:macro>
+   
+
+<xacro:wall/>
+
+</robot>
+

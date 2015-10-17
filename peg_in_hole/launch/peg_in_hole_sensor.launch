@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+
+	<!-- launch force torque sensor listener-->
+	<include file="$(find netft_rdt_driver)/launch/ft_sensor.launch"/>
+
+	<include file="$(find plug_sensor_models)/launch/plug_sensor_models.launch"/>
+
+
+</launch>

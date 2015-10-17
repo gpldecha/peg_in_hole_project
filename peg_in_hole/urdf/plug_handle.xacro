@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<robot name="plug_handle" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<xacro:property name="c_l"  value="0.18"    /> 
+<xacro:property name="c_r"  value="0.015"    /> 
+<xacro:property name="M_PI" value="3.14159265359"  /> 
+
+<xacro:macro name="box_I" params="m w h d">
+    <inertia ixx="${1/12 * m * (d*d  + h * h)}" ixy="0.0" ixz="0.0" iyy="${1/12 * m * (h * h + w * w)}" iyz="0.0" izz="${1/12 * m * (w * w + d * d)}" />
+</xacro:macro>
+
+<xacro:property name="dx" value="0.04"  /> 
+<xacro:property name="dz" value="${c_r/2 + 0.005}"  /> 
+
+<link name="link_cylinder">
+	<visual>
+		<origin xyz="${-1*dx} 0 ${-1*dz}" rpy="0 ${-M_PI/2} 0"/>
+		<geometry>
+			<cylinder length="${c_l}" radius="${c_r}"/>
+		</geometry>
+		<material name="grey">
+  		         <color rgba="0.6 0.6 0.6 1"/>
+  	       </material>
+        </visual>
+
+</link>
+
+<joint name="link_c_p" type="fixed">
+	<origin xyz="${c_l/2  + 0.035  - 1*dx} 0 ${-1*dz}" rpy="0 0 0"/>
+	<parent link="link_cylinder"/>
+	<child  link="plug_link"/>
+</joint>
+
+
+<link name="plug_link">
+	<visual> <!--${-M_PI/2} ${-M_PI} ${-M_PI/2}-->
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+   			<mesh filename="package://objects/meshes/plug/plug.dae"/>
+		</geometry>
+        </visual>
+
+	<collision>
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+		<geometry>
+   			<mesh filename="package://objects/meshes/plug/plug.dae"/>
+		</geometry>
+  	</collision>
+</link>
+
+
+
+
+
+</robot>
