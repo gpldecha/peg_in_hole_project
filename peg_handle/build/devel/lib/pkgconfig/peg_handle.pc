@@ -1,0 +1,8 @@
+prefix=/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_handle/build/devel
+
+Name: peg_handle
+Description: Description of peg_handle
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_handle/build/devel/lib -lpeg_handle
+Requires: roscpp

@@ -24,13 +24,12 @@
 	</include> 
 
 
-	<!-- peg in hole-->
-
-	<include file="$(find peg_in_hole)/launch/plug/plug_handle.launch">
+	<!-- peg handle -->
+	<include file="$(find peg_handle)/launch/peg_handle.launch">
 	  	<arg name="use_rviz" 			value="False"/>
 		<arg name="origin"   			value="0.2 0.25 0"/>
 		<arg name="orientation"			value="0 0 0 1"/>
-		<arg name="load_saved"			value="True"/>		
+		<arg name="load_saved"			value="False"/>		
 		<arg name="use_vision_broadcaster" 	value="False"/>
 		<arg name="use_broadcaster" 		value="True"/>
 	</include>
@@ -42,10 +41,10 @@
 	<!--include file="$(find optitrack)/launch/optitrack.launch" /-->
 
 	<!-- feature wrapper  --><!-- launch-prefix="xterm -e gdb -args"-->
-	<!--node name="peg_in_hole_wrapper" pkg="peg_in_hole" type="peg_in_hole_wrapper_node" args="-urdf $(arg table_urdf) -rate 100" output="screen"/-->
+	<node name="peg_in_hole_wrapper" pkg="peg_in_hole" type="peg_in_hole_wrapper_node" args="-urdf $(arg table_urdf) -rate 100" output="screen"/>
 
 	<!-- launch particle filter -->
-	<include file="$(find peg_in_hole)/launch/particle_filter/plug_particle_filter.launch"/>
+	<!--include file="$(find peg_in_hole)/launch/particle_filter/plug_particle_filter.launch"/-->
 
 
 

@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "peg_handle")
+set(peg_handle_MAINTAINER "guillaume <guillaume@todo.todo>")
+set(peg_handle_DEPRECATED "")
+set(peg_handle_VERSION "0.0.0")
+set(peg_handle_BUILD_DEPENDS "roscpp" "optitrack_rviz" "message_runtime")
+set(peg_handle_RUN_DEPENDS "roscpp" "optitrack_rviz" "message_runtime")
+set(peg_handle_BUILDTOOL_DEPENDS "catkin")

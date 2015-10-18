@@ -1,23 +1,28 @@
 #include <ros/ros.h>
-#include <optitrack_rviz/input.h>
-#include <armadillo>
-#include <boost/lexical_cast.hpp>
-
-#include <plug_world_wrapper/plug_world_wrapper.h>
 
 #include <visualise/vis_points.h>
 #include <visualise/vis_point_cloud.h>
 #include <visualise/vis_vector.h>
+
+#include <optitrack_rviz/input.h>
 #include <optitrack_rviz/print.h>
-#include <ros/ros.h>
+
+#include <peg_world_wrapper/plug_world_wrapper.h>
 
 #include <world_wrapper/visualisation/vis_wbox.h>
-#include <node/publisher.h>
 
-#include <plug_filter/plug_service.h>
+#include <peg_filter/plug_service.h>
+
 #include <peg_in_hole/peg_replay.h>
 
 #include <objects/vis_socket.h>
+
+#include <node/publisher.h>
+
+#include <armadillo>
+
+#include <boost/lexical_cast.hpp>
+
 
 int main(int argc, char** argv){
 

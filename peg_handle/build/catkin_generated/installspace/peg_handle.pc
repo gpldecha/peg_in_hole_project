@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: peg_handle
+Description: Description of peg_handle
+Version: 0.0.0
+Cflags: 
+Libs: -L/usr/local/lib -lpeg_handle
+Requires: roscpp

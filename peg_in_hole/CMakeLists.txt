@@ -4,8 +4,7 @@ project(peg_in_hole)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-world_wrapper objects optitrack_rviz tf std_msgs particle_filter plug_sensor_models)
+find_package(catkin REQUIRED COMPONENTS world_wrapper objects optitrack_rviz tf std_msgs peg_filter particle_filter)
 
 find_package(Armadillo)
 
@@ -40,7 +39,7 @@ generate_messages(
 catkin_package(
   INCLUDE_DIRS include
   LIBRARIES peg_in_hole
-  CATKIN_DEPENDS message_runtime world_wrapper objects plug_sensor_models
+  CATKIN_DEPENDS message_runtime world_wrapper objects
 #  DEPENDS system_lib
 )
 
@@ -54,65 +53,40 @@ set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 include_directories(${INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${INCLUDE_STATISTICS})
 
-##  SENSOR (LIB) ##
 
-add_library(plug_sensor ${INCLUDE_DIR}/plug_sensor/plug_sensor.h
-                        ${SRC_DIR}/plug_sensor/plug_sensor.cpp
-                        ${INCLUDE_DIR}/plug_world_wrapper/plug_world_wrapper.h
-                        ${INCLUDE_DIR}/plug_filter/plug_likelihood.h
-                        ${SRC_DIR}/plug_filter/plug_likelihood.cpp
-                        ${INCLUDE_DIR}/plug_filter/motion_model.h
-                        ${SRC_DIR}/plug_filter/motion_model.cpp
-                        ${INCLUDE_DIR}/plug_filter/pf_manager.h
-                        ${INCLUDE_DIR}/plug_filter/plug_service.h
-                        ${SRC_DIR}/plug_filter/pf_manager.cpp
-                        ${SRC_DIR}/plug_filter/plug_service.cpp
-                        ${INCLUDE_DIR}/peg_in_hole/index_subscriber.h
-                        ${SRC_DIR}/peg_replay/index_subscriber.cpp
-                        ${INCLUDE_DIR}/peg_in_hole/run_trajectories.h
-                        ${SRC_DIR}/peg_replay/run_trajectories.cpp
-
+set(H_FILES  	${INCLUDE_DIR}/peg_in_hole/peg_replay.h
+		${INCLUDE_DIR}/peg_in_hole/index_subscriber.h
+	
+)
+set(SRC_FILES 	 ${SRC_DIR}/peg_replay/peg_replay.cpp  
+		 ${SRC_DIR}/peg_replay/index_subscriber.cpp 
 )
 
-target_link_libraries(plug_sensor ${catkin_LIBRARIES} armadillo ${LIB_STATISTICS} mlpack )
-
-
-
-##  PLUG FILTER (EXEC) ##
-
-add_executable(plug_filter ${SRC_DIR}/plug_filter/plug_filter_node.cpp
-)
-target_link_libraries(plug_filter ${catkin_LIBRARIES}  plug_sensor plug_sensor_models)
 
 ## PLUG FEATURE VIS (EXEC) ##
 
-add_executable(peg_in_hole_wrapper_node ${SRC_DIR}/peg_replay/vis_features.cpp
-)
-
-target_link_libraries(peg_in_hole_wrapper_node ${catkin_LIBRARIES} plug_sensor    )
-
-# PLUG REPLAY (LIB)
-
-add_library(peg_replay SHARED ${SRC_DIR}/peg_replay/peg_replay.cpp
-                        ${INCLUDE_DIR}/peg_in_hole/peg_replay.h
-)
-target_link_libraries(peg_replay ${catkin_LIBRARIES} plug_sensor)
-
-# PLUG REPLAY (EXEC)
-add_executable(peg_replay_node   ${SRC_DIR}/peg_replay/peg_replay_node.cpp  )
-target_link_libraries(peg_replay_node ${catkin_LIBRARIES} armadillo peg_replay)
+add_executable(peg_in_hole_wrapper_node ${SRC_DIR}/peg_replay/vis_features.cpp		)
+target_link_libraries(peg_in_hole_wrapper_node ${catkin_LIBRARIES})
 
 
-add_executable(peg_replay_filter
-               ${SRC_DIR}/peg_replay/peg_replay_filter_node.cpp
-)
-target_link_libraries(peg_replay_filter ${catkin_LIBRARIES} plug_sensor peg_replay)
+# PLEG REPLAY (LIB)
+
+add_library(peg_replay SHARED ${H_FILES} ${SRC_FILES}                          		)
+target_link_libraries(peg_replay ${catkin_LIBRARIES}					)
+
+# PLEG REPLAY (EXEC)
+#add_executable(peg_replay_node   ${SRC_DIR}/peg_replay/peg_replay_node.cpp		)
+#target_link_libraries(peg_replay_node ${catkin_LIBRARIES} armadillo  mlpack peg_replay		)
+
+
+#add_executable(peg_replay_filter ${SRC_DIR}/peg_replay/peg_replay_filter_node.cpp 	)
+#target_link_libraries(peg_replay_filter ${catkin_LIBRARIES} peg_replay armadillo mlpack		)
 
 
 
-add_executable(run_traj ${SRC_DIR}/peg_replay/run_trajectories_node.cpp
-)
-target_link_libraries(run_traj ${catkin_LIBRARIES} plug_sensor plug_sensor_models)
+#add_executable(run_traj ${SRC_DIR}/peg_replay/run_trajectories_node.cpp
+#)
+#target_link_libraries(run_traj ${catkin_LIBRARIES} mlpack)
 
 # PLUG REPLAY WITH FILTER (EXEC)
 

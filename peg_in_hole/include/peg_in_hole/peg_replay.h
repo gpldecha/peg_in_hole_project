@@ -1,28 +1,30 @@
 #ifndef PEG_REPLAY_H_
 #define PEG_REPLAY_H_
 
-#include <string>
-#include <vector>
-#include <armadillo>
 
 #include <ros/ros.h>
-#include <peg_in_hole/String_cmd.h>
 
-#include <optitrack_rviz/broadcaster.h>
 #include <tf/LinearMath/Quaternion.h>
 #include <tf/transform_listener.h>
-#include <plug_filter/pf_manager.h>
+
+#include <peg_filter/pf_manager.h>
+
 #include <plug_sensor_manager/sensor_manager.h>
-#include <memory>
+#include <plug_sensor_models/distance_features.h>
+
+#include <optitrack_rviz/type_conversion.h>
+#include <optitrack_rviz/broadcaster.h>
 #include <optitrack_rviz/listener.h>
 #include <optitrack_rviz/type_conversion.h>
 
-#include <peg_in_hole/index_subscriber.h>
-
-#include <plug_sensor_models/distance_features.h>
-#include <optitrack_rviz/type_conversion.h>
-
 #include <peg_in_hole/run_trajectories.h>
+#include <peg_in_hole/index_subscriber.h>
+#include <peg_in_hole/String_cmd.h>
+
+#include <memory>
+#include <string>
+#include <vector>
+#include <armadillo>
 
 
 class Peg_replay{

@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: peg_filter
+Description: Description of peg_filter
+Version: 0.0.0
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib -lpeg_in_hole
+Requires: message_runtime world_wrapper objects plug_sensor_models

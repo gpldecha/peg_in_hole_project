@@ -13,7 +13,7 @@
 
 #include <node/publisher.h>
 
-#include <plug_sensor/plug_sensor.h>
+#include <peg_sensor/plug_sensor.h>
 
 int main(int argc, char** argv){
 

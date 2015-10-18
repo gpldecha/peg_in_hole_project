@@ -26,7 +26,7 @@
 				    -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"/>
 		</group>
 		<group if="$(arg use_broadcaster)">
-			<node pkg="tf" type="static_transform_publisher" name="table_broadcaster" args="$(arg origin) $(arg orientation) world link_socket 100" />
+			<node pkg="tf" type="static_transform_publisher" name="table_broadcaster" args="$(arg origin) $(arg orientation) world_frame link_socket 100" />
 		</group>
 
 	</group>

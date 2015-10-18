@@ -1,27 +1,28 @@
 #ifndef RUN_TRAJECTORIES_H_
 #define RUN_TRAJECTORIES_H_
 
-#include <string>
-#include <vector>
-#include <armadillo>
-
 #include <ros/ros.h>
 
 #include <tf/LinearMath/Quaternion.h>
-#include <plug_filter/pf_manager.h>
-#include <plug_sensor_manager/sensor_manager.h>
-#include <memory>
-#include <optitrack_rviz/type_conversion.h>
+
+#include <peg_filter/pf_manager.h>
+#include <peg_filter/plug_likelihood.h>
+#include <peg_filter/pf_manager.h>
 
 #include <plug_sensor_models/distance_features.h>
-#include <optitrack_rviz/type_conversion.h>
-#include <plug_filter/plug_likelihood.h>
-
+#include <plug_sensor_manager/sensor_manager.h>
 #include <plug_sensor_models/plug_distance_model.h>
+
+#include <optitrack_rviz/type_conversion.h>
+#include <optitrack_rviz/type_conversion.h>
+
 #include <wrapobject/wrapobject.h>
-#include <plug_filter/pf_manager.h>
 
 
+#include <string>
+#include <vector>
+#include <armadillo>
+#include <memory>
 
 
 class Sensor_parameters{

@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<!-- Load KUKA control settings (from Bremen) -->
+	<include file="$(find kuka_lwr_bringup)/launch/lwr_simulation_viz.launch"/>
+
+	<include file="$(find state_transformers)/launch/joint_to_cart_lasa_pour.launch"/>
+
+	<include file="$(find state_transformers)/launch/cart_to_joint_lasa_sim_pour.launch"/>
+
+	<include file="$(find motion_planner)/launch/lasa_fixed_pouring.launch"/>
+
+
+
+
+
+	<!-- table socket -->
+	<arg name="socket_type"	default="table_sw_one"/>
+	<arg name="table_urdf" 	value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+
+	<include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
+	  	<arg name="use_rviz" 			value="False"/>
+		<arg name="origin"   			value="-0.8 0 0.5"/>
+		<arg name="orientation"			value="0 0 0 1"/>
+		<arg name="load_saved"			value="False"/>	
+		<arg name="use_vision_broadcaster" 	value="False"/>
+		<arg name="use_broadcaster" 		value="True"/>
+	</include> 
+
+	
+	<!-- rviz -->
+	<node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" />
+
+</launch>

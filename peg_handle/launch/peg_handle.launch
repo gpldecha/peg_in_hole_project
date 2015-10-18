@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+	<arg name="use_rviz" 			default="True" />
+	<arg name="table_name"			default="table"/>
+	<arg name="use_vision_broadcaster" 	default="False"/>
+	<arg name="use_broadcaster"		default="True"/>
+
+	<arg name="save_path"			default="/home/guillaume/roscode/catkin_ws/src/socket_table_broadcaster/save/link_socket"/>
+	<arg name="load_saved"			default="False"/>
+
+	<arg name="origin"			default="1 0 0"/>
+	<arg name="orientation"			default="0 0 0.707107 0.707107"/>
+	
+
+
+	<group ns="peg_handle">
+		<param name="robot_description" command="$(find xacro)/xacro.py '$(find peg_handle)/urdf/peg_handle_two.xacro'" />
+		<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+		<group if="$(arg use_vision_broadcaster)">
+			<node name="peg_handle" type="peg_handle_node" pkg="peg_handle" 
+			      args="-fixed_frame world -target_frame_listener plug_root -target_frame_broadcaster link_cylinder -origin $(arg origin) -orientation $(arg orientation) -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"
+			/>
+		</group>
+		<group if="$(arg use_broadcaster)">
+			<node pkg="tf" type="static_transform_publisher" name="peg_static_broadcaster" args="$(arg origin) $(arg orientation) world peg_link 100" />
+		</group>
+
+	</group>
+
+
+	<group if="$(arg use_rviz)">	
+		<node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_handle)/launch/peg_handle.rviz"  required="true" />
+	</group>
+
+
+
+</launch>
