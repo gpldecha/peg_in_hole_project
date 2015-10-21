@@ -5,7 +5,7 @@
 
 Plug_sensor_vis::Plug_sensor_vis(const plug_config &config_file,
                                  wobj::WrapObject& wrap_object)
-    :wrapped_world(wrap_object),tf_listener("world","plug_link")
+    :wrapped_world(wrap_object),tf_listener("/world_frame","peg_link")
 {
     arma::mat points;
     if(!points.load(config_file.config_file)){

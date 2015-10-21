@@ -1,18 +1,20 @@
+
+#include <ros/ros.h>
+
 #include <optitrack_rviz/input.h>
+#include <optitrack_rviz/listener.h>
+
 
 #include <peg_world_wrapper/plug_world_wrapper.h>
-
+#include <peg_filter/plug_service.h>
 
 #include <visualise/vis_points.h>
 #include <visualise/vis_point_cloud.h>
-#include <optitrack_rviz/listener.h>
-#include <ros/ros.h>
-#include "/home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include/plug_sensor_models/listener.h"
+#include <plug_sensor_models/listener.h>
 
 #include <world_wrapper/visualisation/vis_wbox.h>
 #include <node/publisher.h>
 
-#include <peg_filter/plug_service.h>
 
 
 void get_veclocity(arma::colvec3& u,const tf::Vector3& origin, const tf::Vector3& origin_tmp)
@@ -29,7 +31,7 @@ int main(int argc,char** argv){
     input["-action_topic"]     = "";
     input["-urdf"]             = "";
     input["-rate"]             = "100";
-    input["-fixed_frame"]      = "world";
+    input["-fixed_frame"]      = "world_frame";
 
    if(!opti_rviz::Input::process_input(argc,argv,input)){
         ROS_ERROR("failed to load input");
@@ -73,7 +75,7 @@ int main(int argc,char** argv){
     /// feature publisher
 
     ww::Publisher publisher("visualization_marker",&node,&plug_world_wrapper.world_wrapper);
-    publisher.init("/world");
+    publisher.init("world_frame");
     publisher.update_position();
 
 
@@ -104,21 +106,21 @@ int main(int argc,char** argv){
 
         u.zeros();
         u(0) = -0.001;
-        // listener.update(origin_plug,orientation_plug);
-       // get_veclocity(u,origin_plug,origin_plug_tmp);
-       // origin_plug_tmp = origin_plug;
+        listener.update(origin_plug,orientation_plug);
+        get_veclocity(u,origin_plug,origin_plug_tmp);
+        origin_plug_tmp = origin_plug;
 
 
-        Y(0) = 1;//plug_sensor_model.data[0];
+        //Y(0) = 1;//plug_sensor_model.data[0];
         /*x_pos = x_pos + u(0);
         if(x_pos < 0.01){
             u(0) = 0;
         }*/
 
 
-        plug_pf_manager.update(Y,u,rot);
-        plug_pf_manager.visualise();
-        publisher.publish();
+        // plug_pf_manager.update(Y,u,rot);
+         plug_pf_manager.visualise();
+         publisher.publish();
 
 
 

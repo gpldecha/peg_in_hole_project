@@ -5,8 +5,18 @@ project(peg_in_hole)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS world_wrapper objects optitrack_rviz tf std_msgs peg_filter particle_filter)
+#
 
+find_package(Boost)
 find_package(Armadillo)
+
+if(ARMADILLO_FOUND)
+    message(STATUS "${Green} libarmadillo found ${ColourReset} "            )
+    message(STATUS "    ${ARMADILLO_INCLUDE_DIRS}"                          )
+    message(STATUS "    ${ARMADILLO_LIBRARIES}"                             )
+elseif(ARMADILLO_FOUND)
+    message(FATAL_ERROR "${Red} libarmadillo NOT FOUND! ${ColourReset}"     )
+endif(ARMADILLO_FOUND)
 
 #-fopenmp
 
@@ -65,27 +75,24 @@ set(SRC_FILES 	 ${SRC_DIR}/peg_replay/peg_replay.cpp
 
 ## PLUG FEATURE VIS (EXEC) ##
 
-add_executable(peg_in_hole_wrapper_node ${SRC_DIR}/peg_replay/vis_features.cpp		)
-target_link_libraries(peg_in_hole_wrapper_node ${catkin_LIBRARIES})
+add_executable(peg_in_hole_wrapper_node ${SRC_DIR}/peg_replay/vis_features.cpp		  )
+target_link_libraries(peg_in_hole_wrapper_node  ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}  boost_system )
 
 
 # PLEG REPLAY (LIB)
 
 add_library(peg_replay SHARED ${H_FILES} ${SRC_FILES}                          		)
-target_link_libraries(peg_replay ${catkin_LIBRARIES}					)
+target_link_libraries(peg_replay ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES} boost_system	)
 
 # PLEG REPLAY (EXEC)
 #add_executable(peg_replay_node   ${SRC_DIR}/peg_replay/peg_replay_node.cpp		)
 #target_link_libraries(peg_replay_node ${catkin_LIBRARIES} armadillo  mlpack peg_replay		)
 
-
 #add_executable(peg_replay_filter ${SRC_DIR}/peg_replay/peg_replay_filter_node.cpp 	)
 #target_link_libraries(peg_replay_filter ${catkin_LIBRARIES} peg_replay armadillo mlpack		)
 
 
-
-#add_executable(run_traj ${SRC_DIR}/peg_replay/run_trajectories_node.cpp
-#)
+#add_executable(run_traj ${SRC_DIR}/peg_replay/run_trajectories_node.cpp )
 #target_link_libraries(run_traj ${catkin_LIBRARIES} mlpack)
 
 # PLUG REPLAY WITH FILTER (EXEC)

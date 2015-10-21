@@ -22,8 +22,7 @@
 
 		<group if="$(arg use_vision_broadcaster)">
 			<node name="socket_table_broadcaster" type="socket_table_broadcaster" pkg="socket_table_broadcaster" 
-			      args="-fixed_frame world -target_frame_listener plug_link -target_frame_broadcaster link_socket -origin $(arg origin) -orientation $(arg orientation)
-				    -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"/>
+			      args="-fixed_frame world_frame -target_frame_listener plug_link -target_frame_broadcaster link_socket -origin $(arg origin) -orientation $(arg orientation) -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"/>
 		</group>
 		<group if="$(arg use_broadcaster)">
 			<node pkg="tf" type="static_transform_publisher" name="table_broadcaster" args="$(arg origin) $(arg orientation) world_frame link_socket 100" />

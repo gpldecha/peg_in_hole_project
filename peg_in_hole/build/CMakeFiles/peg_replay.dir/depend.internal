@@ -917,30 +917,12 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  ../include/peg_in_hole/index_subscriber.h
  ../include/peg_in_hole/peg_replay.h
  ../include/peg_in_hole/run_trajectories.h
- /home/guillaume/CppWorkSpace/Statistics/include/statistics/distributions/distributions.h
- /home/guillaume/CppWorkSpace/Statistics/include/statistics/distributions/gaussian.h
- /home/guillaume/roscode/catkin_ws/devel/include/particle_filter/String_cmd.h
- /home/guillaume/roscode/catkin_ws/devel/include/particle_filter/String_cmdRequest.h
- /home/guillaume/roscode/catkin_ws/devel/include/particle_filter/String_cmdResponse.h
  /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/optitrack_rviz/broadcaster.h
  /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/optitrack_rviz/input.h
  /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/optitrack_rviz/listener.h
  /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/optitrack_rviz/print.h
  /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/optitrack_rviz/type_conversion.h
- /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/visualise/colormap.h
- /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/visualise/vis_gmm.h
- /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/visualise/vis_point_cloud.h
- /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/visualise/vis_points.h
- /home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include/visualise/vis_vector.h
- /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include/peg_filter/motion_model.h
- /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include/peg_filter/pf_manager.h
- /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include/peg_filter/plug_likelihood.h
  /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/peg_replay.cpp
- /home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include/plug_sensor_manager/sensor_manager.h
- /home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include/plug_sensor_models/distance_features.h
- /home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include/plug_sensor_models/distance_model.h
- /home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include/plug_sensor_models/force_iid_model.h
- /home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include/plug_sensor_models/plug_distance_model.h
  /opt/ros/indigo/include/XmlRpcDecl.h
  /opt/ros/indigo/include/XmlRpcValue.h
  /opt/ros/indigo/include/geometry_msgs/Point.h
@@ -1014,12 +996,8 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  /opt/ros/indigo/include/rosconsole/macros_generated.h
  /opt/ros/indigo/include/sensor_msgs/ChannelFloat32.h
  /opt/ros/indigo/include/sensor_msgs/PointCloud.h
- /opt/ros/indigo/include/std_msgs/ColorRGBA.h
  /opt/ros/indigo/include/std_msgs/Empty.h
- /opt/ros/indigo/include/std_msgs/Float32MultiArray.h
  /opt/ros/indigo/include/std_msgs/Header.h
- /opt/ros/indigo/include/std_msgs/MultiArrayDimension.h
- /opt/ros/indigo/include/std_msgs/MultiArrayLayout.h
  /opt/ros/indigo/include/std_msgs/UInt32.h
  /opt/ros/indigo/include/tf/FrameGraph.h
  /opt/ros/indigo/include/tf/FrameGraphRequest.h
@@ -1054,8 +1032,6 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  /opt/ros/indigo/include/tf2_ros/buffer_interface.h
  /opt/ros/indigo/include/tf2_ros/transform_broadcaster.h
  /opt/ros/indigo/include/tf2_ros/transform_listener.h
- /opt/ros/indigo/include/visualization_msgs/Marker.h
- /opt/ros/indigo/include/visualization_msgs/MarkerArray.h
  /usr/local/include/armadillo
  /usr/local/include/armadillo_bits/BaseCube_bones.hpp
  /usr/local/include/armadillo_bits/BaseCube_meat.hpp
@@ -1803,8 +1779,6 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  /usr/local/include/boost/functional/hash_fwd.hpp
  /usr/local/include/boost/get_pointer.hpp
  /usr/local/include/boost/integer.hpp
- /usr/local/include/boost/integer/integer_log2.hpp
- /usr/local/include/boost/integer/integer_mask.hpp
  /usr/local/include/boost/integer/static_log2.hpp
  /usr/local/include/boost/integer_fwd.hpp
  /usr/local/include/boost/integer_traits.hpp
@@ -2242,7 +2216,6 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  /usr/local/include/boost/parameter/parameters.hpp
  /usr/local/include/boost/parameter/preprocessor.hpp
  /usr/local/include/boost/parameter/value_type.hpp
- /usr/local/include/boost/pending/integer_log2.hpp
  /usr/local/include/boost/pointer_to_other.hpp
  /usr/local/include/boost/predef.h
  /usr/local/include/boost/predef/architecture.h
@@ -2494,38 +2467,11 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  /usr/local/include/boost/preprocessor/tuple/to_list.hpp
  /usr/local/include/boost/preprocessor/variadic/elem.hpp
  /usr/local/include/boost/preprocessor/variadic/size.hpp
- /usr/local/include/boost/random/detail/config.hpp
- /usr/local/include/boost/random/detail/const_mod.hpp
- /usr/local/include/boost/random/detail/disable_warnings.hpp
- /usr/local/include/boost/random/detail/enable_warnings.hpp
- /usr/local/include/boost/random/detail/generator_bits.hpp
- /usr/local/include/boost/random/detail/generator_seed_seq.hpp
- /usr/local/include/boost/random/detail/integer_log2.hpp
- /usr/local/include/boost/random/detail/large_arithmetic.hpp
- /usr/local/include/boost/random/detail/operators.hpp
- /usr/local/include/boost/random/detail/ptr_helper.hpp
- /usr/local/include/boost/random/detail/seed.hpp
- /usr/local/include/boost/random/detail/seed_impl.hpp
- /usr/local/include/boost/random/detail/signed_unsigned_tools.hpp
- /usr/local/include/boost/random/detail/uniform_int_float.hpp
- /usr/local/include/boost/random/detail/vector_io.hpp
- /usr/local/include/boost/random/discrete_distribution.hpp
- /usr/local/include/boost/random/exponential_distribution.hpp
- /usr/local/include/boost/random/mersenne_twister.hpp
- /usr/local/include/boost/random/normal_distribution.hpp
- /usr/local/include/boost/random/uniform_01.hpp
- /usr/local/include/boost/random/uniform_int_distribution.hpp
- /usr/local/include/boost/random/uniform_real.hpp
- /usr/local/include/boost/random/uniform_real_distribution.hpp
- /usr/local/include/boost/random/variate_generator.hpp
- /usr/local/include/boost/range.hpp
  /usr/local/include/boost/range/algorithm/equal.hpp
  /usr/local/include/boost/range/begin.hpp
- /usr/local/include/boost/range/category.hpp
  /usr/local/include/boost/range/concepts.hpp
  /usr/local/include/boost/range/config.hpp
  /usr/local/include/boost/range/const_iterator.hpp
- /usr/local/include/boost/range/const_reverse_iterator.hpp
  /usr/local/include/boost/range/detail/begin.hpp
  /usr/local/include/boost/range/detail/common.hpp
  /usr/local/include/boost/range/detail/end.hpp
@@ -2543,22 +2489,14 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o
  /usr/local/include/boost/range/functions.hpp
  /usr/local/include/boost/range/has_range_iterator.hpp
  /usr/local/include/boost/range/iterator.hpp
- /usr/local/include/boost/range/iterator_range.hpp
  /usr/local/include/boost/range/iterator_range_core.hpp
- /usr/local/include/boost/range/iterator_range_io.hpp
- /usr/local/include/boost/range/metafunctions.hpp
  /usr/local/include/boost/range/mutable_iterator.hpp
- /usr/local/include/boost/range/pointer.hpp
  /usr/local/include/boost/range/range_fwd.hpp
  /usr/local/include/boost/range/rbegin.hpp
- /usr/local/include/boost/range/reference.hpp
  /usr/local/include/boost/range/rend.hpp
- /usr/local/include/boost/range/result_iterator.hpp
  /usr/local/include/boost/range/reverse_iterator.hpp
- /usr/local/include/boost/range/reverse_result_iterator.hpp
  /usr/local/include/boost/range/size.hpp
  /usr/local/include/boost/range/size_type.hpp
- /usr/local/include/boost/range/sub_range.hpp
  /usr/local/include/boost/range/value_type.hpp
  /usr/local/include/boost/ratio/config.hpp
  /usr/local/include/boost/ratio/detail/mpl/abs.hpp

@@ -18,7 +18,7 @@
 class plug_config{
   public:
   plug_config(){
-        config_file = "/home/guillaume/roscode/catkin_ws/src/objects/meshes/plug/config/X.txt";
+        config_file = "/home/guillaume/roscode/catkin_ws/src/models_project/objects/meshes/plug/config/X.txt";
   }
   plug_config(const std::string& config_file):config_file(config_file){}
   std::string config_file;

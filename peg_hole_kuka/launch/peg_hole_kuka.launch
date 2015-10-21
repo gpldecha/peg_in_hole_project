@@ -1,6 +1,12 @@
 <?xml version="1.0" ?>
 <launch>
 
+	<!-- arg -->
+	<arg name="gui" 		default="False" />
+	<arg name="world_frame" 	value="/world_frame"/>
+	<arg name="socket_type"		default="table_sw_one"/>
+	<arg name="table_urdf" 		value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+
 	<!-- Load KUKA control settings (from Bremen) -->
 	<include file="$(find kuka_lwr_bringup)/launch/lwr_simulation_viz.launch"/>
 
@@ -8,16 +14,12 @@
 
 	<include file="$(find state_transformers)/launch/cart_to_joint_lasa_sim_pour.launch"/>
 
-	<include file="$(find motion_planner)/launch/lasa_fixed_pouring.launch"/>
+	<!--include file="$(find motion_planner)/launch/lasa_fixed_pouring.launch"/-->
 
-
-
+	<!--node name="search_planner_node" pkg="peg_hole_kuka" type="run_search_node" required="true" /-->
 
 
 	<!-- table socket -->
-	<arg name="socket_type"	default="table_sw_one"/>
-	<arg name="table_urdf" 	value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
-
 	<include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
 	  	<arg name="use_rviz" 			value="False"/>
 		<arg name="origin"   			value="-0.8 0 0.5"/>
@@ -27,7 +29,12 @@
 		<arg name="use_broadcaster" 		value="True"/>
 	</include> 
 
+	<!-- world wrapper -->
+	<!--node name="peg_in_hole_wrapper" pkg="peg_in_hole" type="peg_in_hole_wrapper_node" args="-urdf $(arg table_urdf) -rate 100" output="screen"/-->
 	
+	<!-- launch particle filter -->
+	<!--include file="$(find peg_filter)/launch/particle_filter/plug_particle_filter.launch"/-->
+
 	<!-- rviz -->
 	<node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" />
 

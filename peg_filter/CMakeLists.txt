@@ -73,7 +73,7 @@ set(SRC_FILES ${SRC_DIR}/peg_sensor/plug_sensor.cpp
 ##  SENSOR (LIB) ##
 
 add_library(peg_sensor ${H_FILES} ${SRC_FILES}						 )
-target_link_libraries(peg_sensor ${catkin_LIBRARIES} armadillo ${LIB_STATISTICS} mlpack  )
+target_link_libraries(peg_sensor ${catkin_LIBRARIES} ${LIB_ARMADILLO} ${LIB_STATISTICS} mlpack  )
 
 
 ##  PEG FILTER (EXEC) ##

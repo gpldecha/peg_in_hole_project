@@ -4,12 +4,10 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /Global Options1
         - /Status1
-        - /RobotModel1
-        - /RobotModel2
         - /TF1/Frames1
-      Splitter Ratio: 0.27955
+        - /particle_filter1
+      Splitter Ratio: 0.49531
     Tree Height: 715
   - Class: rviz/Selection
     Name: Selection
@@ -29,7 +27,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: particle_filter
 Visualization Manager:
   Class: ""
   Displays:
@@ -71,7 +69,7 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-      Name: RobotModel
+      Name: Peg_handle
       Robot Description: peg_handle/robot_description
       TF Prefix: ""
       Update Interval: 0
@@ -122,26 +120,60 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
-      Name: RobotModel
+      Name: Table_sw
       Robot Description: table_sw/robot_description
       TF Prefix: ""
       Update Interval: 0
       Value: true
       Visual Enabled: true
     - Class: rviz/TF
-      Enabled: false
+      Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: false
+        average_table_link:
+          Value: true
+        front_left_leg:
+          Value: true
+        front_right_leg:
+          Value: true
+        link_cylinder:
+          Value: true
+        link_socket:
+          Value: true
+        link_wall:
+          Value: true
+        peg_link:
+          Value: true
+        rear_left_leg:
+          Value: true
+        rear_right_leg:
+          Value: true
+        world_frame:
+          Value: true
       Marker Scale: 0.1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        {}
+        world_frame:
+          link_socket:
+            link_wall:
+              average_table_link:
+                front_left_leg:
+                  {}
+                front_right_leg:
+                  {}
+                rear_left_leg:
+                  {}
+                rear_right_leg:
+                  {}
+          peg_link:
+            link_cylinder:
+              {}
       Update Interval: 0
-      Value: false
+      Value: true
     - Class: rviz/Axes
       Enabled: true
       Length: 1
@@ -172,28 +204,36 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.005
+      Size (m): 0.01
       Style: Spheres
       Topic: /pfilter
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
     - Class: rviz/Marker
-      Enabled: false
+      Enabled: true
       Marker Topic: /plug_model
       Name: plug_model
       Namespaces:
         {}
       Queue Size: 100
-      Value: false
+      Value: true
     - Class: rviz/MarkerArray
       Enabled: false
-      Marker Topic: /closest_features
-      Name: MarkerArray
+      Marker Topic: /visualization_marker_edge
+      Name: table_marker
       Namespaces:
         {}
       Queue Size: 100
       Value: false
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /closest_features
+      Name: closest_features
+      Namespaces:
+        {}
+      Queue Size: 100
+      Value: true
     - Class: rviz/MarkerArray
       Enabled: false
       Marker Topic: /pfilter_gmm
@@ -202,18 +242,10 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: false
-    - Class: rviz/MarkerArray
-      Enabled: true
-      Marker Topic: /visualization_marker_edge
-      Name: table
-      Namespaces:
-        {}
-      Queue Size: 100
-      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: world
+    Fixed Frame: world_frame
     Frame Rate: 30
   Name: root
   Tools:
@@ -234,22 +266,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.0609
+      Distance: 1.38381
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.0354624
-        Y: -0.0616297
-        Z: -0.0544418
+        X: 0.2096
+        Y: 0.0421864
+        Z: -0.0996767
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.664795
+      Pitch: 0.679797
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.452758
+      Yaw: 5.53095
     Saved: ~
 Window Geometry:
   Displays:

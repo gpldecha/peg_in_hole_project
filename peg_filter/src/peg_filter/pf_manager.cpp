@@ -9,7 +9,7 @@ wrapped_objects(wrapped_objects)
 
     particle_filter_type = SIR;
     likelihood_t         = likeli::THREE_PIN;
-    number_particles     = 4000;
+    number_particles     = 2000;
     visualisation_mode   = opti_rviz::Vis_point_cloud::DEFAULT;
     pf_color_type        = pf::C_WEIGHTS;
 }

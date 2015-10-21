@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<launch>
+	
+	<node name="search_planner_node" pkg="peg_hole_kuka" type="run_search_node"  respawn="true"  required="true" output="screen"/>
+
+</launch>

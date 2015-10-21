@@ -181,6 +181,7 @@ devel/lib/libpeg_replay.so: /usr/lib/x86_64-linux-gnu/libboost_system.so
 devel/lib/libpeg_replay.so: /usr/lib/x86_64-linux-gnu/libboost_thread.so
 devel/lib/libpeg_replay.so: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/libpeg_replay.so: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/libpeg_replay.so: /usr/local/lib/libarmadillo.so
 devel/lib/libpeg_replay.so: CMakeFiles/peg_replay.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library devel/lib/libpeg_replay.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/peg_replay.dir/link.txt --verbose=$(VERBOSE)

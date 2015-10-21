@@ -156,6 +156,7 @@ devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/libboo
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/libboost_thread.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/local/lib/libarmadillo.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: CMakeFiles/peg_in_hole_wrapper_node.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable devel/lib/peg_in_hole/peg_in_hole_wrapper_node"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/peg_in_hole_wrapper_node.dir/link.txt --verbose=$(VERBOSE)

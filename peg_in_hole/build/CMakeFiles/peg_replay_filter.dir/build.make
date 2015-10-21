@@ -229,6 +229,7 @@ devel/lib/peg_in_hole/peg_replay_filter: /usr/lib/x86_64-linux-gnu/libboost_syst
 devel/lib/peg_in_hole/peg_replay_filter: /usr/lib/x86_64-linux-gnu/libboost_thread.so
 devel/lib/peg_in_hole/peg_replay_filter: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/peg_in_hole/peg_replay_filter: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
+devel/lib/peg_in_hole/peg_replay_filter: /usr/local/lib/libarmadillo.so
 devel/lib/peg_in_hole/peg_replay_filter: CMakeFiles/peg_replay_filter.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX executable devel/lib/peg_in_hole/peg_replay_filter"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/peg_replay_filter.dir/link.txt --verbose=$(VERBOSE)
