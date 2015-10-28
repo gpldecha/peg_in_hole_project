@@ -40,7 +40,7 @@
 	<!--include file="$(find optitrack)/launch/optitrack.launch" /-->
 
 	<!-- feature wrapper  --><!-- launch-prefix="xterm -e gdb -args"-->
-	<!--node name="peg_in_hole_wrapper" pkg="peg_in_hole" type="peg_in_hole_wrapper_node" args="-urdf $(arg table_urdf) -rate 100" output="screen"/-->
+	<node name="peg_in_hole_wrapper" pkg="peg_in_hole" type="peg_in_hole_wrapper_node"  launch-prefix="xterm -e gdb -args" args="-urdf $(arg table_urdf) -rate 100" output="screen"/>
 
 	<!-- launch particle filter -->
 	<include file="$(find peg_filter)/launch/plug_particle_filter.launch"/>

@@ -4,7 +4,7 @@ project(peg_filter)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS world_wrapper objects optitrack_rviz tf std_msgs particle_filter plug_sensor_models)
+find_package(catkin REQUIRED COMPONENTS world_wrapper wrap_object objects optitrack_rviz tf std_msgs particle_filter plug_sensor_models)
 
 find_package(Armadillo)
 
@@ -60,6 +60,10 @@ set(H_FILES  ${INCLUDE_DIR}/peg_sensor/plug_sensor.h
              ${INCLUDE_DIR}/peg_filter/motion_model.h
              ${INCLUDE_DIR}/peg_filter/pf_manager.h
              ${INCLUDE_DIR}/peg_filter/plug_service.h
+
+             ${INCLUDE_DIR}/peg_features/peg_features.h
+             ${INCLUDE_DIR}/peg_features/mode_feature.h
+
 )
 
 set(SRC_FILES ${SRC_DIR}/peg_sensor/plug_sensor.cpp			
@@ -67,6 +71,10 @@ set(SRC_FILES ${SRC_DIR}/peg_sensor/plug_sensor.cpp
               ${SRC_DIR}/peg_filter/motion_model.cpp
               ${SRC_DIR}/peg_filter/pf_manager.cpp
               ${SRC_DIR}/peg_filter/plug_service.cpp
+
+              ${SRC_DIR}/peg_features/peg_features.cpp
+              ${SRC_DIR}/peg_features/mode_feature.cpp
+
 )
 
 
@@ -78,7 +86,7 @@ target_link_libraries(peg_sensor ${catkin_LIBRARIES} ${LIB_ARMADILLO} ${LIB_STAT
 
 ##  PEG FILTER (EXEC) ##
 
-add_executable(peg_filter_node ${SRC_DIR}/peg_filter/plug_filter_node.cpp      	   	)
+add_executable(peg_filter_node ${SRC_DIR}/peg_filter_node.cpp      	   	)
 target_link_libraries(peg_filter_node ${catkin_LIBRARIES}  peg_sensor    		)
 
 

@@ -52,40 +52,39 @@ include CMakeFiles/peg_filter_node.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/peg_filter_node.dir/flags.make
 
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o: CMakeFiles/peg_filter_node.dir/flags.make
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o: ../src/peg_filter/plug_filter_node.cpp
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o: CMakeFiles/peg_filter_node.dir/flags.make
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o: ../src/peg_filter_node.cpp
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o -c /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_filter/plug_filter_node.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o -c /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_filter_node.cpp
 
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_filter/plug_filter_node.cpp > CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.i
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_filter_node.cpp > CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.i
 
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_filter/plug_filter_node.cpp -o CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.s
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_filter_node.cpp -o CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.s
 
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.requires:
-.PHONY : CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.requires
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.requires:
+.PHONY : CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.requires
 
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.provides: CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.requires
-	$(MAKE) -f CMakeFiles/peg_filter_node.dir/build.make CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.provides.build
-.PHONY : CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.provides
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.provides: CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.requires
+	$(MAKE) -f CMakeFiles/peg_filter_node.dir/build.make CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.provides.build
+.PHONY : CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.provides
 
-CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.provides.build: CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o
+CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.provides.build: CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o
 
 # Object files for target peg_filter_node
 peg_filter_node_OBJECTS = \
-"CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o"
+"CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o"
 
 # External object files for target peg_filter_node
 peg_filter_node_EXTERNAL_OBJECTS =
 
-devel/lib/peg_filter/peg_filter_node: CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o
+devel/lib/peg_filter/peg_filter_node: CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o
 devel/lib/peg_filter/peg_filter_node: CMakeFiles/peg_filter_node.dir/build.make
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libworld_wrapper.so
-devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/librviz.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libdefault_plugin.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libOgreMain.so
@@ -128,6 +127,7 @@ devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/librosconsole_bridge.so
+devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libsockets.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libvis_objects.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/liboptitrack_rviz.so
@@ -157,7 +157,6 @@ devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libpthread.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libconsole_bridge.so
 devel/lib/peg_filter/peg_filter_node: devel/lib/libpeg_sensor.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libworld_wrapper.so
-devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/librviz.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libdefault_plugin.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libOgreMain.so
@@ -200,6 +199,7 @@ devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/librosconsole_bridge.so
+devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libsockets.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libvis_objects.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/liboptitrack_rviz.so
@@ -236,7 +236,7 @@ devel/lib/peg_filter/peg_filter_node: CMakeFiles/peg_filter_node.dir/link.txt
 CMakeFiles/peg_filter_node.dir/build: devel/lib/peg_filter/peg_filter_node
 .PHONY : CMakeFiles/peg_filter_node.dir/build
 
-CMakeFiles/peg_filter_node.dir/requires: CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o.requires
+CMakeFiles/peg_filter_node.dir/requires: CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o.requires
 .PHONY : CMakeFiles/peg_filter_node.dir/requires
 
 CMakeFiles/peg_filter_node.dir/clean:

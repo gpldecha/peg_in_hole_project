@@ -16,6 +16,11 @@ void Plug_likelihood_three_pin_distance::likelihood(arma::colvec &L, const arma:
 
     hY.resize(2 * 3 * 3);
 
+    std::cout<< " Plug_likelihood_three_pin_distance::likelihood" << std::endl;
+    std::cout<< "L : (" << L.n_elem << " x 1)" << std::endl;
+    std::cout<< "X : (" << X.n_rows << " x " << X.n_cols <<  ") " << std::endl;
+    std::cout<< "Y : (" << Y.n_cols << " x 1)" << std::endl;
+
     for(std::size_t i = 0; i < X.n_rows;i++){
 
         three_pin_distance_mode.update(hY,X.row(i).st(),Rot);

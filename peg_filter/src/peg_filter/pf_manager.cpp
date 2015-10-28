@@ -154,21 +154,23 @@ void Plug_pf_manager::visualise(){
 //const arma::colvec3& T = arma::colvec3()
 void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
 
-    if(particle_filter_type == HIST){
+   /* if(particle_filter_type == HIST){
 
         arma::mat points_sparse;
         arma::mat points_dense;
         arma::colvec3 origin = {{0.2,0.0,0}};
         arma::vec orient = {{0,0,0}};
 
-        origin(2) = Plug_position(2);
+       // origin(2) = Plug_position(2);
 
         float length = 0.2;
         float width  = 1.2;
         float height = 0.05;
         arma::colvec3 rec_dim = {{length,width,height}};
 
-        origin(0) = origin(0) + length/2;
+       // origin(0) = origin(0) + length/2;
+
+        origin = Plug_position;
 
         if(arma::sum(Plug_position) != 0){
             update_center_rectangle(Plug_position,origin,rec_dim);
@@ -176,12 +178,12 @@ void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
 
         pf::Static_grid_filter::create_cube(points_sparse,rec_dim(0),rec_dim(1),rec_dim(2),0.02,origin,orient);
 
-        length = 0.05;
-        width  = 0.15;
-        height = 0.15;
-        origin.zeros();
-        origin(0) = origin(0) + 0.025;
-        pf::Static_grid_filter::create_cube(points_dense,length,width,height,0.0025,origin,orient);
+       // length = 0.05;
+       // width  = 0.15;
+       // height = 0.15;
+       // origin.zeros();
+       // origin(0) = origin(0) + 0.025;
+       // pf::Static_grid_filter::create_cube(points_dense,length,width,height,0.0025,origin,orient);
 
         arma::mat points = points_dense;// arma::join_vert(points_sparse,points_dense);
 
@@ -189,13 +191,14 @@ void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
        // particle_filter->print();
 
     }else{
-
+*/
 
         tf::Matrix3x3 rot;
         rot.setEulerYPR(0,0,0);
 
-        arma::vec3  origin = {{0.3,0.0,0}};
-        origin(2) = Plug_position(2);
+       // arma::vec3  origin = {{0.3,0.0,0}};
+       // origin(2) = Plug_position(2);
+        arma::vec3 origin = Plug_position;
 
         arma::mat   orientation(3,3);
         double      length = 0.2;
@@ -222,7 +225,7 @@ void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
 
         particle_filter->reinitialise(particles);
         particle_filter->reset_weights();
-   }
+  // }
 
 }
 

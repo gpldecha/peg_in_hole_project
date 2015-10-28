@@ -1,5 +1,5 @@
 FILE(REMOVE_RECURSE
-  "CMakeFiles/peg_filter_node.dir/src/peg_filter/plug_filter_node.cpp.o"
+  "CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o"
   "devel/lib/peg_filter/peg_filter_node.pdb"
   "devel/lib/peg_filter/peg_filter_node"
 )

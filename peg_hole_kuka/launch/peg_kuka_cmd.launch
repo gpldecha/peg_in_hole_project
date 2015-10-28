@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <node name="peg_kuka_cmd" pkg="peg_hole_kuka" type="peg_cmd_interface_node"  required="true" />
+
+</launch>

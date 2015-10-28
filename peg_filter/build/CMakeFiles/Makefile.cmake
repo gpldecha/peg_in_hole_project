@@ -19,6 +19,8 @@ SET(CMAKE_MAKEFILE_DEPENDS
   "/home/guillaume/roscode/catkin_ws/devel/share/world_wrapper/cmake/world_wrapper-msg-extras.cmake"
   "/home/guillaume/roscode/catkin_ws/devel/share/world_wrapper/cmake/world_wrapperConfig-version.cmake"
   "/home/guillaume/roscode/catkin_ws/devel/share/world_wrapper/cmake/world_wrapperConfig.cmake"
+  "/home/guillaume/roscode/catkin_ws/devel/share/wrap_object/cmake/wrap_objectConfig-version.cmake"
+  "/home/guillaume/roscode/catkin_ws/devel/share/wrap_object/cmake/wrap_objectConfig.cmake"
   "../CMakeLists.txt"
   "CMakeFiles/2.8.12.2/CMakeCCompiler.cmake"
   "CMakeFiles/2.8.12.2/CMakeCXXCompiler.cmake"

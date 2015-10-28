@@ -107,7 +107,7 @@ private:
 
 public:
 
-    ptr_pf    particle_filter;
+    ptr_pf                                  particle_filter;
     bool                                    bUpdate;
 
 private:

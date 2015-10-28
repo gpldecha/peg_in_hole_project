@@ -153,6 +153,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named _peg_hole_kuka_generate_messages_check_deps_String_cmd
+
+# Build rule for target.
+_peg_hole_kuka_generate_messages_check_deps_String_cmd: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 _peg_hole_kuka_generate_messages_check_deps_String_cmd
+.PHONY : _peg_hole_kuka_generate_messages_check_deps_String_cmd
+
+# fast build rule for target.
+_peg_hole_kuka_generate_messages_check_deps_String_cmd/fast:
+	$(MAKE) -f CMakeFiles/_peg_hole_kuka_generate_messages_check_deps_String_cmd.dir/build.make CMakeFiles/_peg_hole_kuka_generate_messages_check_deps_String_cmd.dir/build
+.PHONY : _peg_hole_kuka_generate_messages_check_deps_String_cmd/fast
+
+#=============================================================================
 # Target rules for targets named actionlib_generate_messages_cpp
 
 # Build rule for target.
@@ -270,6 +283,45 @@ doxygen/fast:
 .PHONY : doxygen/fast
 
 #=============================================================================
+# Target rules for targets named exploration_planner_generate_messages_cpp
+
+# Build rule for target.
+exploration_planner_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 exploration_planner_generate_messages_cpp
+.PHONY : exploration_planner_generate_messages_cpp
+
+# fast build rule for target.
+exploration_planner_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/exploration_planner_generate_messages_cpp.dir/build.make CMakeFiles/exploration_planner_generate_messages_cpp.dir/build
+.PHONY : exploration_planner_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named exploration_planner_generate_messages_lisp
+
+# Build rule for target.
+exploration_planner_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 exploration_planner_generate_messages_lisp
+.PHONY : exploration_planner_generate_messages_lisp
+
+# fast build rule for target.
+exploration_planner_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/exploration_planner_generate_messages_lisp.dir/build.make CMakeFiles/exploration_planner_generate_messages_lisp.dir/build
+.PHONY : exploration_planner_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named exploration_planner_generate_messages_py
+
+# Build rule for target.
+exploration_planner_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 exploration_planner_generate_messages_py
+.PHONY : exploration_planner_generate_messages_py
+
+# fast build rule for target.
+exploration_planner_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/exploration_planner_generate_messages_py.dir/build.make CMakeFiles/exploration_planner_generate_messages_py.dir/build
+.PHONY : exploration_planner_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named geometry_msgs_generate_messages_cpp
 
 # Build rule for target.
@@ -309,30 +361,290 @@ geometry_msgs_generate_messages_py/fast:
 .PHONY : geometry_msgs_generate_messages_py/fast
 
 #=============================================================================
-# Target rules for targets named peg_hole_kuka
+# Target rules for targets named kuka_action_client_generate_messages_cpp
 
 # Build rule for target.
-peg_hole_kuka: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka
-.PHONY : peg_hole_kuka
+kuka_action_client_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 kuka_action_client_generate_messages_cpp
+.PHONY : kuka_action_client_generate_messages_cpp
 
 # fast build rule for target.
-peg_hole_kuka/fast:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/build
-.PHONY : peg_hole_kuka/fast
+kuka_action_client_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/kuka_action_client_generate_messages_cpp.dir/build.make CMakeFiles/kuka_action_client_generate_messages_cpp.dir/build
+.PHONY : kuka_action_client_generate_messages_cpp/fast
 
 #=============================================================================
-# Target rules for targets named pour_action_node
+# Target rules for targets named kuka_action_client_generate_messages_lisp
 
 # Build rule for target.
-pour_action_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 pour_action_node
-.PHONY : pour_action_node
+kuka_action_client_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 kuka_action_client_generate_messages_lisp
+.PHONY : kuka_action_client_generate_messages_lisp
 
 # fast build rule for target.
-pour_action_node/fast:
-	$(MAKE) -f CMakeFiles/pour_action_node.dir/build.make CMakeFiles/pour_action_node.dir/build
-.PHONY : pour_action_node/fast
+kuka_action_client_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/kuka_action_client_generate_messages_lisp.dir/build.make CMakeFiles/kuka_action_client_generate_messages_lisp.dir/build
+.PHONY : kuka_action_client_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named kuka_action_client_generate_messages_py
+
+# Build rule for target.
+kuka_action_client_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 kuka_action_client_generate_messages_py
+.PHONY : kuka_action_client_generate_messages_py
+
+# fast build rule for target.
+kuka_action_client_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/kuka_action_client_generate_messages_py.dir/build.make CMakeFiles/kuka_action_client_generate_messages_py.dir/build
+.PHONY : kuka_action_client_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named map_msgs_generate_messages_cpp
+
+# Build rule for target.
+map_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 map_msgs_generate_messages_cpp
+.PHONY : map_msgs_generate_messages_cpp
+
+# fast build rule for target.
+map_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/map_msgs_generate_messages_cpp.dir/build.make CMakeFiles/map_msgs_generate_messages_cpp.dir/build
+.PHONY : map_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named map_msgs_generate_messages_lisp
+
+# Build rule for target.
+map_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 map_msgs_generate_messages_lisp
+.PHONY : map_msgs_generate_messages_lisp
+
+# fast build rule for target.
+map_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/map_msgs_generate_messages_lisp.dir/build.make CMakeFiles/map_msgs_generate_messages_lisp.dir/build
+.PHONY : map_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named map_msgs_generate_messages_py
+
+# Build rule for target.
+map_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 map_msgs_generate_messages_py
+.PHONY : map_msgs_generate_messages_py
+
+# fast build rule for target.
+map_msgs_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/map_msgs_generate_messages_py.dir/build.make CMakeFiles/map_msgs_generate_messages_py.dir/build
+.PHONY : map_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named nav_msgs_generate_messages_cpp
+
+# Build rule for target.
+nav_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nav_msgs_generate_messages_cpp
+.PHONY : nav_msgs_generate_messages_cpp
+
+# fast build rule for target.
+nav_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/nav_msgs_generate_messages_cpp.dir/build.make CMakeFiles/nav_msgs_generate_messages_cpp.dir/build
+.PHONY : nav_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named nav_msgs_generate_messages_lisp
+
+# Build rule for target.
+nav_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nav_msgs_generate_messages_lisp
+.PHONY : nav_msgs_generate_messages_lisp
+
+# fast build rule for target.
+nav_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/nav_msgs_generate_messages_lisp.dir/build.make CMakeFiles/nav_msgs_generate_messages_lisp.dir/build
+.PHONY : nav_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named nav_msgs_generate_messages_py
+
+# Build rule for target.
+nav_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 nav_msgs_generate_messages_py
+.PHONY : nav_msgs_generate_messages_py
+
+# fast build rule for target.
+nav_msgs_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/nav_msgs_generate_messages_py.dir/build.make CMakeFiles/nav_msgs_generate_messages_py.dir/build
+.PHONY : nav_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named peg_cmd_interface_node
+
+# Build rule for target.
+peg_cmd_interface_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_cmd_interface_node
+.PHONY : peg_cmd_interface_node
+
+# fast build rule for target.
+peg_cmd_interface_node/fast:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/build
+.PHONY : peg_cmd_interface_node/fast
+
+#=============================================================================
+# Target rules for targets named peg_filter_generate_messages_cpp
+
+# Build rule for target.
+peg_filter_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_filter_generate_messages_cpp
+.PHONY : peg_filter_generate_messages_cpp
+
+# fast build rule for target.
+peg_filter_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/peg_filter_generate_messages_cpp.dir/build.make CMakeFiles/peg_filter_generate_messages_cpp.dir/build
+.PHONY : peg_filter_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named peg_filter_generate_messages_lisp
+
+# Build rule for target.
+peg_filter_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_filter_generate_messages_lisp
+.PHONY : peg_filter_generate_messages_lisp
+
+# fast build rule for target.
+peg_filter_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/peg_filter_generate_messages_lisp.dir/build.make CMakeFiles/peg_filter_generate_messages_lisp.dir/build
+.PHONY : peg_filter_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named peg_filter_generate_messages_py
+
+# Build rule for target.
+peg_filter_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_filter_generate_messages_py
+.PHONY : peg_filter_generate_messages_py
+
+# fast build rule for target.
+peg_filter_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/peg_filter_generate_messages_py.dir/build.make CMakeFiles/peg_filter_generate_messages_py.dir/build
+.PHONY : peg_filter_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_gencpp
+
+# Build rule for target.
+peg_hole_kuka_gencpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_gencpp
+.PHONY : peg_hole_kuka_gencpp
+
+# fast build rule for target.
+peg_hole_kuka_gencpp/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_gencpp.dir/build.make CMakeFiles/peg_hole_kuka_gencpp.dir/build
+.PHONY : peg_hole_kuka_gencpp/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_generate_messages
+
+# Build rule for target.
+peg_hole_kuka_generate_messages: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_generate_messages
+.PHONY : peg_hole_kuka_generate_messages
+
+# fast build rule for target.
+peg_hole_kuka_generate_messages/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_generate_messages.dir/build.make CMakeFiles/peg_hole_kuka_generate_messages.dir/build
+.PHONY : peg_hole_kuka_generate_messages/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_generate_messages_cpp
+
+# Build rule for target.
+peg_hole_kuka_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_generate_messages_cpp
+.PHONY : peg_hole_kuka_generate_messages_cpp
+
+# fast build rule for target.
+peg_hole_kuka_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_generate_messages_cpp.dir/build.make CMakeFiles/peg_hole_kuka_generate_messages_cpp.dir/build
+.PHONY : peg_hole_kuka_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_generate_messages_lisp
+
+# Build rule for target.
+peg_hole_kuka_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_generate_messages_lisp
+.PHONY : peg_hole_kuka_generate_messages_lisp
+
+# fast build rule for target.
+peg_hole_kuka_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_generate_messages_lisp.dir/build.make CMakeFiles/peg_hole_kuka_generate_messages_lisp.dir/build
+.PHONY : peg_hole_kuka_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_generate_messages_py
+
+# Build rule for target.
+peg_hole_kuka_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_generate_messages_py
+.PHONY : peg_hole_kuka_generate_messages_py
+
+# fast build rule for target.
+peg_hole_kuka_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_generate_messages_py.dir/build.make CMakeFiles/peg_hole_kuka_generate_messages_py.dir/build
+.PHONY : peg_hole_kuka_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_genlisp
+
+# Build rule for target.
+peg_hole_kuka_genlisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_genlisp
+.PHONY : peg_hole_kuka_genlisp
+
+# fast build rule for target.
+peg_hole_kuka_genlisp/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_genlisp.dir/build.make CMakeFiles/peg_hole_kuka_genlisp.dir/build
+.PHONY : peg_hole_kuka_genlisp/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_kuka_genpy
+
+# Build rule for target.
+peg_hole_kuka_genpy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_kuka_genpy
+.PHONY : peg_hole_kuka_genpy
+
+# fast build rule for target.
+peg_hole_kuka_genpy/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_kuka_genpy.dir/build.make CMakeFiles/peg_hole_kuka_genpy.dir/build
+.PHONY : peg_hole_kuka_genpy/fast
+
+#=============================================================================
+# Target rules for targets named peg_kuka_client_node
+
+# Build rule for target.
+peg_kuka_client_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_kuka_client_node
+.PHONY : peg_kuka_client_node
+
+# fast build rule for target.
+peg_kuka_client_node/fast:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/build
+.PHONY : peg_kuka_client_node/fast
+
+#=============================================================================
+# Target rules for targets named peg_kuka_server_node
+
+# Build rule for target.
+peg_kuka_server_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_kuka_server_node
+.PHONY : peg_kuka_server_node
+
+# fast build rule for target.
+peg_kuka_server_node/fast:
+	$(MAKE) -f CMakeFiles/peg_kuka_server_node.dir/build.make CMakeFiles/peg_kuka_server_node.dir/build
+.PHONY : peg_kuka_server_node/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_cpp
@@ -411,19 +723,6 @@ rosgraph_msgs_generate_messages_py: cmake_check_build_system
 rosgraph_msgs_generate_messages_py/fast:
 	$(MAKE) -f CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
 .PHONY : rosgraph_msgs_generate_messages_py/fast
-
-#=============================================================================
-# Target rules for targets named run_search_node
-
-# Build rule for target.
-run_search_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 run_search_node
-.PHONY : run_search_node
-
-# fast build rule for target.
-run_search_node/fast:
-	$(MAKE) -f CMakeFiles/run_search_node.dir/build.make CMakeFiles/run_search_node.dir/build
-.PHONY : run_search_node/fast
 
 #=============================================================================
 # Target rules for targets named run_tests
@@ -608,6 +907,84 @@ tf_generate_messages_py/fast:
 .PHONY : tf_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named visualization_msgs_generate_messages_cpp
+
+# Build rule for target.
+visualization_msgs_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 visualization_msgs_generate_messages_cpp
+.PHONY : visualization_msgs_generate_messages_cpp
+
+# fast build rule for target.
+visualization_msgs_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build.make CMakeFiles/visualization_msgs_generate_messages_cpp.dir/build
+.PHONY : visualization_msgs_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named visualization_msgs_generate_messages_lisp
+
+# Build rule for target.
+visualization_msgs_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 visualization_msgs_generate_messages_lisp
+.PHONY : visualization_msgs_generate_messages_lisp
+
+# fast build rule for target.
+visualization_msgs_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build.make CMakeFiles/visualization_msgs_generate_messages_lisp.dir/build
+.PHONY : visualization_msgs_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named visualization_msgs_generate_messages_py
+
+# Build rule for target.
+visualization_msgs_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 visualization_msgs_generate_messages_py
+.PHONY : visualization_msgs_generate_messages_py
+
+# fast build rule for target.
+visualization_msgs_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/visualization_msgs_generate_messages_py.dir/build.make CMakeFiles/visualization_msgs_generate_messages_py.dir/build
+.PHONY : visualization_msgs_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named world_wrapper_generate_messages_cpp
+
+# Build rule for target.
+world_wrapper_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 world_wrapper_generate_messages_cpp
+.PHONY : world_wrapper_generate_messages_cpp
+
+# fast build rule for target.
+world_wrapper_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/world_wrapper_generate_messages_cpp.dir/build.make CMakeFiles/world_wrapper_generate_messages_cpp.dir/build
+.PHONY : world_wrapper_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named world_wrapper_generate_messages_lisp
+
+# Build rule for target.
+world_wrapper_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 world_wrapper_generate_messages_lisp
+.PHONY : world_wrapper_generate_messages_lisp
+
+# fast build rule for target.
+world_wrapper_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/world_wrapper_generate_messages_lisp.dir/build.make CMakeFiles/world_wrapper_generate_messages_lisp.dir/build
+.PHONY : world_wrapper_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named world_wrapper_generate_messages_py
+
+# Build rule for target.
+world_wrapper_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 world_wrapper_generate_messages_py
+.PHONY : world_wrapper_generate_messages_py
+
+# fast build rule for target.
+world_wrapper_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/world_wrapper_generate_messages_py.dir/build.make CMakeFiles/world_wrapper_generate_messages_py.dir/build
+.PHONY : world_wrapper_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named gtest
 
 # Build rule for target.
@@ -633,221 +1010,128 @@ gtest_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
-src/action_server/action_server.o: src/action_server/action_server.cpp.o
-.PHONY : src/action_server/action_server.o
+src/action_client.o: src/action_client.cpp.o
+.PHONY : src/action_client.o
 
 # target to build an object file
-src/action_server/action_server.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/action_server/action_server.cpp.o
-.PHONY : src/action_server/action_server.cpp.o
+src/action_client.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/action_client.cpp.o
+.PHONY : src/action_client.cpp.o
 
-src/action_server/action_server.i: src/action_server/action_server.cpp.i
-.PHONY : src/action_server/action_server.i
+src/action_client.i: src/action_client.cpp.i
+.PHONY : src/action_client.i
 
 # target to preprocess a source file
-src/action_server/action_server.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/action_server/action_server.cpp.i
-.PHONY : src/action_server/action_server.cpp.i
+src/action_client.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/action_client.cpp.i
+.PHONY : src/action_client.cpp.i
 
-src/action_server/action_server.s: src/action_server/action_server.cpp.s
-.PHONY : src/action_server/action_server.s
+src/action_client.s: src/action_client.cpp.s
+.PHONY : src/action_client.s
 
 # target to generate assembly for a file
-src/action_server/action_server.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/action_server/action_server.cpp.s
-.PHONY : src/action_server/action_server.cpp.s
+src/action_client.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/action_client.cpp.s
+.PHONY : src/action_client.cpp.s
 
-src/control_interface/control_interface.o: src/control_interface/control_interface.cpp.o
-.PHONY : src/control_interface/control_interface.o
+src/action_client_node.o: src/action_client_node.cpp.o
+.PHONY : src/action_client_node.o
 
 # target to build an object file
-src/control_interface/control_interface.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/control_interface/control_interface.cpp.o
-.PHONY : src/control_interface/control_interface.cpp.o
+src/action_client_node.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/action_client_node.cpp.o
+.PHONY : src/action_client_node.cpp.o
 
-src/control_interface/control_interface.i: src/control_interface/control_interface.cpp.i
-.PHONY : src/control_interface/control_interface.i
+src/action_client_node.i: src/action_client_node.cpp.i
+.PHONY : src/action_client_node.i
 
 # target to preprocess a source file
-src/control_interface/control_interface.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/control_interface/control_interface.cpp.i
-.PHONY : src/control_interface/control_interface.cpp.i
+src/action_client_node.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/action_client_node.cpp.i
+.PHONY : src/action_client_node.cpp.i
 
-src/control_interface/control_interface.s: src/control_interface/control_interface.cpp.s
-.PHONY : src/control_interface/control_interface.s
+src/action_client_node.s: src/action_client_node.cpp.s
+.PHONY : src/action_client_node.s
 
 # target to generate assembly for a file
-src/control_interface/control_interface.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/control_interface/control_interface.cpp.s
-.PHONY : src/control_interface/control_interface.cpp.s
+src/action_client_node.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/action_client_node.cpp.s
+.PHONY : src/action_client_node.cpp.s
 
-src/motion_actions/base_action.o: src/motion_actions/base_action.cpp.o
-.PHONY : src/motion_actions/base_action.o
+src/action_server_node.o: src/action_server_node.cpp.o
+.PHONY : src/action_server_node.o
 
 # target to build an object file
-src/motion_actions/base_action.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/base_action.cpp.o
-.PHONY : src/motion_actions/base_action.cpp.o
+src/action_server_node.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_kuka_server_node.dir/build.make CMakeFiles/peg_kuka_server_node.dir/src/action_server_node.cpp.o
+.PHONY : src/action_server_node.cpp.o
 
-src/motion_actions/base_action.i: src/motion_actions/base_action.cpp.i
-.PHONY : src/motion_actions/base_action.i
+src/action_server_node.i: src/action_server_node.cpp.i
+.PHONY : src/action_server_node.i
 
 # target to preprocess a source file
-src/motion_actions/base_action.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/base_action.cpp.i
-.PHONY : src/motion_actions/base_action.cpp.i
+src/action_server_node.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_kuka_server_node.dir/build.make CMakeFiles/peg_kuka_server_node.dir/src/action_server_node.cpp.i
+.PHONY : src/action_server_node.cpp.i
 
-src/motion_actions/base_action.s: src/motion_actions/base_action.cpp.s
-.PHONY : src/motion_actions/base_action.s
+src/action_server_node.s: src/action_server_node.cpp.s
+.PHONY : src/action_server_node.s
 
 # target to generate assembly for a file
-src/motion_actions/base_action.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/base_action.cpp.s
-.PHONY : src/motion_actions/base_action.cpp.s
+src/action_server_node.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_kuka_server_node.dir/build.make CMakeFiles/peg_kuka_server_node.dir/src/action_server_node.cpp.s
+.PHONY : src/action_server_node.cpp.s
 
-src/motion_actions/motion_actions.o: src/motion_actions/motion_actions.cpp.o
-.PHONY : src/motion_actions/motion_actions.o
+src/cmd_interface.o: src/cmd_interface.cpp.o
+.PHONY : src/cmd_interface.o
 
 # target to build an object file
-src/motion_actions/motion_actions.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/motion_actions.cpp.o
-.PHONY : src/motion_actions/motion_actions.cpp.o
+src/cmd_interface.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/src/cmd_interface.cpp.o
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/cmd_interface.cpp.o
+.PHONY : src/cmd_interface.cpp.o
 
-src/motion_actions/motion_actions.i: src/motion_actions/motion_actions.cpp.i
-.PHONY : src/motion_actions/motion_actions.i
+src/cmd_interface.i: src/cmd_interface.cpp.i
+.PHONY : src/cmd_interface.i
 
 # target to preprocess a source file
-src/motion_actions/motion_actions.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/motion_actions.cpp.i
-.PHONY : src/motion_actions/motion_actions.cpp.i
+src/cmd_interface.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/src/cmd_interface.cpp.i
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/cmd_interface.cpp.i
+.PHONY : src/cmd_interface.cpp.i
 
-src/motion_actions/motion_actions.s: src/motion_actions/motion_actions.cpp.s
-.PHONY : src/motion_actions/motion_actions.s
+src/cmd_interface.s: src/cmd_interface.cpp.s
+.PHONY : src/cmd_interface.s
 
 # target to generate assembly for a file
-src/motion_actions/motion_actions.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/motion_actions.cpp.s
-.PHONY : src/motion_actions/motion_actions.cpp.s
+src/cmd_interface.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/src/cmd_interface.cpp.s
+	$(MAKE) -f CMakeFiles/peg_kuka_client_node.dir/build.make CMakeFiles/peg_kuka_client_node.dir/src/cmd_interface.cpp.s
+.PHONY : src/cmd_interface.cpp.s
 
-src/motion_actions/pour_action.o: src/motion_actions/pour_action.cpp.o
-.PHONY : src/motion_actions/pour_action.o
+src/cmd_interface_node.o: src/cmd_interface_node.cpp.o
+.PHONY : src/cmd_interface_node.o
 
 # target to build an object file
-src/motion_actions/pour_action.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/pour_action.cpp.o
-.PHONY : src/motion_actions/pour_action.cpp.o
+src/cmd_interface_node.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/src/cmd_interface_node.cpp.o
+.PHONY : src/cmd_interface_node.cpp.o
 
-src/motion_actions/pour_action.i: src/motion_actions/pour_action.cpp.i
-.PHONY : src/motion_actions/pour_action.i
-
-# target to preprocess a source file
-src/motion_actions/pour_action.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/pour_action.cpp.i
-.PHONY : src/motion_actions/pour_action.cpp.i
-
-src/motion_actions/pour_action.s: src/motion_actions/pour_action.cpp.s
-.PHONY : src/motion_actions/pour_action.s
-
-# target to generate assembly for a file
-src/motion_actions/pour_action.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/motion_actions/pour_action.cpp.s
-.PHONY : src/motion_actions/pour_action.cpp.s
-
-src/pour_action_node.o: src/pour_action_node.cpp.o
-.PHONY : src/pour_action_node.o
-
-# target to build an object file
-src/pour_action_node.cpp.o:
-	$(MAKE) -f CMakeFiles/pour_action_node.dir/build.make CMakeFiles/pour_action_node.dir/src/pour_action_node.cpp.o
-.PHONY : src/pour_action_node.cpp.o
-
-src/pour_action_node.i: src/pour_action_node.cpp.i
-.PHONY : src/pour_action_node.i
+src/cmd_interface_node.i: src/cmd_interface_node.cpp.i
+.PHONY : src/cmd_interface_node.i
 
 # target to preprocess a source file
-src/pour_action_node.cpp.i:
-	$(MAKE) -f CMakeFiles/pour_action_node.dir/build.make CMakeFiles/pour_action_node.dir/src/pour_action_node.cpp.i
-.PHONY : src/pour_action_node.cpp.i
+src/cmd_interface_node.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/src/cmd_interface_node.cpp.i
+.PHONY : src/cmd_interface_node.cpp.i
 
-src/pour_action_node.s: src/pour_action_node.cpp.s
-.PHONY : src/pour_action_node.s
-
-# target to generate assembly for a file
-src/pour_action_node.cpp.s:
-	$(MAKE) -f CMakeFiles/pour_action_node.dir/build.make CMakeFiles/pour_action_node.dir/src/pour_action_node.cpp.s
-.PHONY : src/pour_action_node.cpp.s
-
-src/run_search_node.o: src/run_search_node.cpp.o
-.PHONY : src/run_search_node.o
-
-# target to build an object file
-src/run_search_node.cpp.o:
-	$(MAKE) -f CMakeFiles/run_search_node.dir/build.make CMakeFiles/run_search_node.dir/src/run_search_node.cpp.o
-.PHONY : src/run_search_node.cpp.o
-
-src/run_search_node.i: src/run_search_node.cpp.i
-.PHONY : src/run_search_node.i
-
-# target to preprocess a source file
-src/run_search_node.cpp.i:
-	$(MAKE) -f CMakeFiles/run_search_node.dir/build.make CMakeFiles/run_search_node.dir/src/run_search_node.cpp.i
-.PHONY : src/run_search_node.cpp.i
-
-src/run_search_node.s: src/run_search_node.cpp.s
-.PHONY : src/run_search_node.s
+src/cmd_interface_node.s: src/cmd_interface_node.cpp.s
+.PHONY : src/cmd_interface_node.s
 
 # target to generate assembly for a file
-src/run_search_node.cpp.s:
-	$(MAKE) -f CMakeFiles/run_search_node.dir/build.make CMakeFiles/run_search_node.dir/src/run_search_node.cpp.s
-.PHONY : src/run_search_node.cpp.s
-
-src/search_planner.o: src/search_planner.cpp.o
-.PHONY : src/search_planner.o
-
-# target to build an object file
-src/search_planner.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/search_planner.cpp.o
-.PHONY : src/search_planner.cpp.o
-
-src/search_planner.i: src/search_planner.cpp.i
-.PHONY : src/search_planner.i
-
-# target to preprocess a source file
-src/search_planner.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/search_planner.cpp.i
-.PHONY : src/search_planner.cpp.i
-
-src/search_planner.s: src/search_planner.cpp.s
-.PHONY : src/search_planner.s
-
-# target to generate assembly for a file
-src/search_planner.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/search_planner.cpp.s
-.PHONY : src/search_planner.cpp.s
-
-src/search_planner_node.o: src/search_planner_node.cpp.o
-.PHONY : src/search_planner_node.o
-
-# target to build an object file
-src/search_planner_node.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/search_planner_node.cpp.o
-.PHONY : src/search_planner_node.cpp.o
-
-src/search_planner_node.i: src/search_planner_node.cpp.i
-.PHONY : src/search_planner_node.i
-
-# target to preprocess a source file
-src/search_planner_node.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/search_planner_node.cpp.i
-.PHONY : src/search_planner_node.cpp.i
-
-src/search_planner_node.s: src/search_planner_node.cpp.s
-.PHONY : src/search_planner_node.s
-
-# target to generate assembly for a file
-src/search_planner_node.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_hole_kuka.dir/build.make CMakeFiles/peg_hole_kuka.dir/src/search_planner_node.cpp.s
-.PHONY : src/search_planner_node.cpp.s
+src/cmd_interface_node.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_cmd_interface_node.dir/build.make CMakeFiles/peg_cmd_interface_node.dir/src/cmd_interface_node.cpp.s
+.PHONY : src/cmd_interface_node.cpp.s
 
 # Help Target
 help:
@@ -855,6 +1139,7 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
+	@echo "... _peg_hole_kuka_generate_messages_check_deps_String_cmd"
 	@echo "... actionlib_generate_messages_cpp"
 	@echo "... actionlib_generate_messages_lisp"
 	@echo "... actionlib_generate_messages_py"
@@ -865,15 +1150,38 @@ help:
 	@echo "... download_extra_data"
 	@echo "... doxygen"
 	@echo "... edit_cache"
+	@echo "... exploration_planner_generate_messages_cpp"
+	@echo "... exploration_planner_generate_messages_lisp"
+	@echo "... exploration_planner_generate_messages_py"
 	@echo "... geometry_msgs_generate_messages_cpp"
 	@echo "... geometry_msgs_generate_messages_lisp"
 	@echo "... geometry_msgs_generate_messages_py"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... install/strip"
+	@echo "... kuka_action_client_generate_messages_cpp"
+	@echo "... kuka_action_client_generate_messages_lisp"
+	@echo "... kuka_action_client_generate_messages_py"
 	@echo "... list_install_components"
-	@echo "... peg_hole_kuka"
-	@echo "... pour_action_node"
+	@echo "... map_msgs_generate_messages_cpp"
+	@echo "... map_msgs_generate_messages_lisp"
+	@echo "... map_msgs_generate_messages_py"
+	@echo "... nav_msgs_generate_messages_cpp"
+	@echo "... nav_msgs_generate_messages_lisp"
+	@echo "... nav_msgs_generate_messages_py"
+	@echo "... peg_cmd_interface_node"
+	@echo "... peg_filter_generate_messages_cpp"
+	@echo "... peg_filter_generate_messages_lisp"
+	@echo "... peg_filter_generate_messages_py"
+	@echo "... peg_hole_kuka_gencpp"
+	@echo "... peg_hole_kuka_generate_messages"
+	@echo "... peg_hole_kuka_generate_messages_cpp"
+	@echo "... peg_hole_kuka_generate_messages_lisp"
+	@echo "... peg_hole_kuka_generate_messages_py"
+	@echo "... peg_hole_kuka_genlisp"
+	@echo "... peg_hole_kuka_genpy"
+	@echo "... peg_kuka_client_node"
+	@echo "... peg_kuka_server_node"
 	@echo "... rebuild_cache"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
@@ -881,7 +1189,6 @@ help:
 	@echo "... rosgraph_msgs_generate_messages_cpp"
 	@echo "... rosgraph_msgs_generate_messages_lisp"
 	@echo "... rosgraph_msgs_generate_messages_py"
-	@echo "... run_search_node"
 	@echo "... run_tests"
 	@echo "... sensor_msgs_generate_messages_cpp"
 	@echo "... sensor_msgs_generate_messages_lisp"
@@ -897,35 +1204,29 @@ help:
 	@echo "... tf_generate_messages_cpp"
 	@echo "... tf_generate_messages_lisp"
 	@echo "... tf_generate_messages_py"
+	@echo "... visualization_msgs_generate_messages_cpp"
+	@echo "... visualization_msgs_generate_messages_lisp"
+	@echo "... visualization_msgs_generate_messages_py"
+	@echo "... world_wrapper_generate_messages_cpp"
+	@echo "... world_wrapper_generate_messages_lisp"
+	@echo "... world_wrapper_generate_messages_py"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... src/action_server/action_server.o"
-	@echo "... src/action_server/action_server.i"
-	@echo "... src/action_server/action_server.s"
-	@echo "... src/control_interface/control_interface.o"
-	@echo "... src/control_interface/control_interface.i"
-	@echo "... src/control_interface/control_interface.s"
-	@echo "... src/motion_actions/base_action.o"
-	@echo "... src/motion_actions/base_action.i"
-	@echo "... src/motion_actions/base_action.s"
-	@echo "... src/motion_actions/motion_actions.o"
-	@echo "... src/motion_actions/motion_actions.i"
-	@echo "... src/motion_actions/motion_actions.s"
-	@echo "... src/motion_actions/pour_action.o"
-	@echo "... src/motion_actions/pour_action.i"
-	@echo "... src/motion_actions/pour_action.s"
-	@echo "... src/pour_action_node.o"
-	@echo "... src/pour_action_node.i"
-	@echo "... src/pour_action_node.s"
-	@echo "... src/run_search_node.o"
-	@echo "... src/run_search_node.i"
-	@echo "... src/run_search_node.s"
-	@echo "... src/search_planner.o"
-	@echo "... src/search_planner.i"
-	@echo "... src/search_planner.s"
-	@echo "... src/search_planner_node.o"
-	@echo "... src/search_planner_node.i"
-	@echo "... src/search_planner_node.s"
+	@echo "... src/action_client.o"
+	@echo "... src/action_client.i"
+	@echo "... src/action_client.s"
+	@echo "... src/action_client_node.o"
+	@echo "... src/action_client_node.i"
+	@echo "... src/action_client_node.s"
+	@echo "... src/action_server_node.o"
+	@echo "... src/action_server_node.i"
+	@echo "... src/action_server_node.s"
+	@echo "... src/cmd_interface.o"
+	@echo "... src/cmd_interface.i"
+	@echo "... src/cmd_interface.s"
+	@echo "... src/cmd_interface_node.o"
+	@echo "... src/cmd_interface_node.i"
+	@echo "... src/cmd_interface_node.s"
 .PHONY : help
 
 

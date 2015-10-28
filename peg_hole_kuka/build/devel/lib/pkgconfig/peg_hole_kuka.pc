@@ -3,6 +3,6 @@ prefix=/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_hole_kuka/b
 Name: peg_hole_kuka
 Description: Description of peg_hole_kuka
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_hole_kuka/build/devel/include -I/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_hole_kuka/include
 Libs: -L/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_hole_kuka/build/devel/lib 
 Requires: std_tools tf

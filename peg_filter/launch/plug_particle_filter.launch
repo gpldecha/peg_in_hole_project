@@ -2,7 +2,7 @@
 <launch>
 
 	<!-- arg -->
-	<arg name="sensor_topic"	value="plug_sensor_features" />
+	<arg name="sensor_topic"	value="plug_sensor_features"/>
 	<arg name="action_topic" 	value="peg_link"/>
 	<arg name="socket_type"		default="one"/>
 

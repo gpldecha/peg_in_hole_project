@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<launch>
-	
-	<node name="pour_action_node" pkg="peg_hole_kuka" type="pour_action_node" required="true" />
-
-</launch>

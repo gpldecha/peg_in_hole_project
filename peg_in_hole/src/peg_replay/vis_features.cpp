@@ -7,6 +7,7 @@
 #include <world_wrapper/world_wrapper.h>
 #include <world_wrapper/visualisation/vis_wbox.h>
 
+#include <optitrack_rviz/listener.h>
 #include <optitrack_rviz/input.h>
 #include <visualise/vis_points.h>
 #include <visualise/vis_vector.h>
@@ -18,44 +19,66 @@
 int main(int argc, char** argv){
 
     std::map<std::string,std::string> input;
-    input["-urdf"] = "";
-    input["-rate"] = "1000";
+    input["-urdf"]        = "";
+    input["-rate"]        = "100";
+    input["-fixed_frame"] = "world_frame";
 
 
     if(!opti_rviz::Input::process_input(argc,argv,input)){
         ROS_ERROR("failed to load input");
         return 0;
     }
-
     opti_rviz::Input::print_input_options(input);
+
+
+    std::string fixed_frame = input["-fixed_frame"] ;
+
 
     ros::init(argc, argv, "peg_in_hole");
     ros::NodeHandle node;
 
     ww::World_wrapper world_wrapper;
     world_wrapper.loadURDF(input["-urdf"]);
-    world_wrapper.initialise_origin_orientation(world_wrapper,"world_frame");
 
     geo::fCVec3 T = {{0,0,-0.02}};
     for(std::size_t i = 0; i < world_wrapper.wrapped_objects.wboxes.size();i++){
         world_wrapper.wrapped_objects.wboxes[i].transform(T);
     }
 
+    /// Need to get transformation between
 
-    geo::fCVec3 origin_      = {{0,0,-0.02/2}};
-    geo::fCVec3 dim_         = {{0.8,0.4,0.02}};
-    geo::fCVec3 orientation_ = {{M_PI/2,0,M_PI/2}};
 
-    wobj::WBox  wall("socket_wall",dim_,origin_,orientation_);
+   tf::StampedTransform transform;
+   opti_rviz::Listener::get_tf_once("world_frame","link_wall",transform);
+   opti_rviz::Listener::print(transform);
+
+
+
+    tf::Vector3     wall_origin = transform.getOrigin();
+
+    geo::fCVec3 origin_      = {{wall_origin.x(),wall_origin.y(),wall_origin.z()}};//{{0,0,-0.02/2}};
+    geo::fCVec3 dim_         = {{0.02,0.8,0.4}};
+    geo::fCVec3 orientation_ = {{0,0,0}};
+
+    wobj::WBox  wall("link_wall",dim_,origin_,orientation_);
+
+    opti_rviz::Listener::get_tf_once("world_frame","link_socket",transform);
+    opti_rviz::Listener::print(transform);
 
     /// add a socket
-    tf::Vector3 origin(0,0,0);
+    tf::Vector3 origin = transform.getOrigin();
+    //tf::Vector3 rpy(0,0,0);
     tf::Vector3 rpy(M_PI/2,0,M_PI/2);
-    obj::Socket_one socket_one("socket_one",origin,rpy,1);
+    obj::Socket_one socket_one("link_socket","link_wall",origin,rpy,1);
+
 
     world_wrapper.wrapped_objects.push_back_box(wall);
     world_wrapper.wrapped_objects.push_back_box(socket_one.wbox);
     world_wrapper.wrapped_objects.push_back_socket(socket_one.wsocket);
+
+
+    /// initialise world wrapper
+    world_wrapper.initialise_origin_orientation(world_wrapper,"world_frame");
 
     /// Visualise socket
 
@@ -86,19 +109,38 @@ int main(int argc, char** argv){
      publisher.init("world_frame");
      publisher.update_position();
 
+     /// Listen to object frame of reference*/
+
 
      ros::Rate rate(boost::lexical_cast<float>(input["-rate"]));
      while(node.ok()){
 
+
+
+       //  wobj::WBox& wbox = world_wrapper.wrapped_objects.wboxes[0];
+       //  wbox.origin.print("origin");
+       //  wbox.R.print("R");
+
+        // opti_rviz::Listener::get_tf_once("world_frame","link_wall",transform);
+        // opti_rviz::Listener::print(transform);
+
+
          plug_sensor.update();
          vis_points.update(plug_sensor.get_model());
          vis_vectors.update(plug_sensor.get_arrows());
+
 
          vis_socket.publish();
          vis_points.publish();
          vis_vectors.publish();
          publisher.publish();
 
+
+        //link_socket_listener.update(socket_origin,socket_orient);
+       // world_wrapper.initialise_origin_orientation(world_wrapper,"world_frame",true);
+
+
+       // ROS_INFO("socket_origin (%f %f %f)",socket_origin.x(),socket_origin.y(),socket_origin.z());
 
        ros::spinOnce();
        rate.sleep();

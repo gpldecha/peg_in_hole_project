@@ -51,11 +51,14 @@
   <build_depend>    world_wrapper   </build_depend>
   <run_depend>      world_wrapper   </run_depend>
 
+  <build_depend>    world_wrapper   </build_depend>
+  <run_depend>      world_wrapper   </run_depend>
+
+wrap_object
+
   <build_depend>    optitrack_rviz       </build_depend>
   <run_depend>      optitrack_rviz       </run_depend>
 
-  <build_depend>    peg_sensor       </build_depend>
-  <run_depend>      peg_sensor      </run_depend>
 
   <build_depend>    plug_sensor_models       </build_depend>
   <run_depend>      plug_sensor_models       </run_depend>

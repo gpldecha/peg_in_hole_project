@@ -3,6 +3,6 @@ prefix=/usr/local
 Name: peg_hole_kuka
 Description: Description of peg_hole_kuka
 Version: 0.0.0
-Cflags: 
+Cflags: -I/usr/local/include
 Libs: -L/usr/local/lib 
 Requires: std_tools tf

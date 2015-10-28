@@ -5,6 +5,7 @@
 #include <armadillo>
 #include <ros/ros.h>
 #include <peg_filter/pf_manager.h>
+#include <optitrack_rviz/listener.h>
 
 namespace plugfilter {
 

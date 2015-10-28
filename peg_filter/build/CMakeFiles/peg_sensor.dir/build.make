@@ -167,13 +167,61 @@ CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o.provides: CMakeFiles
 
 CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o.provides.build: CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o
 
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o: CMakeFiles/peg_sensor.dir/flags.make
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o: ../src/peg_features/peg_features.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/build/CMakeFiles $(CMAKE_PROGRESS_6)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o -c /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_features/peg_features.cpp
+
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_features/peg_features.cpp > CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.i
+
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_features/peg_features.cpp -o CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.s
+
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.requires:
+.PHONY : CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.requires
+
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.provides: CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.requires
+	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.provides.build
+.PHONY : CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.provides
+
+CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.provides.build: CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o
+
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o: CMakeFiles/peg_sensor.dir/flags.make
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o: ../src/peg_features/mode_feature.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/build/CMakeFiles $(CMAKE_PROGRESS_7)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o -c /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_features/mode_feature.cpp
+
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_features/mode_feature.cpp > CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.i
+
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/src/peg_features/mode_feature.cpp -o CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.s
+
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.requires:
+.PHONY : CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.requires
+
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.provides: CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.requires
+	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.provides.build
+.PHONY : CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.provides
+
+CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.provides.build: CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o
+
 # Object files for target peg_sensor
 peg_sensor_OBJECTS = \
 "CMakeFiles/peg_sensor.dir/src/peg_sensor/plug_sensor.cpp.o" \
 "CMakeFiles/peg_sensor.dir/src/peg_filter/plug_likelihood.cpp.o" \
 "CMakeFiles/peg_sensor.dir/src/peg_filter/motion_model.cpp.o" \
 "CMakeFiles/peg_sensor.dir/src/peg_filter/pf_manager.cpp.o" \
-"CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o"
+"CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o" \
+"CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o" \
+"CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o"
 
 # External object files for target peg_sensor
 peg_sensor_EXTERNAL_OBJECTS =
@@ -183,9 +231,10 @@ devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/src/peg_filter/plug_likeli
 devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/src/peg_filter/motion_model.cpp.o
 devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/src/peg_filter/pf_manager.cpp.o
 devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o
+devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o
+devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o
 devel/lib/libpeg_sensor.so: CMakeFiles/peg_sensor.dir/build.make
 devel/lib/libpeg_sensor.so: /home/guillaume/roscode/catkin_ws/devel/lib/libworld_wrapper.so
-devel/lib/libpeg_sensor.so: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/libpeg_sensor.so: /opt/ros/indigo/lib/librviz.so
 devel/lib/libpeg_sensor.so: /opt/ros/indigo/lib/libdefault_plugin.so
 devel/lib/libpeg_sensor.so: /usr/lib/x86_64-linux-gnu/libOgreMain.so
@@ -228,6 +277,7 @@ devel/lib/libpeg_sensor.so: /usr/lib/x86_64-linux-gnu/liburdfdom_model_state.so
 devel/lib/libpeg_sensor.so: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 devel/lib/libpeg_sensor.so: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 devel/lib/libpeg_sensor.so: /opt/ros/indigo/lib/librosconsole_bridge.so
+devel/lib/libpeg_sensor.so: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/libpeg_sensor.so: /home/guillaume/roscode/catkin_ws/devel/lib/libsockets.so
 devel/lib/libpeg_sensor.so: /home/guillaume/roscode/catkin_ws/devel/lib/libvis_objects.so
 devel/lib/libpeg_sensor.so: /home/guillaume/roscode/catkin_ws/devel/lib/liboptitrack_rviz.so
@@ -269,6 +319,8 @@ CMakeFiles/peg_sensor.dir/requires: CMakeFiles/peg_sensor.dir/src/peg_filter/plu
 CMakeFiles/peg_sensor.dir/requires: CMakeFiles/peg_sensor.dir/src/peg_filter/motion_model.cpp.o.requires
 CMakeFiles/peg_sensor.dir/requires: CMakeFiles/peg_sensor.dir/src/peg_filter/pf_manager.cpp.o.requires
 CMakeFiles/peg_sensor.dir/requires: CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o.requires
+CMakeFiles/peg_sensor.dir/requires: CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o.requires
+CMakeFiles/peg_sensor.dir/requires: CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o.requires
 .PHONY : CMakeFiles/peg_sensor.dir/requires
 
 CMakeFiles/peg_sensor.dir/clean:

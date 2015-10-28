@@ -1,4 +1,5 @@
 #include <peg_filter/plug_service.h>
+#include <boost/lexical_cast.hpp>
 
 namespace plugfilter{
 
@@ -21,8 +22,18 @@ bool Plug_service::callback(particle_filter::String_cmd::Request& req,particle_f
        {
         case RESET:
        {
-           plug_pf_manager.initialise_prior_pdf();
-           res.res = "reset particle_filter";
+           // QUICK HACK FOR peg demo
+           tf::StampedTransform transform;
+           opti_rviz::Listener::get_tf_once("world_frame","peg_link",transform,10);
+           arma::colvec3 peg_position = {{transform.getOrigin().x(),
+                                          transform.getOrigin().y(),
+                                          transform.getOrigin().z()}};
+
+           peg_position.print("peg_position");
+           plug_pf_manager.initialise_prior_pdf(peg_position);
+           res.res = "reset particle_filter (" + boost::lexical_cast<std::string>(peg_position(0)) + " "
+                                               + boost::lexical_cast<std::string>(peg_position(1)) + " "
+                                               + boost::lexical_cast<std::string>(peg_position(2)) + ")";
            break;
        }
        case START:

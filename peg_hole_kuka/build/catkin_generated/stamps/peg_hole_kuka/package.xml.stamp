@@ -41,6 +41,7 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
+
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>mathlib</build_depend>
@@ -52,6 +53,20 @@
   <build_depend>lasa_action_planners</build_depend>
   <build_depend>cds_execution</build_depend>
   <build_depend>robohow_common_msgs</build_depend>
+
+  <build_depend> kuka_action_server </build_depend>
+  <run_depend>   kuka_action_server </run_depend>
+
+  <build_depend> kuka_action_client </build_depend>
+  <run_depend>   kuka_action_client </run_depend>
+
+  <build_depend> peg_filter </build_depend>
+
+  <build_depend> exploration_planner </build_depend>
+  <run_depend>   exploration_planner </run_depend>
+
+
+
 
   <run_depend>sensor_msgs</run_depend>
   <run_depend>roscpp</run_depend>

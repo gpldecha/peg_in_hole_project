@@ -16,7 +16,7 @@
 #include <optitrack_rviz/type_conversion.h>
 #include <optitrack_rviz/type_conversion.h>
 
-#include <wrapobject/wrapobject.h>
+#include "wrapobject.h"
 
 
 #include <string>

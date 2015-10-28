@@ -4,7 +4,7 @@ project(peg_in_hole)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS world_wrapper objects optitrack_rviz tf std_msgs peg_filter particle_filter)
+find_package(catkin REQUIRED COMPONENTS world_wrapper wrap_object objects optitrack_rviz tf std_msgs peg_filter particle_filter)
 #
 
 find_package(Boost)
