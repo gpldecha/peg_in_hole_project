@@ -70,7 +70,6 @@ Plug_pf_manager::Plug_pf_manager(const PF_parameters& pf_parameters):
     }
 
     initialise_prior_pdf();
-
     bUpdate             = false;
 
 }
@@ -80,7 +79,7 @@ void Plug_pf_manager::initialise_motion_model(){
     // create motion model
     arma::mat33 motion_noise_cov;
     float st_dev = 0.005;
-    motion_noise_cov = motion_noise_cov.eye() * st_dev * st_dev;
+    motion_noise_cov    = motion_noise_cov.eye() * st_dev * st_dev;
     plug_motion_model   = std::unique_ptr<Plug_motion_model>(new Plug_motion_model(motion_noise_cov) );
     motion_model_f      = std::bind(&Plug_motion_model::motion_update,*plug_motion_model,std::placeholders::_1,std::placeholders::_2);
 

@@ -1,14 +1,15 @@
-#ifndef PLUG_PF_MANAGER_H_
-#define PLUG_PF_MANAGER_H_
+#ifndef PEG_PF_MANAGER_H_
+#define PEG_PF_MANAGER_H_
 
 #include <particle_filter/particle_filter.h>
 #include <particle_filter/particle_filter_gmm.h>
 #include <particle_filter/static_grid_filter.h>
 
-#include <peg_filter/plug_likelihood.h>
-#include <peg_filter/motion_model.h>
-#include <particle_filter/String_cmd.h>
+#include <peg_filter/likelihood.h>
+#include <peg_filter/motion.h>
 
+
+#include <particle_filter/String_cmd.h>
 #include <visualise/vis_point_cloud.h>
 #include <visualise/vis_gmm.h>
 

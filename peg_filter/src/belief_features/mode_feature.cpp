@@ -1,4 +1,4 @@
-#include "peg_features/mode_feature.h"
+#include "peg_filter/belief_features/mode_feature.h"
 
 Mode_feature::Mode_feature(ros::NodeHandle &nh, const arma::mat& points, const arma::colvec& weights)
     :points(points),weights(weights)

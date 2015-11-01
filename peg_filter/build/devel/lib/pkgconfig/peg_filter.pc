@@ -4,5 +4,5 @@ Name: peg_filter
 Description: Description of peg_filter
 Version: 0.0.0
 Cflags: -I/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/build/devel/include -I/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include
-Libs: -L/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/build/devel/lib -lpeg_sensor
-Requires: message_runtime world_wrapper objects plug_sensor_models
+Libs: -L/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/build/devel/lib -lpeg_filter
+Requires: message_runtime world_wrapper peg_sensor objects

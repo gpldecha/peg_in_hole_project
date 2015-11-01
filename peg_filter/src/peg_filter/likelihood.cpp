@@ -1,4 +1,4 @@
-#include <peg_filter/plug_likelihood.h>
+#include "peg_filter/likelihood.h"
 
 namespace likeli{
 
@@ -19,12 +19,14 @@ void Plug_likelihood_three_pin_distance::likelihood(arma::colvec &L, const arma:
     std::cout<< " Plug_likelihood_three_pin_distance::likelihood" << std::endl;
     std::cout<< "L : (" << L.n_elem << " x 1)" << std::endl;
     std::cout<< "X : (" << X.n_rows << " x " << X.n_cols <<  ") " << std::endl;
-    std::cout<< "Y : (" << Y.n_cols << " x 1)" << std::endl;
+    std::cout<< "Y : (" << Y.n_elem << " x 1)" << std::endl;
 
     for(std::size_t i = 0; i < X.n_rows;i++){
 
+        std::cout<< "i: " <<i << std::endl;
         three_pin_distance_mode.update(hY,X.row(i).st(),Rot);
 
+        std::cout<< "convert" << std::endl;
         convert(Y,hY);
 
         sum_range = 0;
@@ -69,7 +71,7 @@ void Plug_likelihood_three_pin_distance::likelihood(arma::colvec &L, const arma:
 
     }
 
-
+    std::cout<< "nearly at end" << std::endl;
     double largest_LL = arma::max(L);
     double numerical_precision = log(0.000001) - largest_LL;
     for(std::size_t i = 0; i < L.n_elem;i++){
@@ -102,10 +104,13 @@ void Plug_likelihood_simple_contact::likelihood(      arma::colvec &L,
     hY.resize(2);
     for(std::size_t i = 0; i < X.n_rows;i++){
         contact_distance_model.update(hY,X.row(i).st(),Rot);
-        L(i) = exp(min_half_one_div_var * (  (hY(surf) - Y(surf)) * (hY(surf) - Y(surf))
-                                             + (hY(edge) - Y(edge)) * (hY(edge) - Y(edge)))
-                   );
-
+        if(hY(0) == -1){
+            L(i) = 0;
+        }else{
+            L(i) = exp(min_half_one_div_var * (  (hY(surf) - Y(surf)) * (hY(surf) - Y(surf))
+                                                 + (hY(edge) - Y(edge)) * (hY(edge) - Y(edge)))
+                       );
+        }
     }
 }
 

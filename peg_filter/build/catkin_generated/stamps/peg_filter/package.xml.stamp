@@ -60,8 +60,8 @@
   <run_depend>      optitrack_rviz       </run_depend>
 
 
-  <build_depend>    plug_sensor_models       </build_depend>
-  <run_depend>      plug_sensor_models       </run_depend>
+  <build_depend>    peg_sensor       </build_depend>
+  <run_depend>      peg_sensor       </run_depend>
 
   <build_depend>    tf   </build_depend>
   <run_depend>      tf   </run_depend>
@@ -69,6 +69,13 @@
   <build_depend>    message_runtime       </build_depend>
   <run_depend>      message_runtime       </run_depend>
 
+  <build_depend>    statistics_ml       </build_depend>
+  <run_depend>      statistics_ml       </run_depend>
+
+
+
+  <build_depend>    objects       </build_depend>
+  <run_depend>      objects       </run_depend>
 
 
 

@@ -1,4 +1,4 @@
-#include <peg_filter/motion_model.h>
+#include "peg_filter/motion.h"
 
 
 Plug_motion_model::Plug_motion_model(const arma::mat33& motion_noise)

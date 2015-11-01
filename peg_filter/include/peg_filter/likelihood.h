@@ -1,9 +1,21 @@
-#ifndef PLUG_LIKELIHOOD_H_
-#define PLUG_LIKELIHOOD_H_
+#ifndef PEG_FILTER_LIKELIHOOD_H_
+#define PEG_FILTER_LIKELIHOOD_H_
 
-#include <plug_sensor_models/plug_distance_model.h>
-#include <plug_sensor_models/distance_model.h>
+#include "peg_sensor/peg_sensor_model/distance_model.h"
+#include "peg_sensor/peg_sensor_model/peg_distance_model.h"
 
+/**
+ *      Likelihood functions
+ *
+ *      Base and derived implementations of the pegs sensor likelihood model.
+ *
+ *      These functions take multivariate sensor input $Y \in R^{n}$ and compare it
+ *      with a measurement model $\hat{Y} = h(X)$ where X is the cartesian position of
+ *      the peg.
+ *
+ *      The likelihood of a measurement is then: N(Y - h(X)|0,Sigma), where N is a multivariate
+ *      Gaussian function with mean zero and unit covariance.
+ */
 
 namespace likeli{
 
@@ -20,6 +32,9 @@ public:
     arma::colvec          hY;
 
 };
+
+
+
 
 class Plug_likelihood_three_pin_distance: public Plug_likelihood_base{
 

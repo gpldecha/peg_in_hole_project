@@ -1,7 +1,7 @@
 #ifndef PEG_FILTER_FEATURES_H_
 #define PEG_FILTER_FEATURES_H_
 
-#include "peg_features/mode_feature.h"
+#include "peg_filter/belief_features/mode_feature.h"
 
 #include <ros/ros.h>
 
@@ -10,7 +10,7 @@
 
 
 
-class Peg_filter_features{
+class Belief_features{
 
     typedef enum feature_type{
         moste_likely,
@@ -20,7 +20,7 @@ class Peg_filter_features{
 
 public:
 
-    Peg_filter_features(ros::NodeHandle& nh, const arma::mat& points,const arma::colvec& weights);
+    Belief_features(ros::NodeHandle& nh, const arma::mat& points,const arma::colvec& weights);
 
     void update();
 

@@ -439,6 +439,19 @@ particle_filter_generate_messages_py/fast:
 .PHONY : particle_filter_generate_messages_py/fast
 
 #=============================================================================
+# Target rules for targets named peg_filter
+
+# Build rule for target.
+peg_filter: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_filter
+.PHONY : peg_filter
+
+# fast build rule for target.
+peg_filter/fast:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/build
+.PHONY : peg_filter/fast
+
+#=============================================================================
 # Target rules for targets named peg_filter_gencpp
 
 # Build rule for target.
@@ -541,19 +554,6 @@ peg_filter_node: cmake_check_build_system
 peg_filter_node/fast:
 	$(MAKE) -f CMakeFiles/peg_filter_node.dir/build.make CMakeFiles/peg_filter_node.dir/build
 .PHONY : peg_filter_node/fast
-
-#=============================================================================
-# Target rules for targets named peg_sensor
-
-# Build rule for target.
-peg_sensor: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor
-.PHONY : peg_sensor
-
-# fast build rule for target.
-peg_sensor/fast:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/build
-.PHONY : peg_sensor/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_cpp
@@ -919,84 +919,108 @@ gtest_main/fast:
 	$(MAKE) -f gtest/CMakeFiles/gtest_main.dir/build.make gtest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
-src/peg_features/mode_feature.o: src/peg_features/mode_feature.cpp.o
-.PHONY : src/peg_features/mode_feature.o
+src/belief_features/belief_features.o: src/belief_features/belief_features.cpp.o
+.PHONY : src/belief_features/belief_features.o
 
 # target to build an object file
-src/peg_features/mode_feature.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.o
-.PHONY : src/peg_features/mode_feature.cpp.o
+src/belief_features/belief_features.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/belief_features/belief_features.cpp.o
+.PHONY : src/belief_features/belief_features.cpp.o
 
-src/peg_features/mode_feature.i: src/peg_features/mode_feature.cpp.i
-.PHONY : src/peg_features/mode_feature.i
+src/belief_features/belief_features.i: src/belief_features/belief_features.cpp.i
+.PHONY : src/belief_features/belief_features.i
 
 # target to preprocess a source file
-src/peg_features/mode_feature.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.i
-.PHONY : src/peg_features/mode_feature.cpp.i
+src/belief_features/belief_features.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/belief_features/belief_features.cpp.i
+.PHONY : src/belief_features/belief_features.cpp.i
 
-src/peg_features/mode_feature.s: src/peg_features/mode_feature.cpp.s
-.PHONY : src/peg_features/mode_feature.s
+src/belief_features/belief_features.s: src/belief_features/belief_features.cpp.s
+.PHONY : src/belief_features/belief_features.s
 
 # target to generate assembly for a file
-src/peg_features/mode_feature.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/mode_feature.cpp.s
-.PHONY : src/peg_features/mode_feature.cpp.s
+src/belief_features/belief_features.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/belief_features/belief_features.cpp.s
+.PHONY : src/belief_features/belief_features.cpp.s
 
-src/peg_features/peg_features.o: src/peg_features/peg_features.cpp.o
-.PHONY : src/peg_features/peg_features.o
+src/belief_features/mode_feature.o: src/belief_features/mode_feature.cpp.o
+.PHONY : src/belief_features/mode_feature.o
 
 # target to build an object file
-src/peg_features/peg_features.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.o
-.PHONY : src/peg_features/peg_features.cpp.o
+src/belief_features/mode_feature.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/belief_features/mode_feature.cpp.o
+.PHONY : src/belief_features/mode_feature.cpp.o
 
-src/peg_features/peg_features.i: src/peg_features/peg_features.cpp.i
-.PHONY : src/peg_features/peg_features.i
+src/belief_features/mode_feature.i: src/belief_features/mode_feature.cpp.i
+.PHONY : src/belief_features/mode_feature.i
 
 # target to preprocess a source file
-src/peg_features/peg_features.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.i
-.PHONY : src/peg_features/peg_features.cpp.i
+src/belief_features/mode_feature.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/belief_features/mode_feature.cpp.i
+.PHONY : src/belief_features/mode_feature.cpp.i
 
-src/peg_features/peg_features.s: src/peg_features/peg_features.cpp.s
-.PHONY : src/peg_features/peg_features.s
+src/belief_features/mode_feature.s: src/belief_features/mode_feature.cpp.s
+.PHONY : src/belief_features/mode_feature.s
 
 # target to generate assembly for a file
-src/peg_features/peg_features.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_features/peg_features.cpp.s
-.PHONY : src/peg_features/peg_features.cpp.s
+src/belief_features/mode_feature.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/belief_features/mode_feature.cpp.s
+.PHONY : src/belief_features/mode_feature.cpp.s
 
-src/peg_filter/motion_model.o: src/peg_filter/motion_model.cpp.o
-.PHONY : src/peg_filter/motion_model.o
+src/peg_filter/likelihood.o: src/peg_filter/likelihood.cpp.o
+.PHONY : src/peg_filter/likelihood.o
 
 # target to build an object file
-src/peg_filter/motion_model.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/motion_model.cpp.o
-.PHONY : src/peg_filter/motion_model.cpp.o
+src/peg_filter/likelihood.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/likelihood.cpp.o
+.PHONY : src/peg_filter/likelihood.cpp.o
 
-src/peg_filter/motion_model.i: src/peg_filter/motion_model.cpp.i
-.PHONY : src/peg_filter/motion_model.i
+src/peg_filter/likelihood.i: src/peg_filter/likelihood.cpp.i
+.PHONY : src/peg_filter/likelihood.i
 
 # target to preprocess a source file
-src/peg_filter/motion_model.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/motion_model.cpp.i
-.PHONY : src/peg_filter/motion_model.cpp.i
+src/peg_filter/likelihood.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/likelihood.cpp.i
+.PHONY : src/peg_filter/likelihood.cpp.i
 
-src/peg_filter/motion_model.s: src/peg_filter/motion_model.cpp.s
-.PHONY : src/peg_filter/motion_model.s
+src/peg_filter/likelihood.s: src/peg_filter/likelihood.cpp.s
+.PHONY : src/peg_filter/likelihood.s
 
 # target to generate assembly for a file
-src/peg_filter/motion_model.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/motion_model.cpp.s
-.PHONY : src/peg_filter/motion_model.cpp.s
+src/peg_filter/likelihood.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/likelihood.cpp.s
+.PHONY : src/peg_filter/likelihood.cpp.s
+
+src/peg_filter/motion.o: src/peg_filter/motion.cpp.o
+.PHONY : src/peg_filter/motion.o
+
+# target to build an object file
+src/peg_filter/motion.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/motion.cpp.o
+.PHONY : src/peg_filter/motion.cpp.o
+
+src/peg_filter/motion.i: src/peg_filter/motion.cpp.i
+.PHONY : src/peg_filter/motion.i
+
+# target to preprocess a source file
+src/peg_filter/motion.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/motion.cpp.i
+.PHONY : src/peg_filter/motion.cpp.i
+
+src/peg_filter/motion.s: src/peg_filter/motion.cpp.s
+.PHONY : src/peg_filter/motion.s
+
+# target to generate assembly for a file
+src/peg_filter/motion.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/motion.cpp.s
+.PHONY : src/peg_filter/motion.cpp.s
 
 src/peg_filter/pf_manager.o: src/peg_filter/pf_manager.cpp.o
 .PHONY : src/peg_filter/pf_manager.o
 
 # target to build an object file
 src/peg_filter/pf_manager.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/pf_manager.cpp.o
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/pf_manager.cpp.o
 .PHONY : src/peg_filter/pf_manager.cpp.o
 
 src/peg_filter/pf_manager.i: src/peg_filter/pf_manager.cpp.i
@@ -1004,7 +1028,7 @@ src/peg_filter/pf_manager.i: src/peg_filter/pf_manager.cpp.i
 
 # target to preprocess a source file
 src/peg_filter/pf_manager.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/pf_manager.cpp.i
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/pf_manager.cpp.i
 .PHONY : src/peg_filter/pf_manager.cpp.i
 
 src/peg_filter/pf_manager.s: src/peg_filter/pf_manager.cpp.s
@@ -1012,39 +1036,15 @@ src/peg_filter/pf_manager.s: src/peg_filter/pf_manager.cpp.s
 
 # target to generate assembly for a file
 src/peg_filter/pf_manager.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/pf_manager.cpp.s
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/pf_manager.cpp.s
 .PHONY : src/peg_filter/pf_manager.cpp.s
-
-src/peg_filter/plug_likelihood.o: src/peg_filter/plug_likelihood.cpp.o
-.PHONY : src/peg_filter/plug_likelihood.o
-
-# target to build an object file
-src/peg_filter/plug_likelihood.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/plug_likelihood.cpp.o
-.PHONY : src/peg_filter/plug_likelihood.cpp.o
-
-src/peg_filter/plug_likelihood.i: src/peg_filter/plug_likelihood.cpp.i
-.PHONY : src/peg_filter/plug_likelihood.i
-
-# target to preprocess a source file
-src/peg_filter/plug_likelihood.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/plug_likelihood.cpp.i
-.PHONY : src/peg_filter/plug_likelihood.cpp.i
-
-src/peg_filter/plug_likelihood.s: src/peg_filter/plug_likelihood.cpp.s
-.PHONY : src/peg_filter/plug_likelihood.s
-
-# target to generate assembly for a file
-src/peg_filter/plug_likelihood.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/plug_likelihood.cpp.s
-.PHONY : src/peg_filter/plug_likelihood.cpp.s
 
 src/peg_filter/plug_service.o: src/peg_filter/plug_service.cpp.o
 .PHONY : src/peg_filter/plug_service.o
 
 # target to build an object file
 src/peg_filter/plug_service.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.o
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/plug_service.cpp.o
 .PHONY : src/peg_filter/plug_service.cpp.o
 
 src/peg_filter/plug_service.i: src/peg_filter/plug_service.cpp.i
@@ -1052,7 +1052,7 @@ src/peg_filter/plug_service.i: src/peg_filter/plug_service.cpp.i
 
 # target to preprocess a source file
 src/peg_filter/plug_service.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.i
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/plug_service.cpp.i
 .PHONY : src/peg_filter/plug_service.cpp.i
 
 src/peg_filter/plug_service.s: src/peg_filter/plug_service.cpp.s
@@ -1060,7 +1060,7 @@ src/peg_filter/plug_service.s: src/peg_filter/plug_service.cpp.s
 
 # target to generate assembly for a file
 src/peg_filter/plug_service.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_filter/plug_service.cpp.s
+	$(MAKE) -f CMakeFiles/peg_filter.dir/build.make CMakeFiles/peg_filter.dir/src/peg_filter/plug_service.cpp.s
 .PHONY : src/peg_filter/plug_service.cpp.s
 
 src/peg_filter_node.o: src/peg_filter_node.cpp.o
@@ -1086,30 +1086,6 @@ src/peg_filter_node.s: src/peg_filter_node.cpp.s
 src/peg_filter_node.cpp.s:
 	$(MAKE) -f CMakeFiles/peg_filter_node.dir/build.make CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.s
 .PHONY : src/peg_filter_node.cpp.s
-
-src/peg_sensor/plug_sensor.o: src/peg_sensor/plug_sensor.cpp.o
-.PHONY : src/peg_sensor/plug_sensor.o
-
-# target to build an object file
-src/peg_sensor/plug_sensor.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_sensor/plug_sensor.cpp.o
-.PHONY : src/peg_sensor/plug_sensor.cpp.o
-
-src/peg_sensor/plug_sensor.i: src/peg_sensor/plug_sensor.cpp.i
-.PHONY : src/peg_sensor/plug_sensor.i
-
-# target to preprocess a source file
-src/peg_sensor/plug_sensor.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_sensor/plug_sensor.cpp.i
-.PHONY : src/peg_sensor/plug_sensor.cpp.i
-
-src/peg_sensor/plug_sensor.s: src/peg_sensor/plug_sensor.cpp.s
-.PHONY : src/peg_sensor/plug_sensor.s
-
-# target to generate assembly for a file
-src/peg_sensor/plug_sensor.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_sensor.dir/build.make CMakeFiles/peg_sensor.dir/src/peg_sensor/plug_sensor.cpp.s
-.PHONY : src/peg_sensor/plug_sensor.cpp.s
 
 # Help Target
 help:
@@ -1144,6 +1120,7 @@ help:
 	@echo "... particle_filter_generate_messages_cpp"
 	@echo "... particle_filter_generate_messages_lisp"
 	@echo "... particle_filter_generate_messages_py"
+	@echo "... peg_filter"
 	@echo "... peg_filter_gencpp"
 	@echo "... peg_filter_generate_messages"
 	@echo "... peg_filter_generate_messages_cpp"
@@ -1152,7 +1129,6 @@ help:
 	@echo "... peg_filter_genlisp"
 	@echo "... peg_filter_genpy"
 	@echo "... peg_filter_node"
-	@echo "... peg_sensor"
 	@echo "... rebuild_cache"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
@@ -1183,30 +1159,27 @@ help:
 	@echo "... world_wrapper_generate_messages_py"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... src/peg_features/mode_feature.o"
-	@echo "... src/peg_features/mode_feature.i"
-	@echo "... src/peg_features/mode_feature.s"
-	@echo "... src/peg_features/peg_features.o"
-	@echo "... src/peg_features/peg_features.i"
-	@echo "... src/peg_features/peg_features.s"
-	@echo "... src/peg_filter/motion_model.o"
-	@echo "... src/peg_filter/motion_model.i"
-	@echo "... src/peg_filter/motion_model.s"
+	@echo "... src/belief_features/belief_features.o"
+	@echo "... src/belief_features/belief_features.i"
+	@echo "... src/belief_features/belief_features.s"
+	@echo "... src/belief_features/mode_feature.o"
+	@echo "... src/belief_features/mode_feature.i"
+	@echo "... src/belief_features/mode_feature.s"
+	@echo "... src/peg_filter/likelihood.o"
+	@echo "... src/peg_filter/likelihood.i"
+	@echo "... src/peg_filter/likelihood.s"
+	@echo "... src/peg_filter/motion.o"
+	@echo "... src/peg_filter/motion.i"
+	@echo "... src/peg_filter/motion.s"
 	@echo "... src/peg_filter/pf_manager.o"
 	@echo "... src/peg_filter/pf_manager.i"
 	@echo "... src/peg_filter/pf_manager.s"
-	@echo "... src/peg_filter/plug_likelihood.o"
-	@echo "... src/peg_filter/plug_likelihood.i"
-	@echo "... src/peg_filter/plug_likelihood.s"
 	@echo "... src/peg_filter/plug_service.o"
 	@echo "... src/peg_filter/plug_service.i"
 	@echo "... src/peg_filter/plug_service.s"
 	@echo "... src/peg_filter_node.o"
 	@echo "... src/peg_filter_node.i"
 	@echo "... src/peg_filter_node.s"
-	@echo "... src/peg_sensor/plug_sensor.o"
-	@echo "... src/peg_sensor/plug_sensor.i"
-	@echo "... src/peg_sensor/plug_sensor.s"
 .PHONY : help
 
 

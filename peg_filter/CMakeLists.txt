@@ -4,7 +4,8 @@ project(peg_filter)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS world_wrapper wrap_object objects optitrack_rviz tf std_msgs particle_filter plug_sensor_models)
+find_package(catkin REQUIRED COMPONENTS world_wrapper objects optitrack_rviz tf std_msgs
+particle_filter peg_sensor statistics_ml)
 
 find_package(Armadillo)
 
@@ -13,9 +14,6 @@ find_package(Armadillo)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -O3 -std=c++11 -mtune=native -fPIC -Wall -Wno-unused-variable -fopenmp")        ## Optimize
 set(CMAKE_BUILD_TYPE Release)
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
-
-set(INCLUDE_STATISTICS /home/guillaume/CppWorkSpace/Statistics/include)
-set(LIB_STATISTICS /home/guillaume/CppWorkSpace/Statistics/lib/libstatistics.so)
 
 add_service_files(
   FILES
@@ -38,8 +36,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES peg_sensor
-  CATKIN_DEPENDS message_runtime world_wrapper objects plug_sensor_models
+  LIBRARIES ${PROJECT_NAME}
+  CATKIN_DEPENDS message_runtime world_wrapper peg_sensor objects
 #  DEPENDS system_lib
 )
 
@@ -53,41 +51,46 @@ set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 include_directories(${INCLUDE_DIR} ${catkin_INCLUDE_DIRS} ${INCLUDE_STATISTICS})
 
+#${INCLUDE_DIR}/peg_filter/peg_sensor/plug_sensor.h
+# ${SRC_DIR}/peg_sensor/plug_sensor.cpp
+# ${INCLUDE_DIR}/peg_filter/peg_world_wrapper/peg_world_wrapper.h
+#               ${SRC_DIR}/peg_world_wrapper/peg_world_wrapper.cpp
 
-set(H_FILES  ${INCLUDE_DIR}/peg_sensor/plug_sensor.h 
-             ${INCLUDE_DIR}/peg_world_wrapper/plug_world_wrapper.h
-             ${INCLUDE_DIR}/peg_filter/plug_likelihood.h
-             ${INCLUDE_DIR}/peg_filter/motion_model.h
+
+set(H_FILES
+
+             ${INCLUDE_DIR}/peg_filter/likelihood.h
+             ${INCLUDE_DIR}/peg_filter/motion.h
              ${INCLUDE_DIR}/peg_filter/pf_manager.h
              ${INCLUDE_DIR}/peg_filter/plug_service.h
 
-             ${INCLUDE_DIR}/peg_features/peg_features.h
-             ${INCLUDE_DIR}/peg_features/mode_feature.h
+             ${INCLUDE_DIR}/peg_filter/belief_features/belief_features.h
+             ${INCLUDE_DIR}/peg_filter/belief_features/mode_feature.h
 
 )
 
-set(SRC_FILES ${SRC_DIR}/peg_sensor/plug_sensor.cpp			
-	      ${SRC_DIR}/peg_filter/plug_likelihood.cpp
-              ${SRC_DIR}/peg_filter/motion_model.cpp
+set(SRC_FILES ${SRC_DIR}/peg_filter/likelihood.cpp
+              ${SRC_DIR}/peg_filter/motion.cpp
+
               ${SRC_DIR}/peg_filter/pf_manager.cpp
               ${SRC_DIR}/peg_filter/plug_service.cpp
 
-              ${SRC_DIR}/peg_features/peg_features.cpp
-              ${SRC_DIR}/peg_features/mode_feature.cpp
+              ${SRC_DIR}/belief_features/belief_features.cpp
+              ${SRC_DIR}/belief_features/mode_feature.cpp
 
 )
 
 
 ##  SENSOR (LIB) ##
 
-add_library(peg_sensor ${H_FILES} ${SRC_FILES}						 )
-target_link_libraries(peg_sensor ${catkin_LIBRARIES} ${LIB_ARMADILLO} ${LIB_STATISTICS} mlpack  )
+add_library(${PROJECT_NAME} ${H_FILES} ${SRC_FILES}						 )
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${LIB_ARMADILLO} ${LIB_STATISTICS} mlpack )
 
 
 ##  PEG FILTER (EXEC) ##
 
-add_executable(peg_filter_node ${SRC_DIR}/peg_filter_node.cpp      	   	)
-target_link_libraries(peg_filter_node ${catkin_LIBRARIES}  peg_sensor    		)
+add_executable(${PROJECT_NAME}_node ${SRC_DIR}/peg_filter_node.cpp      	)
+target_link_libraries(${PROJECT_NAME}_node ${catkin_LIBRARIES}   ${PROJECT_NAME} )
 
 
 #############
