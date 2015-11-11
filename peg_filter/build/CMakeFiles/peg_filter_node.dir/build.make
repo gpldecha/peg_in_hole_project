@@ -139,6 +139,7 @@ devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libactionlib.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libmessage_filters.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libtf2.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libstatistics_ml.so
+devel/lib/peg_filter/peg_filter_node: /usr/local/lib/libmlpack.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libroscpp.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
@@ -212,6 +213,7 @@ devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libactionlib.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libmessage_filters.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libtf2.so
 devel/lib/peg_filter/peg_filter_node: /home/guillaume/roscode/catkin_ws/devel/lib/libstatistics_ml.so
+devel/lib/peg_filter/peg_filter_node: /usr/local/lib/libmlpack.so
 devel/lib/peg_filter/peg_filter_node: /opt/ros/indigo/lib/libroscpp.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
 devel/lib/peg_filter/peg_filter_node: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so

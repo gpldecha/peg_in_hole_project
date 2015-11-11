@@ -1,5 +1,5 @@
 FILE(REMOVE_RECURSE
-  "CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o"
+  "CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o"
   "devel/lib/peg_in_hole/peg_in_hole_wrapper_node.pdb"
   "devel/lib/peg_in_hole/peg_in_hole_wrapper_node"
 )

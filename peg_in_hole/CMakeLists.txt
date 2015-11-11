@@ -4,7 +4,8 @@ project(peg_in_hole)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS world_wrapper wrap_object objects optitrack_rviz tf std_msgs peg_filter particle_filter)
+find_package(catkin REQUIRED COMPONENTS world_wrapper wrap_object objects
+optitrack_rviz tf std_msgs peg_filter particle_filter)
 #
 
 find_package(Boost)
@@ -70,13 +71,14 @@ set(H_FILES  	${INCLUDE_DIR}/peg_in_hole/peg_replay.h
 )
 set(SRC_FILES 	 ${SRC_DIR}/peg_replay/peg_replay.cpp  
 		 ${SRC_DIR}/peg_replay/index_subscriber.cpp 
+
 )
 
 
 ## PLUG FEATURE VIS (EXEC) ##
 
-add_executable(peg_in_hole_wrapper_node ${SRC_DIR}/peg_replay/vis_features.cpp		  )
-target_link_libraries(peg_in_hole_wrapper_node  ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}  boost_system )
+add_executable(peg_vis_feature_node ${SRC_DIR}/vis_features_node.cpp		  )
+target_link_libraries(peg_vis_feature_node  ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES}  boost_system )
 
 
 # PLEG REPLAY (LIB)

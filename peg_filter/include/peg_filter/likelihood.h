@@ -1,6 +1,7 @@
 #ifndef PEG_FILTER_LIKELIHOOD_H_
 #define PEG_FILTER_LIKELIHOOD_H_
 
+#include "particle_filter/particle_filter_definitions.h"
 #include "peg_sensor/peg_sensor_model/distance_model.h"
 #include "peg_sensor/peg_sensor_model/peg_distance_model.h"
 
@@ -19,23 +20,28 @@
 
 namespace likeli{
 
-typedef enum {SIMPLE_CONTACT,FOUR_CONTACT,THREE_PIN,FORCE_IID} likelihood_type;
+//typedef enum {SIMPLE_CONTACT,FOUR_CONTACT,THREE_PIN,FORCE_IID} likelihood_type;
 
-class Plug_likelihood_base{
-
-public:
-
-    virtual void likelihood(arma::colvec &L, const arma::colvec& Y, const arma::mat& X,const arma::mat33& Rot) = 0;
+class Gaussian_likelihood{
 
 public:
 
-    arma::colvec          hY;
+    Gaussian_likelihood(const arma::colvec& variance);
+
+                  //arma::colvec& L, const arma::colvec& Y, const arma::mat& hY
+    void gaussian_likelihood(arma::colvec& L, const arma::colvec& Y, const arma::mat& hY);
+
+
+private:
+
+    arma::colvec one_div_var;
 
 };
 
 
 
 
+/*
 class Plug_likelihood_three_pin_distance: public Plug_likelihood_base{
 
 public:
@@ -144,6 +150,9 @@ private:
 
 
 };
+*/
+
+/*
 
 class Plug_likelihood_simple_contact : public Plug_likelihood_base{
 
@@ -164,6 +173,8 @@ private:
 
 
 };
+*/
+/*
 
 class Plug_likelihood_four_contact : public Plug_likelihood_base{
 
@@ -186,6 +197,8 @@ private:
 
 
 };
+*/
+/*
 
 class Plug_likelihood_force_iid : public Plug_likelihood_base{
 
@@ -199,7 +212,10 @@ private:
 
 
 };
+*/
 
+
+/*
 class Plug_likelihood_preset : public Plug_likelihood_base{
 
 public:
@@ -211,7 +227,7 @@ public:
 private:
 
 };
-
+*/
 
 }
 

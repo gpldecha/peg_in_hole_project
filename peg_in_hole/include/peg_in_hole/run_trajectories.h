@@ -6,12 +6,10 @@
 #include <tf/LinearMath/Quaternion.h>
 
 #include <peg_filter/pf_manager.h>
-#include <peg_filter/plug_likelihood.h>
-#include <peg_filter/pf_manager.h>
+#include <peg_filter/likelihood.h>
 
-#include <plug_sensor_models/distance_features.h>
-#include <plug_sensor_manager/sensor_manager.h>
-#include <plug_sensor_models/plug_distance_model.h>
+#include "peg_sensor/peg_sensor_model/distance_features.h"
+#include "peg_sensor/peg_sensor_model/peg_distance_model.h"
 
 #include <optitrack_rviz/type_conversion.h>
 #include <optitrack_rviz/type_conversion.h>

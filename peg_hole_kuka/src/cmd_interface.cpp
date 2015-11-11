@@ -20,15 +20,24 @@ Cmd_interface::Cmd_interface(ros::NodeHandle &nh,
 
 void Cmd_interface::init_commands(){
 
-    /*cmds["home"]                = cmd_type::ACTION;
+    /*
     cmds["grav_on"]             = cmd_type::ACTION;
     cmds["grav_off"]            = cmd_type::ACTION;
     cmds["start"]               = cmd_type::ACTION;
     cmds["stop"]                = cmd_type::ACTION;*/
 
+    cmds["grav_comp"]           = cmd_type::ACTION;
+    cmds["joint_imp"]           = cmd_type::ACTION;
+    cmds["safe_grav_comp"]      = cmd_type::ACTION;
+    cmds["home"]                = cmd_type::ACTION;
     cmds["plug"]                = cmd_type::ACTION;
+    cmds["go_front"]            = cmd_type::ACTION;
+    cmds["go_left"]             = cmd_type::ACTION;
+    cmds["joint_imp_s"]         = cmd_type::ACTION;
 
     cmds["simple_bel_planner"]  = cmd_type::ACTION;
+    cmds["gmm_bel_planner"]     = cmd_type::ACTION;
+
     cmds["planner pause"]       = cmd_type::PLANNER;
 
 

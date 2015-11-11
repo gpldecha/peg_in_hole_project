@@ -4,7 +4,7 @@ SET(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 SET(CMAKE_DEPENDS_CHECK_CXX
-  "/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/vis_features.cpp" "/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o"
+  "/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/vis_features.cpp" "/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o"
   )
 SET(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -28,7 +28,8 @@ SET(CMAKE_C_TARGET_INCLUDE_PATH
   "/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include"
   "/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include"
   "/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include"
-  "/home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include"
+  "/home/guillaume/roscode/catkin_ws/src/peg_sensor/include"
+  "/home/guillaume/roscode/catkin_ws/src/statistics_ml/include"
   "/home/guillaume/roscode/catkin_ws/src/particle_filter/include"
   "/opt/ros/indigo/include"
   "/usr/local/include"

@@ -52,41 +52,40 @@ include CMakeFiles/peg_in_hole_wrapper_node.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/peg_in_hole_wrapper_node.dir/flags.make
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o: CMakeFiles/peg_in_hole_wrapper_node.dir/flags.make
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o: ../src/peg_replay/vis_features.cpp
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o: CMakeFiles/peg_in_hole_wrapper_node.dir/flags.make
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o: ../src/vis_features.cpp
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o -c /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/vis_features.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o -c /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/vis_features.cpp
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/vis_features.cpp > CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.i
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/vis_features.cpp > CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.i
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/vis_features.cpp -o CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.s
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/vis_features.cpp -o CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.s
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.requires:
-.PHONY : CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.requires
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.requires:
+.PHONY : CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.requires
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.provides: CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.requires
-	$(MAKE) -f CMakeFiles/peg_in_hole_wrapper_node.dir/build.make CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.provides.build
-.PHONY : CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.provides
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.provides: CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.requires
+	$(MAKE) -f CMakeFiles/peg_in_hole_wrapper_node.dir/build.make CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.provides.build
+.PHONY : CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.provides
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.provides.build: CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o
+CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.provides.build: CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o
 
 # Object files for target peg_in_hole_wrapper_node
 peg_in_hole_wrapper_node_OBJECTS = \
-"CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o"
+"CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o"
 
 # External object files for target peg_in_hole_wrapper_node
 peg_in_hole_wrapper_node_EXTERNAL_OBJECTS =
 
-devel/lib/peg_in_hole/peg_in_hole_wrapper_node: CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o
+devel/lib/peg_in_hole/peg_in_hole_wrapper_node: CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: CMakeFiles/peg_in_hole_wrapper_node.dir/build.make
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libpeg_sensor.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libworld_wrapper.so
-devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/librviz.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/libdefault_plugin.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/libOgreMain.so
@@ -129,6 +128,8 @@ devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/liburd
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/librosconsole_bridge.so
+devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
+devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libstatistics_ml.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libsockets.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libvis_objects.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/liboptitrack_rviz.so
@@ -137,7 +138,6 @@ devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/libtf2_ros.s
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/libactionlib.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/libmessage_filters.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/libtf2.so
-devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libplug_sensor_models.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /home/guillaume/roscode/catkin_ws/devel/lib/libparticle_filter.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /opt/ros/indigo/lib/libroscpp.so
 devel/lib/peg_in_hole/peg_in_hole_wrapper_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
@@ -165,7 +165,7 @@ devel/lib/peg_in_hole/peg_in_hole_wrapper_node: CMakeFiles/peg_in_hole_wrapper_n
 CMakeFiles/peg_in_hole_wrapper_node.dir/build: devel/lib/peg_in_hole/peg_in_hole_wrapper_node
 .PHONY : CMakeFiles/peg_in_hole_wrapper_node.dir/build
 
-CMakeFiles/peg_in_hole_wrapper_node.dir/requires: CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o.requires
+CMakeFiles/peg_in_hole_wrapper_node.dir/requires: CMakeFiles/peg_in_hole_wrapper_node.dir/src/vis_features.cpp.o.requires
 .PHONY : CMakeFiles/peg_in_hole_wrapper_node.dir/requires
 
 CMakeFiles/peg_in_hole_wrapper_node.dir/clean:

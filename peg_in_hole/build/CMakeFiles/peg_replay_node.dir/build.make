@@ -86,7 +86,6 @@ devel/lib/peg_in_hole/peg_replay_node: CMakeFiles/peg_replay_node.dir/src/peg_re
 devel/lib/peg_in_hole/peg_replay_node: CMakeFiles/peg_replay_node.dir/build.make
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libpeg_sensor.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libworld_wrapper.so
-devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/librviz.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libdefault_plugin.so
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/libOgreMain.so
@@ -129,6 +128,8 @@ devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/liburdfdom_mode
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/librosconsole_bridge.so
+devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
+devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libstatistics_ml.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libsockets.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libvis_objects.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/liboptitrack_rviz.so
@@ -137,7 +138,6 @@ devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libtf2_ros.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libactionlib.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libmessage_filters.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libtf2.so
-devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libplug_sensor_models.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libparticle_filter.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libroscpp.so
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so
@@ -159,7 +159,6 @@ devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/libconsole_brid
 devel/lib/peg_in_hole/peg_replay_node: devel/lib/libpeg_replay.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libpeg_sensor.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libworld_wrapper.so
-devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/librviz.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libdefault_plugin.so
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/libOgreMain.so
@@ -202,6 +201,8 @@ devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/liburdfdom_mode
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/liburdfdom_model.so
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/liburdfdom_world.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/librosconsole_bridge.so
+devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libwrap_object.so
+devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libstatistics_ml.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libsockets.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libvis_objects.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/liboptitrack_rviz.so
@@ -210,7 +211,6 @@ devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libtf2_ros.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libactionlib.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libmessage_filters.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libtf2.so
-devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libplug_sensor_models.so
 devel/lib/peg_in_hole/peg_replay_node: /home/guillaume/roscode/catkin_ws/devel/lib/libparticle_filter.so
 devel/lib/peg_in_hole/peg_replay_node: /opt/ros/indigo/lib/libroscpp.so
 devel/lib/peg_in_hole/peg_replay_node: /usr/lib/x86_64-linux-gnu/libboost_signals.so

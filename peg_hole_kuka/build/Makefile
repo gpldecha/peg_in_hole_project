@@ -647,6 +647,45 @@ peg_kuka_server_node/fast:
 .PHONY : peg_kuka_server_node/fast
 
 #=============================================================================
+# Target rules for targets named peg_sensor_generate_messages_cpp
+
+# Build rule for target.
+peg_sensor_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor_generate_messages_cpp
+.PHONY : peg_sensor_generate_messages_cpp
+
+# fast build rule for target.
+peg_sensor_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/peg_sensor_generate_messages_cpp.dir/build.make CMakeFiles/peg_sensor_generate_messages_cpp.dir/build
+.PHONY : peg_sensor_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named peg_sensor_generate_messages_lisp
+
+# Build rule for target.
+peg_sensor_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor_generate_messages_lisp
+.PHONY : peg_sensor_generate_messages_lisp
+
+# fast build rule for target.
+peg_sensor_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/peg_sensor_generate_messages_lisp.dir/build.make CMakeFiles/peg_sensor_generate_messages_lisp.dir/build
+.PHONY : peg_sensor_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named peg_sensor_generate_messages_py
+
+# Build rule for target.
+peg_sensor_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor_generate_messages_py
+.PHONY : peg_sensor_generate_messages_py
+
+# fast build rule for target.
+peg_sensor_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/peg_sensor_generate_messages_py.dir/build.make CMakeFiles/peg_sensor_generate_messages_py.dir/build
+.PHONY : peg_sensor_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named roscpp_generate_messages_cpp
 
 # Build rule for target.
@@ -1182,6 +1221,9 @@ help:
 	@echo "... peg_hole_kuka_genpy"
 	@echo "... peg_kuka_client_node"
 	@echo "... peg_kuka_server_node"
+	@echo "... peg_sensor_generate_messages_cpp"
+	@echo "... peg_sensor_generate_messages_lisp"
+	@echo "... peg_sensor_generate_messages_py"
 	@echo "... rebuild_cache"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"

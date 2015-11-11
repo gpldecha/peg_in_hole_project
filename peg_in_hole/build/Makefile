@@ -569,19 +569,6 @@ peg_in_hole_genpy/fast:
 .PHONY : peg_in_hole_genpy/fast
 
 #=============================================================================
-# Target rules for targets named peg_in_hole_wrapper_node
-
-# Build rule for target.
-peg_in_hole_wrapper_node: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 peg_in_hole_wrapper_node
-.PHONY : peg_in_hole_wrapper_node
-
-# fast build rule for target.
-peg_in_hole_wrapper_node/fast:
-	$(MAKE) -f CMakeFiles/peg_in_hole_wrapper_node.dir/build.make CMakeFiles/peg_in_hole_wrapper_node.dir/build
-.PHONY : peg_in_hole_wrapper_node/fast
-
-#=============================================================================
 # Target rules for targets named peg_replay
 
 # Build rule for target.
@@ -593,6 +580,58 @@ peg_replay: cmake_check_build_system
 peg_replay/fast:
 	$(MAKE) -f CMakeFiles/peg_replay.dir/build.make CMakeFiles/peg_replay.dir/build
 .PHONY : peg_replay/fast
+
+#=============================================================================
+# Target rules for targets named peg_sensor_generate_messages_cpp
+
+# Build rule for target.
+peg_sensor_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor_generate_messages_cpp
+.PHONY : peg_sensor_generate_messages_cpp
+
+# fast build rule for target.
+peg_sensor_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/peg_sensor_generate_messages_cpp.dir/build.make CMakeFiles/peg_sensor_generate_messages_cpp.dir/build
+.PHONY : peg_sensor_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named peg_sensor_generate_messages_lisp
+
+# Build rule for target.
+peg_sensor_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor_generate_messages_lisp
+.PHONY : peg_sensor_generate_messages_lisp
+
+# fast build rule for target.
+peg_sensor_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/peg_sensor_generate_messages_lisp.dir/build.make CMakeFiles/peg_sensor_generate_messages_lisp.dir/build
+.PHONY : peg_sensor_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named peg_sensor_generate_messages_py
+
+# Build rule for target.
+peg_sensor_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_sensor_generate_messages_py
+.PHONY : peg_sensor_generate_messages_py
+
+# fast build rule for target.
+peg_sensor_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/peg_sensor_generate_messages_py.dir/build.make CMakeFiles/peg_sensor_generate_messages_py.dir/build
+.PHONY : peg_sensor_generate_messages_py/fast
+
+#=============================================================================
+# Target rules for targets named peg_vis_feature_node
+
+# Build rule for target.
+peg_vis_feature_node: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_vis_feature_node
+.PHONY : peg_vis_feature_node
+
+# fast build rule for target.
+peg_vis_feature_node/fast:
+	$(MAKE) -f CMakeFiles/peg_vis_feature_node.dir/build.make CMakeFiles/peg_vis_feature_node.dir/build
+.PHONY : peg_vis_feature_node/fast
 
 #=============================================================================
 # Target rules for targets named roscpp_generate_messages_cpp
@@ -1006,29 +1045,29 @@ src/peg_replay/peg_replay.cpp.s:
 	$(MAKE) -f CMakeFiles/peg_replay.dir/build.make CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.s
 .PHONY : src/peg_replay/peg_replay.cpp.s
 
-src/peg_replay/vis_features.o: src/peg_replay/vis_features.cpp.o
-.PHONY : src/peg_replay/vis_features.o
+src/vis_features_node.o: src/vis_features_node.cpp.o
+.PHONY : src/vis_features_node.o
 
 # target to build an object file
-src/peg_replay/vis_features.cpp.o:
-	$(MAKE) -f CMakeFiles/peg_in_hole_wrapper_node.dir/build.make CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.o
-.PHONY : src/peg_replay/vis_features.cpp.o
+src/vis_features_node.cpp.o:
+	$(MAKE) -f CMakeFiles/peg_vis_feature_node.dir/build.make CMakeFiles/peg_vis_feature_node.dir/src/vis_features_node.cpp.o
+.PHONY : src/vis_features_node.cpp.o
 
-src/peg_replay/vis_features.i: src/peg_replay/vis_features.cpp.i
-.PHONY : src/peg_replay/vis_features.i
+src/vis_features_node.i: src/vis_features_node.cpp.i
+.PHONY : src/vis_features_node.i
 
 # target to preprocess a source file
-src/peg_replay/vis_features.cpp.i:
-	$(MAKE) -f CMakeFiles/peg_in_hole_wrapper_node.dir/build.make CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.i
-.PHONY : src/peg_replay/vis_features.cpp.i
+src/vis_features_node.cpp.i:
+	$(MAKE) -f CMakeFiles/peg_vis_feature_node.dir/build.make CMakeFiles/peg_vis_feature_node.dir/src/vis_features_node.cpp.i
+.PHONY : src/vis_features_node.cpp.i
 
-src/peg_replay/vis_features.s: src/peg_replay/vis_features.cpp.s
-.PHONY : src/peg_replay/vis_features.s
+src/vis_features_node.s: src/vis_features_node.cpp.s
+.PHONY : src/vis_features_node.s
 
 # target to generate assembly for a file
-src/peg_replay/vis_features.cpp.s:
-	$(MAKE) -f CMakeFiles/peg_in_hole_wrapper_node.dir/build.make CMakeFiles/peg_in_hole_wrapper_node.dir/src/peg_replay/vis_features.cpp.s
-.PHONY : src/peg_replay/vis_features.cpp.s
+src/vis_features_node.cpp.s:
+	$(MAKE) -f CMakeFiles/peg_vis_feature_node.dir/build.make CMakeFiles/peg_vis_feature_node.dir/src/vis_features_node.cpp.s
+.PHONY : src/vis_features_node.cpp.s
 
 # Help Target
 help:
@@ -1073,8 +1112,11 @@ help:
 	@echo "... peg_in_hole_generate_messages_py"
 	@echo "... peg_in_hole_genlisp"
 	@echo "... peg_in_hole_genpy"
-	@echo "... peg_in_hole_wrapper_node"
 	@echo "... peg_replay"
+	@echo "... peg_sensor_generate_messages_cpp"
+	@echo "... peg_sensor_generate_messages_lisp"
+	@echo "... peg_sensor_generate_messages_py"
+	@echo "... peg_vis_feature_node"
 	@echo "... rebuild_cache"
 	@echo "... roscpp_generate_messages_cpp"
 	@echo "... roscpp_generate_messages_lisp"
@@ -1111,9 +1153,9 @@ help:
 	@echo "... src/peg_replay/peg_replay.o"
 	@echo "... src/peg_replay/peg_replay.i"
 	@echo "... src/peg_replay/peg_replay.s"
-	@echo "... src/peg_replay/vis_features.o"
-	@echo "... src/peg_replay/vis_features.i"
-	@echo "... src/peg_replay/vis_features.s"
+	@echo "... src/vis_features_node.o"
+	@echo "... src/vis_features_node.i"
+	@echo "... src/vis_features_node.s"
 .PHONY : help
 
 

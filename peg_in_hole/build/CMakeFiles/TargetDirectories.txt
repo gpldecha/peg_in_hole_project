@@ -32,8 +32,11 @@
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_in_hole_generate_messages_py.dir
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_in_hole_genlisp.dir
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_in_hole_genpy.dir
-/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_in_hole_wrapper_node.dir
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_replay.dir
+/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_sensor_generate_messages_cpp.dir
+/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_sensor_generate_messages_lisp.dir
+/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_sensor_generate_messages_py.dir
+/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/peg_vis_feature_node.dir
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/roscpp_generate_messages_cpp.dir
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/roscpp_generate_messages_lisp.dir
 /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/CMakeFiles/roscpp_generate_messages_py.dir

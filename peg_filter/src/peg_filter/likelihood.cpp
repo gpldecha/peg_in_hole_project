@@ -1,7 +1,97 @@
 #include "peg_filter/likelihood.h"
-
+#include <functional>
 namespace likeli{
 
+Gaussian_likelihood::Gaussian_likelihood(const arma::colvec& variance)
+{
+
+    // (1 x M), where M is the dimension of Y
+    one_div_var = -0.5 * (1.0 / variance);
+
+}
+
+void Gaussian_likelihood::gaussian_likelihood(arma::colvec &L, const arma::colvec &Y, const arma::mat &hY){
+
+    //std::cout<< "Gaussian_likelihood" << std::endl;
+   // std::cout<< "L:  (" << L.n_rows << " x " << L.n_cols << ")" << std::endl;
+   // std::cout<< "Y:  (" << Y.n_rows << " x " << Y.n_cols << ")" << std::endl;
+   // std::cout<< "hY: (" << hY.n_rows << " x " << hY.n_cols << ")" << std::endl;
+
+
+    assert(L.n_elem == hY.n_elem);
+    double value = 0;
+    double one_var = (1.0/(0.02*0.02));
+    //Y.print("Y");
+
+    bool bSense;
+    if(Y(0) <= 0.02){
+        bSense = true;
+    }else{
+        bSense = false;
+    }
+   // std::cout<< "bSense: " << bSense << std::endl;
+
+    for(std::size_t i = 0; i < hY.n_rows;i++){
+
+
+        if(!bSense){     /// Case when there is no sensing dist >= 0.02 [m]
+
+           // L(i) = 1 - exp(-0.5 * one_var * (hY(i,0) - Y(0)) * (hY(i,0) - Y(0)) );
+            L(i) = 1 - exp(-0.5 * one_var * hY(i,0)*hY(i,0));
+           // std::cout<< "no sense" << std::endl;
+       }else{          /// Case when there is sensing*/
+            L(i) =     exp(  one_div_var(0) * (hY(i,0) - Y(0)) * (hY(i,0) - Y(0))
+                            + one_div_var(1) * (hY(i,1) - Y(1)) * (hY(i,1) - Y(1))
+                            + one_div_var(2) * (hY(i,2) - Y(2)) * (hY(i,2) - Y(2))
+                             );
+
+
+
+      }
+
+       if(hY(i,0) == -1){
+            L(i) = 0;
+        }
+
+        //  if(Y(0) == 1){
+
+      //
+
+        /// Case when the peg tip is very close to the surface <= 0.02 [m]
+     //   }else{
+       //     L(i) =  exp(-0.5 * one_var * (hY(i,0) - Y(0)) * (hY(i,0) - Y(0))  );
+      //  }
+      //  L(i) = 1 - exp(-0.5 * one_var* hY(i,0));
+
+    }
+
+    if(arma::sum(L) == 0){
+        L = arma::ones(L.n_elem);
+    }
+
+    L = L / (arma::sum(L)) ;
+
+    if(L.has_nan()){
+       std::cout<< "L has NAN" << std::endl;
+        exit(0);
+    }
+
+
+
+
+
+    //L.print("likelihood");
+
+   // L = L / (arma::sum(L)) ;
+
+  //  L = exp(-0.5 * L);
+
+}
+
+
+}
+
+/*
 Plug_likelihood_three_pin_distance::Plug_likelihood_three_pin_distance(wobj::WrapObject& wrap_object)
     :three_pin_distance_mode(wrap_object)
 {
@@ -36,28 +126,11 @@ void Plug_likelihood_three_pin_distance::likelihood(arma::colvec &L, const arma:
             sum_range = sum_range  + (surf_norm[j] - surf_norm_h[j]) * (surf_norm[j] - surf_norm_h[j])
                     + (edge_norm[j] - edge_norm_h[j]) * (edge_norm[j] - edge_norm_h[j]);
 
-            /* std::cout << " ===== X(" << i << ") === " << std::endl;
 
-            surf_vector[j].print("surf_vector[" + boost::lexical_cast<std::string>(j) + "]");
-            surf_vector_h[j].print("surf_vector_h[" + boost::lexical_cast<std::string>(j) + "]");
-            std::cout<< "n surf_vector["<<j<<"]: " << arma::norm(surf_vector[j]) << std::endl;
-            std::cout<< "n surf_vector_h["<<j<<"]: " << arma::norm(surf_vector_h[j]) << std::endl;
-            std::cout<< "dot:  " << arma::dot(surf_vector[j],surf_vector_h[j]) << std::endl;
-            std::cout<< "acos: "<< std::acos( arma::dot(surf_vector[j],surf_vector_h[j])) << std::endl;*/
 
             sum_angle = sum_angle +  std::acos(arma::dot(surf_vector[j],surf_vector_h[j]))
                     +  std::acos(arma::dot(edge_vector[j],edge_vector_h[j]));
 
-            /* std::cout<<  "surf_norm["<< j<<"]:   " << surf_norm[j] <<std::endl;
-            std::cout<<  "surf_norm_h["<< j<<"]: " << surf_norm_h[j] <<std::endl;
-            std::cout<<  "edge_norm["<< j<<"]:   " << edge_norm[i] <<std::endl;
-            std::cout<<  "edge_norm_h["<< j<<"]: " << edge_norm_h[i] <<std::endl;*/
-
-
-            /* L(i) = L(i) - angle_noise * std::acos(arma::dot(surf_vector[j],surf_vector_h[j]))
-                      - angle_noise * std::acos(arma::dot(edge_vector[j],edge_vector_h[j]))
-                      - range_noise * (surf_norm[j] - surf_norm_h[j]) * (surf_norm[j] - surf_norm_h[j])
-                      - range_noise * (edge_norm[j] - edge_norm_h[j]) * (edge_norm[j] - edge_norm_h[j]);*/
         }
         // std::cout<< "sum_angle("<<i<< "): " << sum_angle << std::endl;
         // std::cout<< "sum_range("<<i<< "): " << sum_range << std::endl;
@@ -82,9 +155,10 @@ void Plug_likelihood_three_pin_distance::likelihood(arma::colvec &L, const arma:
         }
     }
 }
+*/
 
-
-Plug_likelihood_simple_contact::Plug_likelihood_simple_contact(wobj::WrapObject& wrap_object):
+/*
+Gaussian_noise_likelihood::Gaussian_noise_likelihood(wobj::WrapObject& wrap_object):
     contact_distance_model(wrap_object)
 {
 
@@ -96,12 +170,15 @@ Plug_likelihood_simple_contact::Plug_likelihood_simple_contact(wobj::WrapObject&
 
 }
 
-void Plug_likelihood_simple_contact::likelihood(      arma::colvec &L,
+void Gaussian_noise_likelihood::likelihood(      arma::colvec &L,
                                                       const arma::colvec& Y,
                                                       const arma::mat&    X,
                                                       const arma::mat33& Rot){
 
     hY.resize(2);
+
+    assert(hY.n_elem == Y.n_elem);
+
     for(std::size_t i = 0; i < X.n_rows;i++){
         contact_distance_model.update(hY,X.row(i).st(),Rot);
         if(hY(0) == -1){
@@ -113,8 +190,9 @@ void Plug_likelihood_simple_contact::likelihood(      arma::colvec &L,
         }
     }
 }
+*/
 
-
+/*
 Plug_likelihood_four_contact::Plug_likelihood_four_contact(wobj::WrapObject& wrap_object):
     four_distance_model(wrap_object)
 
@@ -156,7 +234,8 @@ Plug_likelihood_force_iid::Plug_likelihood_force_iid(wobj::WrapObject &wrap_obje
     //:{
 
 }
-
+*/
+/*
 void Plug_likelihood_force_iid::likelihood(arma::colvec &L, const arma::colvec& Y, const arma::mat& X, const arma::mat33& Rot){
 
     for(std::size_t i = 0; i < X.n_rows;i++){
@@ -189,7 +268,7 @@ void Plug_likelihood_preset::likelihood(arma::colvec &L, const arma::colvec& Y, 
 
 
 }
-
+*/
 /*
 Plug_likelihood::Plug_likelihood(psm::Plug_base_model& plug_measuremen_model):
     plug_measuremen_model(plug_measuremen_model)

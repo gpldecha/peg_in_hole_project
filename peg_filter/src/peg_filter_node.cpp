@@ -11,28 +11,16 @@
 
 #include "peg_sensor/listener.h"
 #include "peg_sensor/peg_sensor_model/distance_model.h"
+#include "peg_sensor/peg_world_wrapper/peg_world_wrapper.h"
+
+#include "peg_sensor_manager/sensor_manager.h"
 
 #include <world_wrapper/visualisation/vis_wbox.h>
 #include <node/publisher.h>
 
 #include "peg_filter/belief_features/belief_features.h"
 #include <optitrack_rviz/listener.h>
-
-
-void tf2mat(const tf::Matrix3x3& m1, arma::mat& m2){
-
-    m2(0,0)    = m1[0][0];
-    m2(0,1)    = m1[0][1];
-    m2(0,2)    = m1[0][2];
-
-    m2(1,0)    = m1[1][0];
-    m2(1,1)    = m1[1][1];
-    m2(1,2)    = m1[1][2];
-
-    m2(2,0)    = m1[2][0];
-    m2(2,1)    = m1[2][1];
-    m2(2,2)    = m1[2][2];
-}
+#include <optitrack_rviz/type_conversion.h>
 
 
 void get_veclocity(arma::colvec3& u,const tf::Vector3& origin, const tf::Vector3& origin_tmp)
@@ -49,7 +37,7 @@ int main(int argc,char** argv){
     input["-action_topic"]     = "";
     input["-urdf"]             = "";
     input["-rate"]             = "100";
-    input["-fixed_frame"]      = "world_frame";
+    input["-fixed_frame"]       = "/world_frame";
     input["-path_sensor_model"] = "";
 
 
@@ -61,7 +49,6 @@ int main(int argc,char** argv){
 
     std::string sensor_topic        = input["-sensor_topic"];
     std::string action_topic        = input["-action_topic"];
-    std::string urdf_path           = input["-urdf"];
     std::string fixed_frame         = input["-fixed_frame"];
     std::string srate               = input["-rate"];
     std::string path_sensor_model   = input["-path_sensor_model"];
@@ -72,16 +59,39 @@ int main(int argc,char** argv){
     ros::NodeHandle nh;
     ros::Rate rate(boost::lexical_cast<float>(srate));
 
-    // initialise world
-
-    /*Peg_world_wrapper peg_world_wrapper(nh,path_sensor_model,fixed_frame);
-    wobj::WrapObject&  w_objects = peg_world_wrapper.get_wrapped_objects();
-    ww::World_wrapper& w_wrapper = peg_world_wrapper.get_world_wrapper();
+    // initialise world (should be the same as in peg_sensor_classifier_node !!!)
 
 
-    plugfilter::PF_parameters   pf_parameters(w_objects);
-                                pf_parameters.likelihood_t = likeli::SIMPLE_CONTACT;
+    Peg_world_wrapper peg_world_wrapper(nh,"peg_filter",path_sensor_model,fixed_frame);
+    wobj::WrapObject& wrapped_objects   = peg_world_wrapper.get_wrapped_objects();
+    wobj::WrapObject& w_objects         = peg_world_wrapper.get_wrapped_objects();
 
+    psm::Sensor_manager sensor_manager(nh,wrapped_objects,peg_world_wrapper.socket_one);
+                        sensor_manager.t_sensor = psm::SIMPLE_CONTACT_DIST;
+
+    // 1) measurment function hY = h(X)
+    // 2) likelihood function N(Y - hY;0,var)
+
+
+
+    arma::colvec variance;
+    variance.resize(3);
+    variance(0) = (0.005);
+    variance(1) = (0.005);
+    variance(2) = (0.0001);
+    variance    = arma::square(variance);
+    likeli::Gaussian_likelihood gaussian_likelihood(variance);
+
+
+    pf::Measurement_h    peg_measurement   =  std::bind(&psm::Sensor_manager::update_particles,&sensor_manager,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+    pf::likelihood_model peg_likelihood    =  std::bind(&likeli::Gaussian_likelihood::gaussian_likelihood,&gaussian_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+
+
+    plugfilter::PF_parameters   pf_parameters(peg_measurement,peg_likelihood);
+                                pf_parameters.Y_dim = 3;
+                                pf_parameters.number_particles = 1500;
+                                pf_parameters.pf_color_type    = pf::C_WEIGHTS;
+                                pf_parameters.sampling_parameters.set_diag(0.005,0.005,0.005);
 
     plugfilter::Plug_pf_manager plug_pf_manager(pf_parameters);
                                 plug_pf_manager.init_visualise(nh);
@@ -92,101 +102,90 @@ int main(int argc,char** argv){
     /// Listeners Velocity
 
     opti_rviz::Listener     peg_tip_position_listener(fixed_frame,action_topic);
-    tf::Vector3             peg_origin;
-    tf::Vector3             peg_origin_tmp;
-    tf::Matrix3x3           peg_orient;
+    tf::Vector3             peg_origin_tf;
+    tf::Vector3             peg_origin_tf_tmp;
+    tf::Matrix3x3           peg_orient_tf;
 
-                            peg_tip_position_listener.update(peg_origin,peg_orient);
-                            peg_origin_tmp = peg_origin;
+
+
+
+                            peg_tip_position_listener.update(peg_origin_tf,peg_orient_tf);
+                            peg_origin_tf_tmp = peg_origin_tf;
 
 
     /// Listener Sensor
 
-    psm::Peg_sensor_listener plug_sensor_model(nh,sensor_topic,2);
+    psm::Peg_sensor_listener plug_sensor_model(nh,sensor_topic);
 
-
-    /// Wold model publisher
-    ww::Publisher world_model_publisher("visualization_marker",&nh,&w_wrapper);
-    world_model_publisher.init(fixed_frame);
-    world_model_publisher.update_position();
 
     /// PDF feature methods
 
-    const arma::mat& points     = plug_pf_manager.particle_filter->particles;
+    const arma::mat&    points  = plug_pf_manager.particle_filter->particles;
     const arma::colvec& weights = plug_pf_manager.particle_filter->weights;
 
-
     Belief_features     belief_features(nh,points,weights);
-
-    //opti_rviz::Listener peg_tip_position_listener("world_frame","peg_link");
-
-    // psm::Contact_distance_model contact_distance_model(plug_world_wrapper.world_wrapper.wrapped_objects);
-
-
-   /* std::cout<< "=== particle filter node === " << std::endl;
-    std::cout<< "   checking sensor " << std::endl;
-    while(node.ok()){
-
-        plug_sensor_model.data
-
-
-        ros::spinOnce();
-        rate.sleep();
-    }*/
-
 
     tf::Matrix3x3 Rot_peg;
     Rot_peg.setRPY(0,0,M_PI);
 
-    arma::mat33     rot;
-    arma::colvec2   Y;
-    arma::colvec3   u;
-    arma::colvec3   peg_pos;
+    arma::colvec3    u;
+    arma::colvec3   peg_origin;
+    arma::mat33     peg_orient;
+    arma::colvec&   Y = plug_sensor_model.Y;
+
+    bool non_zero_orient,no_Y;
+    peg_origin_tf_tmp = peg_origin_tf;
+
 
     while(nh.ok()){
 
      //   const auto start_time = std::chrono::steady_clock::now();
 
-   /*     peg_tip_position_listener.update(peg_origin,peg_orient);
+        peg_world_wrapper.update();
 
-        get_veclocity(u,peg_origin,peg_origin_tmp);
-        tf2mat(peg_orient,rot);*/
+        peg_tip_position_listener.update(peg_origin_tf,peg_orient_tf);
+        get_veclocity(u,peg_origin_tf,peg_origin_tf_tmp);
+        opti_rviz::type_conv::tf2mat(peg_orient_tf,peg_orient);
+        opti_rviz::type_conv::tf2vec(peg_origin_tf,peg_origin);
 
-/*
-        peg_pos(0) = origin_plug.x();
-        peg_pos(1) = origin_plug.y();
-        peg_pos(2) = origin_plug.z();
-       */
 
-       // contact_distance_model.update(Y,peg_pos,rot);
+        non_zero_orient = !arma::any(arma::vectorise(peg_orient));
+        no_Y = Y.is_empty();
 
-       // Y.print("Y");
+        if(non_zero_orient){
+            peg_orient.print("peg_orient is zero");
+        }
 
-        //plug_pf_manager.update(Y,u,rot);
+        if(no_Y){
+            std::cout<< "Y is empty" << std::endl;
+        }
+
+        if(!no_Y && !non_zero_orient){
+           plug_pf_manager.update(Y,u,peg_orient);
+        }
 
         /// belief feature (belief compression) computation
-       // belief_features.update();
+
+         belief_features.update();
 
 
+       /// particle filter visualisation
 
-        /// particle filter visualisation
-
-       // plug_pf_manager.visualise();
-        //publisher.publish();
+         plug_pf_manager.visualise();
+       //  publisher.publish();*/
 
       /*  time_taken =  time_taken + std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start_time).count() / 1000000.0;
-        count++;
-        if(count == number){
-         //   std::cout<< "time_taken: " << time_taken/(double)number << std::endl;
+          count++;
+          if(count == number){
+            std::cout<< "time_taken: " << time_taken/(double)number << std::endl;
             count = 0;
             time_taken = 0;
-        }*/
-
-       //peg_origin_tmp = peg_origin;
-        ros::spinOnce();
-        rate.sleep();
+           }
+        */
+       peg_origin_tf_tmp = peg_origin_tf;
+       ros::spinOnce();
+       rate.sleep();
    }
-
 
     return 0;
 }

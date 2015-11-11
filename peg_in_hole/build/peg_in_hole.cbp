@@ -5,7 +5,7 @@
       <Option title="peg_in_hole" />
       <Option makefile_is_custom="1" />
       <Option compiler="gcc" />
-      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\usr\src\;CMake Files\..\..\..\..\..\..\..\usr\src\gtest\;CMake Files\..\..\..\..\..\..\..\usr\src\gtest\cmake\;CMake Files\..\..\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\platform\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\test\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\tools\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\..\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\templates\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\em\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\urdf\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\urdf\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole_bridge\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole_bridge\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\cpp_common\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\cpp_common\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rostime\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rostime\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_runtime\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_runtime\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_serialization\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_serialization\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_traits\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_traits\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\std_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\std_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\xmlrpcpp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\xmlrpcpp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\geometry_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\geometry_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_filters\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_filters\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\sensor_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\sensor_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_ros\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_ros\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genmsg\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genmsg\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\gencpp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\gencpp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genlisp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genlisp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genpy\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genpy\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_generation\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_generation\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_py\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_py\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rospy\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rospy\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\resource_retriever\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\resource_retriever\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rviz\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rviz\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_geometry\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_geometry\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_transport\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_transport\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\pluginlib\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\pluginlib\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\class_loader\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\class_loader\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roslib\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roslib\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\interactive_markers\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\interactive_markers\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\visualization_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\visualization_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\laser_geometry\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\laser_geometry\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\map_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\map_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\nav_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\nav_msgs\cmake\;CMake Files\..\..\..\devel\;CMake Files\..\..\..\devel\share\;CMake Files\..\..\..\devel\share\world_wrapper\;CMake Files\..\..\..\devel\share\world_wrapper\cmake\;CMake Files\..\..\..\devel\share\wrap_object\;CMake Files\..\..\..\devel\share\wrap_object\cmake\;CMake Files\..\..\..\devel\share\objects\;CMake Files\..\..\..\devel\share\objects\cmake\;CMake Files\..\..\..\devel\share\optitrack_rviz\;CMake Files\..\..\..\devel\share\optitrack_rviz\cmake\;CMake Files\..\..\..\devel\share\peg_filter\;CMake Files\..\..\..\devel\share\peg_filter\cmake\;CMake Files\..\..\..\devel\share\plug_sensor_models\;CMake Files\..\..\..\devel\share\plug_sensor_models\cmake\;CMake Files\..\..\..\devel\share\particle_filter\;CMake Files\..\..\..\devel\share\particle_filter\cmake\;CMake Files\build\;CMake Files\build\catkin\;CMake Files\build\catkin\catkin_generated\;CMake Files\build\catkin\catkin_generated\version\;CMake Files\build\catkin_generated\;CMake Files\build\devel\;CMake Files\build\devel\share\;CMake Files\build\devel\share\peg_in_hole\;CMake Files\build\devel\share\peg_in_hole\cmake\;CMake Files\build\cmake\;" />
+      <Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\usr\src\;CMake Files\..\..\..\..\..\..\..\usr\src\gtest\;CMake Files\..\..\..\..\..\..\..\usr\src\gtest\cmake\;CMake Files\..\..\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\platform\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\test\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\tools\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\..\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\templates\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\catkin\cmake\em\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\urdf\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\urdf\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole_bridge\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole_bridge\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosconsole\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\cpp_common\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\cpp_common\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rostime\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rostime\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_runtime\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_runtime\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_serialization\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_serialization\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_traits\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roscpp_traits\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\std_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\std_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\xmlrpcpp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\xmlrpcpp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\geometry_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\geometry_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_filters\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_filters\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\sensor_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\sensor_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_ros\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_ros\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\actionlib_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genmsg\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genmsg\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\gencpp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\gencpp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genlisp\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genlisp\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genpy\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\genpy\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rosgraph\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_generation\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\message_generation\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_py\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\tf2_py\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rospy\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rospy\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\resource_retriever\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\resource_retriever\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rviz\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\rviz\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_geometry\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_geometry\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_transport\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\image_transport\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\pluginlib\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\pluginlib\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\class_loader\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\class_loader\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roslib\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\roslib\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\interactive_markers\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\interactive_markers\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\visualization_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\visualization_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\laser_geometry\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\laser_geometry\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\map_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\map_msgs\cmake\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\nav_msgs\;CMake Files\..\..\..\..\..\..\..\opt\ros\indigo\share\nav_msgs\cmake\;CMake Files\..\..\..\devel\;CMake Files\..\..\..\devel\share\;CMake Files\..\..\..\devel\share\world_wrapper\;CMake Files\..\..\..\devel\share\world_wrapper\cmake\;CMake Files\..\..\..\devel\share\wrap_object\;CMake Files\..\..\..\devel\share\wrap_object\cmake\;CMake Files\..\..\..\devel\share\objects\;CMake Files\..\..\..\devel\share\objects\cmake\;CMake Files\..\..\..\devel\share\optitrack_rviz\;CMake Files\..\..\..\devel\share\optitrack_rviz\cmake\;CMake Files\..\..\..\devel\share\peg_filter\;CMake Files\..\..\..\devel\share\peg_filter\cmake\;CMake Files\..\..\..\devel\share\peg_sensor\;CMake Files\..\..\..\devel\share\peg_sensor\cmake\;CMake Files\..\..\..\devel\share\statistics_ml\;CMake Files\..\..\..\devel\share\statistics_ml\cmake\;CMake Files\..\..\..\devel\share\particle_filter\;CMake Files\..\..\..\devel\share\particle_filter\cmake\;CMake Files\build\;CMake Files\build\catkin\;CMake Files\build\catkin\catkin_generated\;CMake Files\build\catkin\catkin_generated\version\;CMake Files\build\catkin_generated\;CMake Files\build\devel\;CMake Files\build\devel\share\;CMake Files\build\devel\share\peg_in_hole\;CMake Files\build\devel\share\peg_in_hole\cmake\;CMake Files\build\cmake\;" />
       <Build>
       <Target title="all">
          <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build" />
@@ -377,74 +377,6 @@
             <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
-      <Target title="peg_in_hole_wrapper_node">
-         <Option output="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole/peg_in_hole_wrapper_node" prefix_auto="0" extension_auto="0" />
-         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole" />
-         <Option object_output="./" />
-         <Option type="1" />
-         <Option compiler="gcc" />
-         <Compiler>
-            <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
-            <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/world_wrapper/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/wrap_object/include" />
-            <Add directory="/opt/ros/indigo/include" />
-            <Add directory="/usr/include/OGRE" />
-            <Add directory="/usr/include/eigen3" />
-            <Add directory="/usr/include/opencv" />
-            <Add directory="/usr/local/include" />
-         </Compiler>
-         <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_in_hole_wrapper_node" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
-         </MakeCommands>
-      </Target>
-      <Target title="peg_in_hole_wrapper_node/fast">
-         <Option output="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole/peg_in_hole_wrapper_node" prefix_auto="0" extension_auto="0" />
-         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole" />
-         <Option object_output="./" />
-         <Option type="1" />
-         <Option compiler="gcc" />
-         <Compiler>
-            <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
-            <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/world_wrapper/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/wrap_object/include" />
-            <Add directory="/opt/ros/indigo/include" />
-            <Add directory="/usr/include/OGRE" />
-            <Add directory="/usr/include/eigen3" />
-            <Add directory="/usr/include/opencv" />
-            <Add directory="/usr/local/include" />
-         </Compiler>
-         <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_in_hole_wrapper_node/fast" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
-         </MakeCommands>
-      </Target>
       <Target title="peg_replay">
          <Option output="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/libpeg_replay.so" prefix_auto="0" extension_auto="0" />
          <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build" />
@@ -462,7 +394,8 @@
             <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_sensor/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/statistics_ml/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/world_wrapper/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/wrap_object/include" />
@@ -496,7 +429,8 @@
             <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/include" />
-            <Add directory="/home/guillaume/roscode/catkin_ws/src/plug_sensor_models/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_sensor/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/statistics_ml/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/world_wrapper/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/wrap_object/include" />
@@ -508,6 +442,106 @@
          </Compiler>
          <MakeCommands>
             <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_replay/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="peg_sensor_generate_messages_cpp">
+         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_sensor_generate_messages_cpp" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="peg_sensor_generate_messages_lisp">
+         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_sensor_generate_messages_lisp" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="peg_sensor_generate_messages_py">
+         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_sensor_generate_messages_py" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="peg_vis_feature_node">
+         <Option output="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole/peg_vis_feature_node" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
+            <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
+            <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
+            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_sensor/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/statistics_ml/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/world_wrapper/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/wrap_object/include" />
+            <Add directory="/opt/ros/indigo/include" />
+            <Add directory="/usr/include/OGRE" />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/opencv" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_vis_feature_node" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="peg_vis_feature_node/fast">
+         <Option output="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole/peg_vis_feature_node" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/lib/peg_in_hole" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
+            <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
+            <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
+            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/devel/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/peg_sensor/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/statistics_ml/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/world_wrapper/include" />
+            <Add directory="/home/guillaume/roscode/catkin_ws/src/wrapper/wrap_object/include" />
+            <Add directory="/opt/ros/indigo/include" />
+            <Add directory="/usr/include/OGRE" />
+            <Add directory="/usr/include/eigen3" />
+            <Add directory="/usr/include/opencv" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 peg_vis_feature_node/fast" />
             <CompileFile command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
             <Clean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
             <DistClean command="/usr/bin/make -f &quot;/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/build/Makefile&quot;  VERBOSE=1 clean" />
@@ -870,7 +904,7 @@
       </Unit>
       <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/peg_replay.cpp">
       </Unit>
-      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/vis_features.cpp">
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/vis_features_node.cpp">
       </Unit>
       <Unit filename="/usr/src/gtest/src/gtest-all.cc">
       </Unit>
@@ -1489,11 +1523,20 @@
       <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/peg_filter/cmake/peg_filter-msg-extras.cmake">
           <Option virtualFolder="CMake Files\..\..\..\devel\share\peg_filter\cmake\" />
       </Unit>
-      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/plug_sensor_models/cmake/plug_sensor_modelsConfig-version.cmake">
-          <Option virtualFolder="CMake Files\..\..\..\devel\share\plug_sensor_models\cmake\" />
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/peg_sensor/cmake/peg_sensorConfig-version.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\devel\share\peg_sensor\cmake\" />
       </Unit>
-      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/plug_sensor_models/cmake/plug_sensor_modelsConfig.cmake">
-          <Option virtualFolder="CMake Files\..\..\..\devel\share\plug_sensor_models\cmake\" />
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/peg_sensor/cmake/peg_sensorConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\devel\share\peg_sensor\cmake\" />
+      </Unit>
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/peg_sensor/cmake/peg_sensor-msg-extras.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\devel\share\peg_sensor\cmake\" />
+      </Unit>
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/statistics_ml/cmake/statistics_mlConfig-version.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\devel\share\statistics_ml\cmake\" />
+      </Unit>
+      <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/statistics_ml/cmake/statistics_mlConfig.cmake">
+          <Option virtualFolder="CMake Files\..\..\..\devel\share\statistics_ml\cmake\" />
       </Unit>
       <Unit filename="/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/../../../devel/share/particle_filter/cmake/particle_filterConfig-version.cmake">
           <Option virtualFolder="CMake Files\..\..\..\devel\share\particle_filter\cmake\" />

@@ -9,8 +9,8 @@
 
 #include <peg_filter/pf_manager.h>
 
-#include <plug_sensor_manager/sensor_manager.h>
-#include <plug_sensor_models/distance_features.h>
+#include <peg_sensor_manager/sensor_manager.h>
+#include <peg_sensor/peg_sensor_model/distance_features.h>
 
 #include <optitrack_rviz/type_conversion.h>
 #include <optitrack_rviz/broadcaster.h>
@@ -72,7 +72,7 @@ private:
     tf::Vector3                     plug_link_pos;
     tf::Matrix3x3                   plug_link_rot;
 
-    std::unique_ptr<psm::Plug_contact_model> ptr_plug_contact_model;
+    //std::unique_ptr<psm::Plug_contact_model> ptr_plug_contact_model;
 
 
     opti_rviz::Broadcaster          broadcaster_socket;

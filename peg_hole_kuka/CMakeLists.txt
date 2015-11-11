@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(peg_hole_kuka)
 
 find_package(catkin REQUIRED std_tools tf roscpp mathlib robotlib cds_execution
-tf cmake_modules kuka_action_server kuka_action_client message_generation peg_filter exploration_planner)
+tf cmake_modules kuka_action_server kuka_action_client message_generation peg_filter exploration_planner robot_base_planners)
 
 set(CMAKE_CXX_FLAGS "-O2 -O3 -std=c++11 -mtune=native -fPIC -Wall")
 

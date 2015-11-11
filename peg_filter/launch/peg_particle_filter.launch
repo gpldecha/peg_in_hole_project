@@ -2,7 +2,7 @@
 <launch>
 
 	<!-- arg -->
-	<arg name="sensor_topic"	value="plug_sensor_features"/>
+	<arg name="sensor_topic"	value="/peg_sensor_classifier"/>
 	<arg name="action_topic" 	value="peg_link"/>
 	<arg name="socket_type"		default="one"/>
 	<arg name="path_sensor_model"   value="$(find objects)/meshes/plug/config/X.txt"/>

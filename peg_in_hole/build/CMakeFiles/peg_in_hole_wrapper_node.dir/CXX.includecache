@@ -62,23 +62,7 @@ tf/LinearMath/Vector3.h
 utility
 -
 
-/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include/peg_sensor/plug_sensor.h
-wrapobject.h
-/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_filter/include/peg_sensor/wrapobject.h
-tf/LinearMath/Vector3.h
--
-tf/LinearMath/Matrix3x3.h
--
-tf/transform_listener.h
--
-optitrack_rviz/listener.h
--
-visualise/vis_vector.h
--
-armadillo
--
-
-/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/peg_replay/vis_features.cpp
+/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_in_hole/src/vis_features.cpp
 ros/ros.h
 -
 tf/LinearMath/Vector3.h
@@ -100,8 +84,6 @@ visualise/vis_points.h
 visualise/vis_vector.h
 -
 node/publisher.h
--
-peg_sensor/plug_sensor.h
 -
 
 /home/guillaume/roscode/catkin_ws/src/wrapper/models_project/objects/include/objects/socket_one.h

@@ -1,17 +1,19 @@
 #include <peg_filter/pf_manager.h>
+#include <optitrack_rviz/type_conversion.h>
+#include <optitrack_rviz/listener.h>
 
 
 namespace plugfilter {
 
-PF_parameters::PF_parameters(wobj::WrapObject&  wrapped_objects):
-wrapped_objects(wrapped_objects)
+PF_parameters::PF_parameters(pf::Measurement_h& measurement_h,
+                             pf::likelihood_model& likelihood_f):
+measurement_h(measurement_h),
+likelihood_f(likelihood_f)
 {
-
-    particle_filter_type = SIR;
-    likelihood_t         = likeli::THREE_PIN;
-    number_particles     = 2000;
-    visualisation_mode   = opti_rviz::Vis_point_cloud::DEFAULT;
-    pf_color_type        = pf::C_WEIGHTS;
+    particle_filter_type  = SIR;
+    number_particles      = 1000;
+    visualisation_mode    = opti_rviz::Vis_point_cloud::DEFAULT;
+    pf_color_type         = pf::C_LIKE;
 }
 
 
@@ -28,7 +30,13 @@ Plug_pf_manager::Plug_pf_manager(const PF_parameters& pf_parameters):
 {
 
    particle_filter_type             = pf_parameters.particle_filter_type;
-   likeli::likelihood_type L_type   = pf_parameters.likelihood_t;
+
+   peg_measurement_h                = pf_parameters.measurement_h;
+   peg_likelihood_f                 = pf_parameters.likelihood_f;
+   std::size_t Y_dim                = pf_parameters.Y_dim;
+
+   initialise_motion_model();
+
    std::size_t number_particles     = pf_parameters.number_particles;
    color_t                          = pf_parameters.pf_color_type;
    viz_mode                         = pf_parameters.visualisation_mode;
@@ -36,32 +44,28 @@ Plug_pf_manager::Plug_pf_manager(const PF_parameters& pf_parameters):
 
     sampler.set_covariance(pf_parameters.sampling_parameters.kernel_covariance);
 
-    initialise_motion_model();
-    initalise_likelihood_model(pf_parameters.wrapped_objects,L_type);
-
-
     switch(particle_filter_type){
     case SIR:
     {
         std::cout<< "Sample Importance Resample (particle filter)" << std::endl;
-        particle_filter = ptr_pf_sir(new pf::Particle_filter_sir(likelihood_f,motion_model_f,number_particles,3,sampler) );
-
+        particle_filter = ptr_pf_sir(new pf::Particle_filter_sir(peg_likelihood_f,peg_measurement_h,peg_motion_model_f,number_particles,3,Y_dim,sampler) );
+        std::cout<< " SIR initialised" << std::endl;
         break;
     }
-    case GMM:
+    /*case GMM:
     {
         std::cout<< "Regulariezd GMM (particle filter)" << std::endl;
         mean_shift::MeanShift_Parameters mean_shift_parameters;
         mean_shift_parameters.bandwidth = 1.0/(0.01 * 0.01);
-        particle_filter = ptr_pf_gmm (new pf::Particle_filter_gmm(likelihood_f,motion_model_f,number_particles,3,mean_shift_parameters,20));
+        particle_filter = ptr_pf_gmm (new pf::Particle_filter_gmm(likelihood_f,peg_motion_model_f,number_particles,3,mean_shift_parameters,20));
         break;
     }
     case HIST:
     {
         std::cout<< "Histogram (particle filter)" << std::endl;
-        particle_filter = ptr_pf_grid(new pf::Static_grid_filter(likelihood_f,motion_model_f,0,3));
+        particle_filter = ptr_pf_grid(new pf::Static_grid_filter(likelihood_f,peg_motion_model_f,0,3));
         break;
-    }
+    }*/
     default:
     {
         std::cerr<< "no such particle filter implementation : " << particle_filter_type << std::endl;
@@ -69,7 +73,19 @@ Plug_pf_manager::Plug_pf_manager(const PF_parameters& pf_parameters):
     }
     }
 
-    initialise_prior_pdf();
+    arma::colvec3 init_position;
+    init_position.zeros();
+
+     init_position(0) = -0.9;
+     init_position(1) =  0.0;
+     init_position(2) = 0.345;
+
+     tf::StampedTransform transform;
+     opti_rviz::Listener::get_tf_once("world_frame","peg_link",transform);
+
+     opti_rviz::type_conv::tf2vec(transform.getOrigin(),init_position);
+
+    initialise_prior_pdf(init_position);
     bUpdate             = false;
 
 }
@@ -80,11 +96,11 @@ void Plug_pf_manager::initialise_motion_model(){
     arma::mat33 motion_noise_cov;
     float st_dev = 0.005;
     motion_noise_cov    = motion_noise_cov.eye() * st_dev * st_dev;
-    plug_motion_model   = std::unique_ptr<Plug_motion_model>(new Plug_motion_model(motion_noise_cov) );
-    motion_model_f      = std::bind(&Plug_motion_model::motion_update,*plug_motion_model,std::placeholders::_1,std::placeholders::_2);
+    peg_motion_model    = std::unique_ptr<Plug_motion_model>(new Plug_motion_model(motion_noise_cov) );
+    peg_motion_model_f  = std::bind(&Plug_motion_model::motion_update,*peg_motion_model,std::placeholders::_1,std::placeholders::_2);
 
 }
-
+/*
 void Plug_pf_manager::initalise_likelihood_model(wobj::WrapObject& wrapped_objects,
                                                  likeli::likelihood_type likelihood_t
                                                  ){
@@ -130,8 +146,10 @@ void Plug_pf_manager::initalise_likelihood_model(wobj::WrapObject& wrapped_objec
 
 
 }
+*/
 
-void Plug_pf_manager::update(const arma::colvec& Y, const arma::colvec &u,const arma::mat33& rot){
+void Plug_pf_manager::update(const arma::colvec& Y, const arma::colvec& u,const arma::mat33& rot){
+//        std::cout<< "update " << std::endl;
         particle_filter->set_rotation(rot);
         particle_filter->update(u,Y);
 }
@@ -200,12 +218,16 @@ void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
         arma::vec3 origin = Plug_position;
 
         arma::mat   orientation(3,3);
-        double      length = 0.2;
-        double      width  = 1.2;
+      /*  double      length = 0.05;
+        double      width  = 0.05;
         double      height = 0.05;
+        */
+        double      length = 0.2;
+        double      width  = 1.0;
+        double      height = 0.1;
         arma::colvec3 rec_dim = {{length,width,height}};
 
-        tf2mat(rot,orientation);
+        opti_rviz::type_conv::tf2mat(rot,orientation);
 
         arma::mat& particles   = particle_filter->particles;
 
@@ -213,17 +235,44 @@ void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
             update_center_rectangle(Plug_position,origin,rec_dim);
         }
 
+        origin.print("initial origin");
+        orientation.print("initial orientation");
+        rec_dim.print("uniform dims");
+
         uniform = Uniform(origin,orientation,rec_dim(0),rec_dim(1),rec_dim(2));
+
         arma::vec x;
         for(std::size_t i = 0; i < particle_filter->particles.n_rows;i++){
             x = uniform.sample();
+            //x.print("x(" + boost::lexical_cast<std::string>(i) + ")" );
             particles(i,0) = x(0);
             particles(i,1) = x(1);
             particles(i,2) = x(2);
         }
 
+        //std::cout<< "before create cube" << std::endl;
+        //arma::mat& points,float l, float w, float h, float bin_w,   const arma::colvec3 position, const arma::vec3& rpy
+        arma::vec3 rpy;
+
+     //  pf::Static_grid_filter::create_cube(particles,length,width,height,0.004,origin,rpy);
+
+
+
+        if(particles.has_nan()){
+            std::cout<< "=== bad initialisation of particles, NaN values are present" << std::endl;
+            exit(0);
+        }
+
+
         particle_filter->reinitialise(particles);
         particle_filter->reset_weights();
+
+        std::cout<< "=== particle filter initialised === " << std::endl;
+
+        //particle_filter->particles.print("particles");
+
+
+
   // }
 
 }

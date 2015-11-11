@@ -18,11 +18,7 @@ public:
 
     void init_cart();
 
-    void init_two_joint_stiff();
-
-    void init_two_grav_stiff();
-
-    void init_simple_search();
+    void init_joint();
 
     void init_simple_bel_planner();
 

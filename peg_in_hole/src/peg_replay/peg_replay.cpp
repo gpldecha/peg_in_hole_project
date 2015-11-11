@@ -43,7 +43,7 @@ void Peg_replay::set_traj_dir_path(const std::string path2dir){
 }
 
 void Peg_replay::update(){
-
+/*
     run_trajectories.update_sensor();
 
 
@@ -68,16 +68,16 @@ void Peg_replay::update(){
 
 
     broadcaster_plug_link.update(plug_link_pos,plug_link_rot);
-    broadcaster_socket.update(position_socket,orientation_socket);
+    broadcaster_socket.update(position_socket,orientation_socket);*/
 }
 
 void Peg_replay::use_contact_model(wobj::WrapObject& wrapped_objects){
-    ptr_plug_contact_model = std::unique_ptr<psm::Plug_contact_model>(new psm::Plug_contact_model(wrapped_objects));
+ //   ptr_plug_contact_model = std::unique_ptr<psm::Plug_contact_model>(new psm::Plug_contact_model(wrapped_objects));
 }
 
 
 bool Peg_replay::cmd_callback(peg_in_hole::String_cmd::Request& req,peg_in_hole::String_cmd::Response& res){
-
+/*
      std::vector<std::string> input;
      opti_rviz::Input::segment_string_space(req.cmd,input);
      if(input.size() == 0){
@@ -181,20 +181,20 @@ bool Peg_replay::cmd_callback(peg_in_hole::String_cmd::Request& req,peg_in_hole:
          std::cout << error_msg.c_str() << std::endl;
           status = false;
      }
-    return status;
+    return status;*/
 }
 
 void Peg_replay::initalise_vision(ros::NodeHandle& node){
     if(run_trajectories.ptr_particle_filter_manager != NULL){
-        run_trajectories.ptr_particle_filter_manager->init_visualise(node);
-        run_trajectories.sensor_manager->init_visualise(node);
+        //run_trajectories.ptr_particle_filter_manager->init_visualise(node);
+        //run_trajectories.sensor_manager->init_visualise(node);
     }
 }
 
 void Peg_replay::visualise(){
     if(run_trajectories.ptr_particle_filter_manager != NULL){
-        run_trajectories.ptr_particle_filter_manager->visualise();
-        run_trajectories.sensor_manager->visualise();
+      //  run_trajectories.ptr_particle_filter_manager->visualise();
+      //  run_trajectories.sensor_manager->visualise();
     }
 }
 

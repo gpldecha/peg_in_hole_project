@@ -10,7 +10,8 @@
 	<arg name="load_saved"			default="False"/>
 
 	<arg name="origin"			default="0 0 0"/>
-	<arg name="offset"			default="0 0 0.77"/>
+	<!--arg name="offset"			default="0 0 0.77"/-->
+	<arg name="offset"			default="0 0 0"/>
 	<arg name="orientation"			default="0 0 0.707107 0.707107"/>
 
 

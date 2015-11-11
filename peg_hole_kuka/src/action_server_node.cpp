@@ -3,6 +3,7 @@
 
 #include "kuka_common_action_server/kuka_goto_cart_as.h"
 #include "kuka_common_action_server/kuka_grav_as.h"
+#include "exploration_planner/belief_gmm_planner.h"
 #include "exploration_planner/simple_exploration.h"
 
 int main(int argc, char** argv)
@@ -34,16 +35,29 @@ int main(int argc, char** argv)
 
     asrv::Action_ee_initialiser ee_init;
     ee_init.action_name     = "goto_cart";
+    ee_init.reachingThreshold = 0.001;
     asrv::Kuka_goto_cart_as kuka_goto_cart_as(nh,ee_init);
 
 
-    // Belief space planner
+    // SIMPLE Belief space planner
     asrv::Action_ee_initialiser sbp_ee_init;
     sbp_ee_init.action_name             =   "simple_bel_planner";
     std::string bel_feature_topic_name  =   "/mode_feature";
     std::string frame_id                =   world_frame;
 
     belief::Simple_planner simple_planner(nh,bel_feature_topic_name,frame_id,sbp_ee_init);
+
+
+    // GMM Belief space planner
+    asrv::Action_ee_initialiser gbp_ee_init;
+    gbp_ee_init.action_name             =   "gmm_bel_planner";
+
+    GMM gmm;
+
+    std::string path_parameters = "/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/PolicyModelSaved/PolicyModel_txt/gmm_xhu";
+    belief::Gmm_planner gmm_planner(nh,bel_feature_topic_name,frame_id,path_parameters,gbp_ee_init);
+
+
 
 
     /**  ------------- Initialise Action Server ------------- **/
@@ -55,6 +69,7 @@ int main(int argc, char** argv)
 
     action_server.push_back(&kuka_goto_cart_as,"goto_cart");
     action_server.push_back(&simple_planner,"simple_bel_planner");
+    action_server.push_back(&gmm_planner,"gmm_bel_planner");
 
     ros::spin();
 
