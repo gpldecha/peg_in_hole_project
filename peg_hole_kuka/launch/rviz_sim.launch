@@ -1,0 +1,97 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <!--    ROBOT -->
+  <!--
+  <arg name="default-starting-config"   default="1"/>
+  <arg name="urdf-name"		  	default="kuka_lwr_lasa.urdf.xacro"/>
+  <arg name="urdf-path" 	  	default="$(find kuka_lwr_description)/robots/$(arg urdf-name)"/>
+
+
+  <param name="/use_sim_time" value="false"/>
+
+
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(arg urdf-path)'" />
+
+  <rosparam param="/pr2_controller_manager/joint_state_publish_rate">250.0</rosparam> 
+  
+
+  <group if="$(arg default-starting-config)">
+
+  	<rosparam command="load" file="$(find peg_hole_kuka)/config/lwr_kuka_config.yaml" ns="loopback_controllers"/> 
+  </group>
+   
+  <node name="loopback_controllers" type="loopback_controller_manager" pkg="loopback_controller_manager" output="screen">
+
+       <param name="dt" value="0.004" /> 
+       <param name="damping" value="0.0" /> 
+       <param name="mass" value="0.01" />
+  </node>
+  
+
+  <include file="$(find kuka_lwr_bringup)/launch/controllers/lwr_sim_vel_controllers.launch"/>
+  
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="log" />
+  
+  <include file="$(find kuka_lwr_bringup)/launch/calibration/upload_frames4calibration.launch"/>
+  <include file="$(find kuka_lwr_bringup)/launch/calibration/world_to_camera_tf_broadcaster_good.launch"/>
+
+-->
+
+<!--
+   <include file="$(find state_transformers)/launch/joint_to_cart.launch">
+	 <arg name="robot_name" 	value="KUKA_LASA_PTOOL"/>
+  	 <arg name="ee_link" 	    	value="TOOL"/>
+   </include> 
+
+   <include file="$(find state_transformers)/launch/cart_to_joint.launch">
+  	<arg name="robot_name"    	value="KUKA_LASA_PTOOL"	/>
+  	<arg name="ee_link" 	  	value="TOOL"		/>
+  	<arg name="use_boxy"      	value="true"		/>
+   </include>
+
+-->
+
+	<!-- Load KUKA control settings (from Bremen) -->
+	<include file="$(find kuka_lwr_bringup)/launch/lwr_simulation_viz.launch"/>
+
+	<include file="$(find state_transformers)/launch/joint_to_cart_lasa_pour.launch"/>
+	<include file="$(find state_transformers)/launch/cart_to_joint_lasa_sim_pour.launch"/>
+
+  <!--    ENVIRONMENT -->
+
+
+  <!-- arg -->
+  <arg name="gui" 		default="False" />
+  <arg name="world_frame" 	value="/world_frame"/>
+  <arg name="socket_type" 	default="table_sw_one"/>
+  <arg name="table_urdf" 	value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+
+  <!-- table socket -->
+  <include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
+	  	<arg name="use_rviz" 			value="False"/>
+		<arg name="origin"   			value="-0.7 -0.047544 0.34405"/>
+		<arg name="orientation"			value="0 0 0 1"/>
+		<arg name="load_saved"			value="False"/>	
+		<arg name="use_vision_broadcaster" 	value="False"/>
+		<arg name="use_broadcaster" 		value="True"/> 
+  </include> 
+
+	<!-- peg handle 
+	<include file="$(find peg_handle)/launch/peg_handle.launch">
+	  	<arg name="use_rviz" 			value="False"/>
+		<arg name="origin"   			value="0.3 -0.1 0.15"/>
+		<arg name="orientation"			value="0 0 1 0"/>
+		<arg name="load_saved"			value="False"/>		
+		<arg name="use_vision_broadcaster" 	value="False"/>
+		<arg name="use_broadcaster" 		value="True"/>
+	</include>
+-->
+
+  <node name="lasa_to_iai" pkg="lasa_to_iai_parser" type="lasa_to_iai" required="true" output="screen"/>
+	
+  <!-- rviz -->
+  <!--node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" /-->
+
+
+</launch>

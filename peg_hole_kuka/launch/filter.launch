@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<!-- launch peg sensor -->
+	<include file="$(find peg_sensor)/launch/peg_sensor.launch"/>
+
+	<!-- launch particle filter -->
+	<include file="$(find peg_filter)/launch/peg_particle_filter.launch"/>
+
+</launch>
