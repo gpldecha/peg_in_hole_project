@@ -5,6 +5,7 @@
 #include "kuka_common_action_server/kuka_grav_as.h"
 #include "exploration_planner/belief_gmm_planner.h"
 #include "exploration_planner/simple_exploration.h"
+#include "robot_planners/gmmPlanner.h"
 
 int main(int argc, char** argv)
 {
@@ -52,10 +53,18 @@ int main(int argc, char** argv)
     asrv::Action_ee_initialiser gbp_ee_init;
     gbp_ee_init.action_name             =   "gmm_bel_planner";
 
-    GMM gmm;
+    stats::GMM gmm;
 
     std::string path_parameters = "/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/PolicyModelSaved/PolicyModel_txt/gmm_xhu";
     belief::Gmm_planner gmm_planner(nh,bel_feature_topic_name,frame_id,path_parameters,gbp_ee_init);
+
+    // GMR no uncertainty planner
+    asrv::Action_ee_initialiser gmr_ee_init;
+    gmr_ee_init.action_name   = "gmr_ee";
+    std::vector<std::size_t>  in  = {{0,1,2}};
+    std::vector<std::size_t>  out = {{3,4,5}};
+
+    planners::GMR_EE_Planner gmr_ee_planner(in,out);
 
 
 

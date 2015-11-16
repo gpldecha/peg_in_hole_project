@@ -112,7 +112,7 @@ private:
     pf::motion_model                        peg_motion_model_f;
 
 
-    Uniform                                 uniform;
+    stats::Uniform                          uniform;
     pf_type                                 particle_filter_type;
     opti_rviz::Vis_point_cloud::display_mode viz_mode;
     pf::color_type                          color_t;

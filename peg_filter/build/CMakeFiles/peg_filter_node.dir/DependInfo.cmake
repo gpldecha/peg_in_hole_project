@@ -36,7 +36,6 @@ SET(CMAKE_C_TARGET_INCLUDE_PATH
   "/usr/include/eigen3"
   "/usr/include/OGRE"
   "/usr/include/opencv"
-  "/home/guillaume/CppWorkSpace/kalman_filter/include"
   )
 SET(CMAKE_CXX_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})
 SET(CMAKE_Fortran_TARGET_INCLUDE_PATH ${CMAKE_C_TARGET_INCLUDE_PATH})

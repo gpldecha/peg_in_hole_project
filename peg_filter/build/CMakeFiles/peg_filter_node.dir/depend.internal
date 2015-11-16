@@ -2688,12 +2688,7 @@ CMakeFiles/peg_filter_node.dir/src/peg_filter_node.cpp.o
  /usr/local/include/mlpack/core/util/string_util.hpp
  /usr/local/include/mlpack/core/util/timers.hpp
  /usr/local/include/mlpack/core/util/version.hpp
- /usr/local/include/mlpack/methods/gmm/em_fit.hpp
- /usr/local/include/mlpack/methods/gmm/em_fit_impl.hpp
- /usr/local/include/mlpack/methods/gmm/gmm.hpp
- /usr/local/include/mlpack/methods/gmm/gmm_impl.hpp
  /usr/local/include/mlpack/methods/gmm/phi.hpp
- /usr/local/include/mlpack/methods/gmm/positive_definite_constraint.hpp
  /usr/local/include/mlpack/methods/kmeans/kmeans.hpp
  /usr/local/include/mlpack/methods/kmeans/kmeans_impl.hpp
  /usr/local/include/mlpack/methods/kmeans/max_variance_new_cluster.hpp

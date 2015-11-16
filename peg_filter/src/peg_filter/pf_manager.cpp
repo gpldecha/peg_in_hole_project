@@ -239,7 +239,7 @@ void Plug_pf_manager::initialise_prior_pdf(const arma::colvec3 &Plug_position){
         orientation.print("initial orientation");
         rec_dim.print("uniform dims");
 
-        uniform = Uniform(origin,orientation,rec_dim(0),rec_dim(1),rec_dim(2));
+        uniform = stats::Uniform(origin,orientation,rec_dim(0),rec_dim(1),rec_dim(2));
 
         arma::vec x;
         for(std::size_t i = 0; i < particle_filter->particles.n_rows;i++){

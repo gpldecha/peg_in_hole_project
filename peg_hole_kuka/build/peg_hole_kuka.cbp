@@ -316,7 +316,6 @@
          <Compiler>
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_hole_kuka&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDS/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDSExecution/include" />
@@ -360,7 +359,6 @@
          <Compiler>
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_hole_kuka&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDS/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDSExecution/include" />
@@ -504,7 +502,6 @@
          <Compiler>
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_hole_kuka&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDS/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDSExecution/include" />
@@ -548,7 +545,6 @@
          <Compiler>
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_hole_kuka&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDS/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDSExecution/include" />
@@ -592,7 +588,6 @@
          <Compiler>
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_hole_kuka&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDS/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDSExecution/include" />
@@ -636,7 +631,6 @@
          <Compiler>
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_hole_kuka&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDS/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/kuka/coupled-dynamical-systems/CDSExecution/include" />
