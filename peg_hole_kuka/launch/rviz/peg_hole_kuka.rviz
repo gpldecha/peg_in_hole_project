@@ -64,6 +64,10 @@ Visualization Manager:
           Show Axes: false
           Show Trail: false
           Value: true
+        dummy_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         leg1_link:
           Alpha: 1
           Show Axes: false
@@ -85,6 +89,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         leg5_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        peg_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -281,7 +290,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.89729
+      Distance: 0.682331
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
@@ -293,10 +302,10 @@ Visualization Manager:
         Z: 0.821883
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.459799
+      Pitch: 0.409799
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.95037
+      Yaw: 5.04038
     Saved: ~
 Window Geometry:
   Displays:
