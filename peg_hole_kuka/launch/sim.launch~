@@ -16,6 +16,34 @@
   </include>
 
 
+  <!-- NAME OF YOUR ROBOT (/Robots/KUKA_LASA_ROLLER)-->
+  <arg name="robot_name"                      value="KUKA_LASA_PEG"   />
+  <!-- NAME OF YOUR TOOL (/Robots/KUKA_LASA_ROLLER)-->
+  <arg name="ee_link"                         value="TOOL"      />  
+  <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
+  <arg name="simulation_mode"                 value="true"    />    
+  <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
+  <arg name="use_boxy"                        value="true"/>    
+  <!-- NAME OF Output topic -->
+  <arg name="output_joints_topic"             value="/r_arm_vel/command"   />   
+
+   <!-- START JOINT STATE TO CARTESIAN TRANSFORMER-->
+   <!--  Robot cartesian state estimator. Estimates end effector pose and force/torques from the joint angles/torques-->
+   <include file="$(find state_transformers)/launch/joint_to_cart.launch">
+   	<arg name="robot_name"                value="$(arg robot_name)"   />
+        <arg name="ee_link"                   value="$(arg ee_link)"      />  
+        <arg name="simulation_mode"           value="$(arg simulation_mode)"    />  
+   </include>
+
+   <!-- START CARTESIAN COMMAND TO JOINT STATE TRANSFORMER-->
+   <!-- Controller for converting cartesian commands (pose/forces/torques) to joint velocities.-->
+   <include file="$(find state_transformers)/launch/cart_cmd_to_joint_vel.launch">
+   	<arg name="robot_name"                value="$(arg robot_name)"   />
+        <arg name="ee_link"                   value="$(arg ee_link)"      /> 
+        <arg name="use_boxy"                  value="$(arg use_boxy)"/>  
+        <arg name="output_joints_topic"       value="$(arg output_joints_topic)"   />         
+   </include>      
+
 
 
 
