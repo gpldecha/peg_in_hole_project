@@ -3593,12 +3593,7 @@ CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/ml
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/core/util/string_util.hpp
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/core/util/timers.hpp
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/core/util/version.hpp
-CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/gmm/em_fit.hpp
-CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/gmm/em_fit_impl.hpp
-CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/gmm/gmm.hpp
-CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/gmm/gmm_impl.hpp
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/gmm/phi.hpp
-CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/gmm/positive_definite_constraint.hpp
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/kmeans/kmeans.hpp
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/kmeans/kmeans_impl.hpp
 CMakeFiles/peg_replay.dir/src/peg_replay/peg_replay.cpp.o: /usr/local/include/mlpack/methods/kmeans/max_variance_new_cluster.hpp

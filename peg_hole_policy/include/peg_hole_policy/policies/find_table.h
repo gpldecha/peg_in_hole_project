@@ -1,0 +1,38 @@
+#ifndef PEG_FIND_TABLE_H_
+#define PEG_FIND_TABLE_H_
+
+#include <armadillo>
+#include "peg_hole_policy/policies/base_find.h"
+
+
+/**
+ * @brief The Find_table class
+ *
+ *  Simply takes the shortest distance to the surface of a table.
+ *
+ *
+ **/
+
+namespace ph_policy{
+
+class Find_table : public Base_find {
+
+public:
+
+    Find_table(ros::NodeHandle& nh,const std::string& path_sensor_model,const std::string& fixed_frame);
+
+    void get_linear_velocity(tf::Vector3& velocity,const tf::Vector3& peg_origin);
+
+private:
+
+    wobj::WBox*             ptr_table_wbox;
+
+};
+
+
+
+
+}
+
+
+#endif

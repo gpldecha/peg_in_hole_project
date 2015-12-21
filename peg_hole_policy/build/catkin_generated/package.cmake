@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "peg_hole_policy")
+set(peg_hole_policy_MAINTAINER "guillaume <guillaume@todo.todo>")
+set(peg_hole_policy_DEPRECATED "")
+set(peg_hole_policy_VERSION "0.0.0")
+set(peg_hole_policy_BUILD_DEPENDS "robot_base_planner" "roscpp" "kuka_action_server" "peg_sensor" "message_generation")
+set(peg_hole_policy_RUN_DEPENDS "robot_base_planner" "roscpp" "kuka_action_server" "peg_sensor" "message_generation")
+set(peg_hole_policy_BUILDTOOL_DEPENDS "catkin")

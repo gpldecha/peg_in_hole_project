@@ -5,12 +5,12 @@
 	<arg name="table_name"			default="table"/>
 	<arg name="use_vision_broadcaster" 	default="True"/>
 	<arg name="use_broadcaster"		default="False"/>
+	<arg name="world_frame" 		default="world"/>
 
 	<arg name="save_path"			default="/home/guillaume/roscode/catkin_ws/src/socket_table_broadcaster/save"/>
 	<arg name="load_saved"			default="False"/>
 
 	<arg name="origin"			default="0 0 0"/>
-	<!--arg name="offset"			default="0 0 0.77"/-->
 	<arg name="offset"			default="0 0 0"/>
 	<arg name="orientation"			default="0 0 0.707107 0.707107"/>
 
@@ -19,15 +19,15 @@
 		<param name="robot_description" command="$(find xacro)/xacro.py '$(find peg_in_hole)/urdf/One/table_sw_one.xacro'" />
 		
 		<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
-		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
 		<group if="$(arg use_vision_broadcaster)">
 			<node name="socket_table_broadcaster" type="socket_table_broadcaster" pkg="socket_table_broadcaster" 
 			      args="-fixed_frame world_frame -target_frame_listener plug_link -target_frame_broadcaster link_socket -origin $(arg origin) -orientation $(arg orientation) -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"/>
 		</group>
 		<group if="$(arg use_broadcaster)">
-			<node pkg="tf" type="static_transform_publisher" name="table_broadcaster" args="$(arg origin) $(arg orientation) world_frame link_socket 100" />
-		</group>
+			<node pkg="tf" type="static_transform_publisher" name="table_broadcaster" args="$(arg origin) $(arg orientation) $(arg world_frame) link_socket 10"/>
+	</group>
 
 	</group>
 

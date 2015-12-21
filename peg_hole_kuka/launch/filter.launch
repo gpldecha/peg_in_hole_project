@@ -5,6 +5,6 @@
 	<include file="$(find peg_sensor)/launch/peg_sensor.launch"/>
 
 	<!-- launch particle filter -->
-	<include file="$(find peg_filter)/launch/peg_particle_filter.launch"/>
+	<!--include file="$(find peg_filter)/launch/peg_particle_filter.launch"/-->
 
 </launch>

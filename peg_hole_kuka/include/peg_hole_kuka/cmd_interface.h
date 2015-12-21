@@ -5,6 +5,7 @@
 #include "peg_hole_kuka/String_cmd.h"
 #include "std_msgs/String.h"
 #include <exploration_planner/String_cmd.h>
+#include <peg_hole_policy/String_cmd.h>
 
 #include "kuka_action_client/String_cmd.h"
 #include "particle_filter/String_cmd.h"
@@ -29,9 +30,18 @@ public:
         PF,
         FT,
         PLANNER,
-        UTILITY
+        UTILITY,
+        PEG_POLICY
     } cmd_type;
 
+    class cmd_info{
+        public:
+        cmd_info(){}
+        cmd_info(const::std::string& cmd_name,const cmd_type c_type):
+        cmd_name(cmd_name),c_type(c_type){}
+        std::string cmd_name;
+        cmd_type  c_type;
+    };
 
 public:
 
@@ -39,13 +49,19 @@ public:
                   const std::string& service_name,
                   const std::string& action_client_name,
                   const std::string& pf_client_name,
-                  const std::string& exploration_client_name);
+                  const std::string& exploration_client_name,
+                  const std::string& peg_policy_client_name,
+                  const std::string& voice_topic_name);
 
     bool service_callback(peg_hole_kuka::String_cmd::Request& req,peg_hole_kuka::String_cmd::Response &res);
 
 private:
 
+    void nl_command_callback(const std_msgs::String::ConstPtr& msg);
+
     void init_commands();
+
+    bool call_peg_policy(const std::string& cmd);
 
     bool call_action(const std::string& cmd);
 
@@ -68,8 +84,17 @@ private:
     ros::ServiceClient                       exploration_client;
     exploration_planner::String_cmd          exploration_cmd;
 
-    std::map<std::string,cmd_type>           cmds;
-    std::map<std::string,cmd_type>::iterator it;
+    ros::ServiceClient                       peg_policy_client;
+    peg_hole_policy::String_cmd              peg_hole_policy;
+
+
+    ros::Subscriber                          nl_subscriber; /// natural language voice interface
+
+    std::map<std::string,cmd_info>           cmds;
+    std::map<std::string,cmd_info>::iterator it;
+
+    peg_hole_kuka::String_cmd::Request       request;
+    peg_hole_kuka::String_cmd::Response      response;
 
 };
 

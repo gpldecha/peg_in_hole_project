@@ -24,7 +24,7 @@ bool Plug_service::callback(particle_filter::String_cmd::Request& req,particle_f
        {
            // QUICK HACK FOR peg demo
            tf::StampedTransform transform;
-           opti_rviz::Listener::get_tf_once("world_frame","peg_link",transform,10);
+           opti_rviz::Listener::get_tf_once("world_frame","peg_link",transform);
            arma::colvec3 peg_position = {{transform.getOrigin().x(),
                                           transform.getOrigin().y(),
                                           transform.getOrigin().z()}};

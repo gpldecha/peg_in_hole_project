@@ -387,7 +387,6 @@
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
             <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
@@ -422,7 +421,6 @@
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
             <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
@@ -487,7 +485,6 @@
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
             <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />
@@ -522,7 +519,6 @@
             <Add option="-DROS_PACKAGE_NAME=&quot;peg_in_hole&quot;" />
             <Add option="-DROSCONSOLE_BACKEND_LOG4CXX" />
             <Add directory="/home/guillaume/CppWorkSpace/Statistics/include" />
-            <Add directory="/home/guillaume/CppWorkSpace/kalman_filter/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/devel/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/optitrack_rviz/include" />
             <Add directory="/home/guillaume/roscode/catkin_ws/src/particle_filter/include" />

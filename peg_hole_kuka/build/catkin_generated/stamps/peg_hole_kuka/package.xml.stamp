@@ -68,8 +68,8 @@
   <build_depend> robot_base_planners </build_depend>
   <run_depend>   robot_base_planners </run_depend>
 
-
-
+  <build_depend> peg_hole_policy </build_depend>
+  <run_depend>   peg_hole_policy </run_depend>
 
 
   <run_depend>sensor_msgs</run_depend>

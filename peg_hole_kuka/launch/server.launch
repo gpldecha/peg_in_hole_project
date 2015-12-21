@@ -2,15 +2,15 @@
 <launch>
 
 	<arg name="action_server_name"  default="kuka_server" />
+	<arg name="path_sensor_model"   value="$(find objects)/meshes/plug/config/X.txt"/>
 
 	<node name="kuka_server_node" pkg="peg_hole_kuka" type="peg_kuka_server_node" required="true" output="screen">
-		<param name="action_server_name" value="$(arg action_server_name)"/>
-  		<param name="action_mode" value="lasa_fixed"/>
-  		<param name="simulation" value="false" />
-  		<param name="world_frame" value="/world_frame" />
-  		<param name="model_dt" value="0.01" />
-  		<param name="reachingThreshold" value="0.01" />
-  		<param name="orientationThreshold" value="0.02" />
-		<param name="model_base_path" value="/home/guillaume/roscode/catkin_ws/src/robohow_kuka/epfl-task-models/PouringModels" />
+		<param name="action_server_name" 		value="$(arg action_server_name)"/>
+  		<param name="simulation" 			value="false" />
+  		<param name="world_frame" 			value="/world" />
+  		<param name="model_dt" 				value="0.01" />
+  		<param name="reachingThreshold" 		value="0.01" />
+  		<param name="orientationThreshold" 		value="0.02" />
+		<param name="path_sensor_model" 		value="$(arg path_sensor_model)"/>
 	</node>
 </launch>

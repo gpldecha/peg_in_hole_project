@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(peg_hole_kuka)
 
-find_package(catkin REQUIRED std_tools tf roscpp mathlib robotlib cds_execution
-tf cmake_modules kuka_action_server kuka_action_client message_generation peg_filter exploration_planner robot_base_planners)
+find_package(catkin REQUIRED tf roscpp tf cmake_modules kuka_action_server kuka_action_client message_generation peg_filter exploration_planner robot_base_planners peg_hole_policy)
 
-set(CMAKE_CXX_FLAGS "-O2 -O3 -std=c++11 -mtune=native -fPIC -Wall")
+set(CMAKE_CXX_FLAGS "-O2 -O3 -std=c++11 -mtune=native -fPIC -Wall -Wno-deprecated-declarations")
 
 
 add_service_files(
@@ -25,7 +24,7 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-   CATKIN_DEPENDS std_tools tf
+   CATKIN_DEPENDS tf
 )
 
 
@@ -36,15 +35,15 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${INCLUDE_DIR} ${catkin_INCLU
 
 # --- Create Action Server Node Pour action
 
-add_executable(peg_kuka_server_node  ${SRC_DIR}/action_server_node.cpp)
+add_executable(peg_kuka_server_node  ${SRC_DIR}/server_node.cpp)
 target_link_libraries(peg_kuka_server_node ${catkin_LIBRARIES})
 
 # --- Create Action Client Node Pour action
 
-add_executable(peg_kuka_client_node  ${INCLUDE_DIR}/peg_hole_kuka/action_client.h
+add_executable(peg_kuka_client_node  ${INCLUDE_DIR}/peg_hole_kuka/client.h
                                      ${SRC_DIR}/cmd_interface.cpp
-                                     ${SRC_DIR}/action_client.cpp
-                                     ${SRC_DIR}/action_client_node.cpp)
+                                     ${SRC_DIR}/client.cpp
+                                     ${SRC_DIR}/client_node.cpp)
 
 target_link_libraries(peg_kuka_client_node ${catkin_LIBRARIES})
 

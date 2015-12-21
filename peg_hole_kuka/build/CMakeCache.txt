@@ -331,7 +331,7 @@ kuka_action_server_DIR:PATH=/home/guillaume/roscode/catkin_ws/devel/share/kuka_a
 laser_geometry_DIR:PATH=/opt/ros/indigo/share/laser_geometry/cmake
 
 //Path to a library.
-lib:FILEPATH=/usr/local/lib/libmlpack.so
+lib:FILEPATH=/home/guillaume/roscode/catkin_ws/devel/lib/libpeg_hole_policy.so
 
 //The directory containing a CMake configuration file for map_msgs.
 map_msgs_DIR:PATH=/opt/ros/indigo/share/map_msgs/cmake
@@ -365,6 +365,12 @@ peg_hole_kuka_BINARY_DIR:STATIC=/home/guillaume/roscode/catkin_ws/src/peg_in_hol
 
 //Value Computed by CMake
 peg_hole_kuka_SOURCE_DIR:STATIC=/home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_hole_kuka
+
+//The directory containing a CMake configuration file for peg_hole_policies.
+peg_hole_policies_DIR:PATH=peg_hole_policies_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for peg_hole_policy.
+peg_hole_policy_DIR:PATH=/home/guillaume/roscode/catkin_ws/devel/share/peg_hole_policy/cmake
 
 //The directory containing a CMake configuration file for peg_sensor.
 peg_sensor_DIR:PATH=/home/guillaume/roscode/catkin_ws/devel/share/peg_sensor/cmake

@@ -16,12 +16,17 @@ int main(int argc,char** argv)
     std::string action_client_name      = "/control_cmd_interface/kuka_action_cmd";
     std::string pf_client_name          = "/pf_service";
     std::string exploration_client_name = "/bel_simple_planner_cmd";
+    std::string peg_policy_client_name  = "/cmd_peg_policy";
+    std::string voice_topic_name        = "/allegroHand/lib_cmd";
+
 
     Cmd_interface cmd_interface(nh,
                                 service_name,
                                 action_client_name,
                                 pf_client_name,
-                                exploration_client_name);
+                                exploration_client_name,
+                                peg_policy_client_name,
+                                voice_topic_name);
 
 
 

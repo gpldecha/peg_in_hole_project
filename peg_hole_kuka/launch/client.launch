@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <launch>
 
-	<arg name="speech_topic"		default="/kuka_control/lib_cmd" />
+	<!--arg name="speech_topic"		default="/allegroHand/lib_cmd" /-->
+	<arg name="speech_topic"		default="NONE" />
 	<arg name="action_service_name"		default="kuka_action_cmd" />
 	<arg name="cmd_service_name"		default="kuka_interface_cmd" />
-
 	<arg name="action_server_name" 	 	default="kuka_server" />
 
 	<node name="kuka_client_node" pkg="peg_hole_kuka" type="peg_kuka_client_node" required="true" output="screen">
@@ -16,7 +16,6 @@
 	
 
 	<!-- launch overlord command interface -->
-
        <include file="$(find peg_hole_kuka)/launch/peg_kuka_cmd.launch"/>
 
 

@@ -66,8 +66,8 @@ int main(int argc,char** argv){
     wobj::WrapObject& wrapped_objects   = peg_world_wrapper.get_wrapped_objects();
     wobj::WrapObject& w_objects         = peg_world_wrapper.get_wrapped_objects();
 
-    psm::Sensor_manager sensor_manager(nh,wrapped_objects,peg_world_wrapper.socket_one);
-                        sensor_manager.t_sensor = psm::SIMPLE_CONTACT_DIST;
+    psm::Sensor_manager sensor_manager(nh,wrapped_objects,peg_world_wrapper.socket_one,path_sensor_model);
+                        sensor_manager.t_sensor = psm::MODEL;
 
     // 1) measurment function hY = h(X)
     // 2) likelihood function N(Y - hY;0,var)

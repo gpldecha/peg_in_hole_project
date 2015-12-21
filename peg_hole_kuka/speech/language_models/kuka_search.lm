@@ -1,0 +1,76 @@
+Language model created by QuickLM on Thu Nov 19 15:49:24 EST 2015
+Copyright (c) 1996-2010 Carnegie Mellon University and Alexander I. Rudnicky
+
+The model is in standard ARPA format, designed by Doug Paul while he was at MITRE.
+
+The code that was used to produce this language model is available in Open Source.
+Please visit http://www.speech.cs.cmu.edu/tools/ for more information
+
+The (fixed) discount mass is 0.5. The backoffs are computed using the ratio method.
+This model based on a corpus of 12 sentences and 15 words
+
+\data\
+ngram 1=15
+ngram 2=25
+ngram 3=13
+
+\1-grams:
+-0.7901 </s> -0.3010
+-0.7901 <s> -0.2242
+-1.8692 DISCONNECT -0.2242
+-1.8692 FRONT -0.2242
+-1.8692 GRAVITY -0.2242
+-1.8692 IMP -0.2242
+-1.8692 INSERT -0.2242
+-1.8692 JOINT -0.2951
+-1.8692 LEFT -0.2242
+-1.8692 PAUSE -0.2242
+-1.8692 PRINT -0.2242
+-1.8692 SEARCH -0.2242
+-1.8692 SOCKET -0.2242
+-1.8692 STOP -0.2242
+-1.8692 TABLE -0.2242
+
+\2-grams:
+-1.3802 <s> DISCONNECT 0.0000
+-1.3802 <s> FRONT 0.0000
+-1.3802 <s> GRAVITY 0.0000
+-1.3802 <s> INSERT 0.0000
+-1.3802 <s> JOINT 0.0000
+-1.3802 <s> LEFT 0.0000
+-1.3802 <s> PAUSE 0.0000
+-1.3802 <s> PRINT 0.0000
+-1.3802 <s> SEARCH 0.0000
+-1.3802 <s> SOCKET 0.0000
+-1.3802 <s> STOP 0.0000
+-1.3802 <s> TABLE 0.0000
+-0.3010 DISCONNECT </s> -0.3010
+-0.3010 FRONT </s> -0.3010
+-0.3010 GRAVITY </s> -0.3010
+-0.3010 IMP </s> -0.3010
+-0.3010 INSERT </s> -0.3010
+-0.3010 JOINT IMP 0.0000
+-0.3010 LEFT </s> -0.3010
+-0.3010 PAUSE </s> -0.3010
+-0.3010 PRINT </s> -0.3010
+-0.3010 SEARCH </s> -0.3010
+-0.3010 SOCKET </s> -0.3010
+-0.3010 STOP </s> -0.3010
+-0.3010 TABLE </s> -0.3010
+
+\3-grams:
+-0.3010 <s> DISCONNECT </s>
+-0.3010 <s> FRONT </s>
+-0.3010 <s> GRAVITY </s>
+-0.3010 <s> INSERT </s>
+-0.3010 <s> JOINT IMP
+-0.3010 <s> LEFT </s>
+-0.3010 <s> PAUSE </s>
+-0.3010 <s> PRINT </s>
+-0.3010 <s> SEARCH </s>
+-0.3010 <s> SOCKET </s>
+-0.3010 <s> STOP </s>
+-0.3010 <s> TABLE </s>
+-0.3010 JOINT IMP </s>
+
+\end\

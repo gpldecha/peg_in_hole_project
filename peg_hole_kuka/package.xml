@@ -44,14 +44,10 @@
 
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
-  <build_depend>mathlib</build_depend>
-  <build_depend>robotlib</build_depend>
-  <build_depend>std_tools</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>iai_control_msgs</build_depend>
   <build_depend>lasa_action_planners</build_depend>
-  <build_depend>cds_execution</build_depend>
   <build_depend>robohow_common_msgs</build_depend>
 
   <build_depend> kuka_action_server </build_depend>
@@ -68,20 +64,16 @@
   <build_depend> robot_base_planners </build_depend>
   <run_depend>   robot_base_planners </run_depend>
 
-
-
+  <build_depend> peg_hole_policy </build_depend>
+  <run_depend>   peg_hole_policy </run_depend>
 
 
   <run_depend>sensor_msgs</run_depend>
   <run_depend>roscpp</run_depend>
-  <run_depend>mathlib</run_depend>
-  <run_depend>robotlib</run_depend>
-  <run_depend>std_tools</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>tf</run_depend>
   <run_depend>iai_control_msgs</run_depend>
   <run_depend>lasa_action_planners</run_depend>
-  <run_depend>cds_execution</run_depend>
   <run_depend>robohow_common_msgs</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->

@@ -28,7 +28,7 @@ public:
     Sensor_parameters(wobj::WrapObject& wrapped_objects):
         wrapped_objects(wrapped_objects)
     {
-        t_sensor        = psm::NONE;
+    //    t_sensor        = psm;
         b_print_sensor  = false;
     }
 

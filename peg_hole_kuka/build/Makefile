@@ -621,6 +621,45 @@ peg_hole_kuka_genpy/fast:
 .PHONY : peg_hole_kuka_genpy/fast
 
 #=============================================================================
+# Target rules for targets named peg_hole_policy_generate_messages_cpp
+
+# Build rule for target.
+peg_hole_policy_generate_messages_cpp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_policy_generate_messages_cpp
+.PHONY : peg_hole_policy_generate_messages_cpp
+
+# fast build rule for target.
+peg_hole_policy_generate_messages_cpp/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_policy_generate_messages_cpp.dir/build.make CMakeFiles/peg_hole_policy_generate_messages_cpp.dir/build
+.PHONY : peg_hole_policy_generate_messages_cpp/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_policy_generate_messages_lisp
+
+# Build rule for target.
+peg_hole_policy_generate_messages_lisp: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_policy_generate_messages_lisp
+.PHONY : peg_hole_policy_generate_messages_lisp
+
+# fast build rule for target.
+peg_hole_policy_generate_messages_lisp/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_policy_generate_messages_lisp.dir/build.make CMakeFiles/peg_hole_policy_generate_messages_lisp.dir/build
+.PHONY : peg_hole_policy_generate_messages_lisp/fast
+
+#=============================================================================
+# Target rules for targets named peg_hole_policy_generate_messages_py
+
+# Build rule for target.
+peg_hole_policy_generate_messages_py: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 peg_hole_policy_generate_messages_py
+.PHONY : peg_hole_policy_generate_messages_py
+
+# fast build rule for target.
+peg_hole_policy_generate_messages_py/fast:
+	$(MAKE) -f CMakeFiles/peg_hole_policy_generate_messages_py.dir/build.make CMakeFiles/peg_hole_policy_generate_messages_py.dir/build
+.PHONY : peg_hole_policy_generate_messages_py/fast
+
+#=============================================================================
 # Target rules for targets named peg_kuka_client_node
 
 # Build rule for target.
@@ -1219,6 +1258,9 @@ help:
 	@echo "... peg_hole_kuka_generate_messages_py"
 	@echo "... peg_hole_kuka_genlisp"
 	@echo "... peg_hole_kuka_genpy"
+	@echo "... peg_hole_policy_generate_messages_cpp"
+	@echo "... peg_hole_policy_generate_messages_lisp"
+	@echo "... peg_hole_policy_generate_messages_py"
 	@echo "... peg_kuka_client_node"
 	@echo "... peg_kuka_server_node"
 	@echo "... peg_sensor_generate_messages_cpp"
