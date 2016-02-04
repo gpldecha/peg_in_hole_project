@@ -9,31 +9,39 @@
     <!-- If 1, start microphone -->
     <arg name="microphone" default="1"/>
 
+    <arg name="speak" default="1"/>
+
     <!-- Microphone (audio capture) -->
     <node name="microphone_capture" pkg="audio_capture" type="audio_capture"
           if="$(arg microphone)">
         <param name="bitrate" value="128"/>
     </node>
 
+    <!-- Speaking (sound_play) -->
+    <node name="speaking"
+          pkg="sound_play"
+          type="soundplay_node.py"
+          if="$(arg speak)">
+    </node>
+
     <!-- subscribe to /audio ROS messages -->
-    <node name="recognizer" pkg="pocketsphinx" type="recognizer.py"
-          output="log"
-          if="$(arg start_stt)">
-        <param name="lm"
-               value="$(find peg_hole_kuka)/speech/language_models/kuka_search.lm"/>
-        <param name="dict"
-               value="$(find peg_hole_kuka)/speech/language_models/kuka_search.dic"/>
-        <param name="audio_msg_topic" value="/audio"/>
-        <remap from="~output" to="nl_command_parsed"/>
+    <node name="recognizer" pkg="pocketsphinx" type="recognizer.py" output="log" if="$(arg start_stt)">
+        <param name="lm" 		value="$(find peg_hole_kuka)/speech/language_models/kuka_search.lm"/>
+        <param name="dict" 		value="$(find peg_hole_kuka)/speech/language_models/kuka_search.dic"/>
+        <param name="audio_msg_topic" 	value="/audio"/>
+        <remap from="~output" 		to="nl_command_parsed"/>
     </node>
 
     <!-- load parameters that specify the available commands -->
-    <rosparam
-            file="$(find peg_hole_kuka)/speech/config/kuka_search.yaml" command="load"/>
-    <!-- This node maps from NL -> control tokens. -->
-    <node name="kuka_control"    pkg="robot_voice_control"    type="message_control.py"  output="screen">
-    </node> 
+    <rosparam file="$(find peg_hole_kuka)/speech/config/kuka_search.yaml" command="load"/>
 
-    <!-- TODO: Make an allegro_hand_remapper.-->
+    <!-- This node maps from NL -> control tokens. -->
+    <node name="kuka_voice_control"
+          pkg="robot_voice_control"
+          type="message_control.py"
+          output="screen" >
+      <param name="speak" value="$(arg speak)" />
+    </node>
+
 
 </launch>

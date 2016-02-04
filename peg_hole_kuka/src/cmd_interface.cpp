@@ -15,6 +15,7 @@ Cmd_interface::Cmd_interface(ros::NodeHandle &nh,
     particle_filter_client  = nh.serviceClient<particle_filter::String_cmd>(pf_client_name);
     exploration_client      = nh.serviceClient<exploration_planner::String_cmd>(exploration_client_name);
     peg_policy_client       = nh.serviceClient<peg_hole_policy::String_cmd>(peg_policy_client_name);
+    netft_client            = nh.serviceClient<netft_rdt_driver::String_cmd>("/ft_sensor/bias_cmd");
 
     nl_subscriber           = nh.subscribe(voice_topic_name,1,&Cmd_interface::nl_command_callback,this);
 
@@ -24,38 +25,24 @@ Cmd_interface::Cmd_interface(ros::NodeHandle &nh,
 
 void Cmd_interface::init_commands(){
 
-    cmds["joint_imp"]           = cmd_info("joint_imp",cmd_type::ACTION);
-    cmds["safe_grav_comp"]      = cmd_info("safe_grav_comp",cmd_type::ACTION);
-    cmds["disconnect"]          = cmd_info("disconnect",cmd_type::ACTION);
-
-    cmds["disconnect_1"]          = cmd_info("disconnect_1",cmd_type::ACTION);
-    cmds["disconnect_2"]          = cmd_info("disconnect_2",cmd_type::ACTION);
-
-
-
-
-    cmds["go_connect_pos"]      = cmd_info("go_connect_pos",cmd_type::ACTION);
-    cmds["go_connect_vel"]      = cmd_info("go_connect_vel",cmd_type::ACTION);
-
-    cmds["go_left"]             = cmd_info("go_left",cmd_type::ACTION);
-    cmds["go_front"]            = cmd_info("go_front",cmd_type::ACTION);
-
-    cmds["stop"]                = cmd_info("stop",cmd_type::ACTION);
-
-    cmds["home"]                = cmd_info("home",cmd_type::ACTION);
-
-
-
-    cmds["joint_imp_s"]         = cmd_info("joint_imp_s",cmd_type::ACTION);
     cmds["plug_search"]         = cmd_info("plug_search",cmd_type::ACTION);
 
-    cmds["go_table"]            = cmd_info("go_table",cmd_type::PEG_POLICY);
-    cmds["go_socket"]           = cmd_info("go_socket",cmd_type::PEG_POLICY);
-    cmds["insert"]              = cmd_info("insert",cmd_type::PEG_POLICY);
-    cmds["pause"]               = cmd_info("pause",cmd_type::PEG_POLICY);
+    cmds["stop"]                = cmd_info("grav_comp", cmd_type::PEG_POLICY);
+    cmds["go_table"]            = cmd_info("go_table",  cmd_type::PEG_POLICY);
+    cmds["go_socket"]           = cmd_info("go_socket", cmd_type::PEG_POLICY);
+    cmds["insert"]              = cmd_info("insert",    cmd_type::PEG_POLICY);
+    cmds["pause"]               = cmd_info("pause",     cmd_type::PEG_POLICY);
+    cmds["grav_comp"]           = cmd_info("grav_comp", cmd_type::PEG_POLICY);
+    cmds["go_front"]            = cmd_info("go_front",  cmd_type::PEG_POLICY);
+    cmds["go_left"]             = cmd_info("go_left",   cmd_type::PEG_POLICY);
+    cmds["home"]                = cmd_info("home",      cmd_type::PEG_POLICY);
 
-    cmds["pf reset"]            = cmd_info("pf reset",cmd_type::PF);
-    cmds["pf start"]            = cmd_info("pf start",cmd_type::PF);
+    cmds["bias"]                = cmd_info("bias",      cmd_type::FT);
+
+
+
+    cmds["pf_reset"]            = cmd_info("pf reset",cmd_type::PF);
+    cmds["pf_start"]            = cmd_info("pf start",cmd_type::PF);
     cmds["print"]               = cmd_info("print",cmd_type::UTILITY);
 }
 
@@ -78,9 +65,13 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
     cmd_info& cmd_inf = it->second;
 
 
+
+
     if(it != cmds.end()){
         cmd_type cmd_t  = cmd_inf.c_type;
         std::string cmd = cmd_inf.cmd_name;
+
+        std::cout<< "cmd: " << cmd << std::endl;
 
         switch(cmd_t){
         case cmd_type::ACTION:
@@ -90,7 +81,7 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
         }
         case cmd_type::PEG_POLICY:
         {
-            return call_peg_policy(cmd);
+            return call_peg_policy(cmd,res.res);
             break;
         }
         case cmd_type::PF:
@@ -100,6 +91,7 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
         }
         case cmd_type::FT:
         {
+            call_netft(cmd,res.res);
             break;
         }
         case cmd_type::PLANNER:
@@ -107,7 +99,7 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
             break;
         case cmd_type::UTILITY:
         {
-            return call_utility(cmd);
+            return call_utility(cmd,res.res);
             break;
         }
         default:
@@ -125,12 +117,25 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
     }
 }
 
-bool Cmd_interface::call_peg_policy(const std::string& cmd){
+bool Cmd_interface::call_netft(const std::string& cmd, std::string& res){
+    netft_cmd.request.cmd = cmd;
+    if(!netft_client.call(netft_cmd.request,netft_cmd.response)){
+        res = netft_cmd.response.res;
+        return false;
+    }else{
+        res = netft_cmd.response.res;
+        return true;
+    }
+}
+
+bool Cmd_interface::call_peg_policy(const std::string& cmd, std::string& res){
     peg_hole_policy.request.cmd = cmd;
     if(!peg_policy_client.call(peg_hole_policy.request,peg_hole_policy.response)){
+        res = peg_hole_policy.response.res;
         std::cout<< peg_hole_policy.response.res << std::endl;
         return false;
     }else{
+        res = peg_hole_policy.response.res;
         std::cout<< peg_hole_policy.response.res << std::endl;
         return true;
     }
@@ -178,16 +183,15 @@ bool Cmd_interface::call_particle_filter(const std::string& cmd){
     }
 }
 
-bool Cmd_interface::call_utility(const std::string& cmd){
-    std::cout<< "print....." << std::endl;
+bool Cmd_interface::call_utility(const std::string& cmd, std::string& res){
+    res =  "print.....\n";
     if(cmd == "print"){
         std::cout<< std::endl;
-        std::cout<< " === cmd interface === " << std::endl;
+        res = res + " === cmd interface === \n";
         for(it = cmds.begin(); it != cmds.end();it++){
-        std::cout<< "  " << it->first << std::endl;
-
+        //std::cout<< "  " << it->first << std::endl;
+        res = res + it->first + "\n";
         }
-        std::cout<<std::endl;
         return true;
     }else{
         return false;

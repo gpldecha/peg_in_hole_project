@@ -1,13 +1,7 @@
-<?xml version="1.0"?>
+<?xml version="1.0" ?>
 <launch>
 
-	<arg name="action_server_name"  default="kuka_server" />
 	<arg name="path_sensor_model"   value="$(find objects)/meshes/plug/config/X.txt"/>
-
-	<arg name="ft_topic"		default=""/>
-	<arg name="classifier_topic"	default=""/>
-	<arg name="F_topic"      	default=""/>
-	<arg name="gmm_param_path"      default=""/>
 
 	<node name="kuka_server_node" pkg="peg_hole_kuka" type="peg_kuka_server_node" required="true" output="screen">
 		<param name="action_server_name" 		value="$(arg action_server_name)"/>
@@ -17,9 +11,7 @@
   		<param name="reachingThreshold" 		value="0.01" />
   		<param name="orientationThreshold" 		value="0.02" />
 		<param name="path_sensor_model" 		value="$(arg path_sensor_model)"/>
-		<param name="ft_topic"				value="$(arg ft_topic)"/>
-		<param name="classifier_topic"			value="$(arg classifier_topic)"/>
-		<param name="F_topic"      			value="$(arg F_topic)"/>
-		<param name="gmm_param_path"      		value="$(arg gmm_param_path)"/>
 	</node>
+
+
 </launch>

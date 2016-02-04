@@ -23,9 +23,13 @@ public:
 
     void get_linear_velocity(tf::Vector3& velocity,const tf::Vector3& peg_origin);
 
+    void get_linear_velocity(tf::Vector3 &velocity, const tf::Vector3 &peg_origin,tf::Vector3& des_origin,tf::Quaternion& des_orient);
+
 private:
 
     wobj::WBox*             ptr_table_wbox;
+    bool bFirst;
+    geo::fCVec3             surf_proj;
 
 };
 

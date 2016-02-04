@@ -16,6 +16,8 @@ public:
 
     virtual void get_linear_velocity(tf::Vector3& velocity,const tf::Vector3& peg_origin);
 
+    void get_linear_velocity(tf::Vector3 &velocity, const tf::Vector3 &peg_origin,tf::Vector3& des_origin,tf::Quaternion& des_orient);
+
 private:
 
     tf::Matrix3x3   Rt;
@@ -25,6 +27,8 @@ private:
     planners::GMR_EE_Planner gmr_policy;
     arma::colvec  input;
     arma::colvec3 vel_direction;
+    geo::fCVec3             surf_proj;
+
 };
 
 }

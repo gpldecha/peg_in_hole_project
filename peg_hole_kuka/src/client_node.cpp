@@ -8,8 +8,8 @@
 int main(int argc, char** argv)
 {
 
-    ros::init(argc, argv,"control_cmd_interface");
-    ros::NodeHandle nh("control_cmd_interface");
+    ros::init(argc, argv,"kuka_action_client");
+    ros::NodeHandle nh("kuka_action_client");
 
     std::string node_name = ros::this_node::getName();
 
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
     /**  ------------- Initialise Control cmd  interface  ------------- **/
 
     ac::Action_client_cmd_interface action_client_cmd_interface(nh,kuka_action_client,action_serivce_name,cmd_service_name);
-    action_client_cmd_interface.init_nl_subscriber(speech_topic);
+    //action_client_cmd_interface.init_nl_subscriber(speech_topic);
 
 
     ROS_INFO("ACTION CLIENT STARTED!");

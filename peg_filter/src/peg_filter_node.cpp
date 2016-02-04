@@ -33,11 +33,11 @@ void get_veclocity(arma::colvec3& u,const tf::Vector3& origin, const tf::Vector3
 int main(int argc,char** argv){
 
     std::map<std::string,std::string> input;
-    input["-sensor_topic"]     = "";
-    input["-action_topic"]     = "";
-    input["-urdf"]             = "";
-    input["-rate"]             = "100";
-    input["-fixed_frame"]       = "/world_frame";
+    input["-sensor_topic"]      = "";
+    input["-action_topic"]      = "";
+    input["-urdf"]              = "";
+    input["-rate"]              = "100";
+    input["-fixed_frame"]       = "/world";
     input["-path_sensor_model"] = "";
 
 
@@ -57,7 +57,9 @@ int main(int argc,char** argv){
 
     ros::init(argc, argv, "peg_filter");
     ros::NodeHandle nh;
-    ros::Rate rate(boost::lexical_cast<float>(srate));
+    double Hz = boost::lexical_cast<float>(srate);
+    ros::Rate rate(Hz);
+
 
     // initialise world (should be the same as in peg_sensor_classifier_node !!!)
 
@@ -76,27 +78,28 @@ int main(int argc,char** argv){
 
     arma::colvec variance;
     variance.resize(3);
-    variance(0) = (0.005);
-    variance(1) = (0.005);
-    variance(2) = (0.0001);
-    variance    = arma::square(variance);
+    variance(0) = 1;
+    variance(1) = 1;
+    variance(2) = 1;
+    variance    = variance;
     likeli::Gaussian_likelihood gaussian_likelihood(variance);
+    likeli::Hellinger_likelihood hellinger_likelihood;
 
 
-    pf::Measurement_h    peg_measurement   =  std::bind(&psm::Sensor_manager::update_particles,&sensor_manager,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
-    pf::likelihood_model peg_likelihood    =  std::bind(&likeli::Gaussian_likelihood::gaussian_likelihood,&gaussian_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+    pf::Measurement_h    peg_measurement        =  std::bind(&psm::Sensor_manager::compute_hY,&sensor_manager,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+   // pf::likelihood_model peg_likelihood         =  std::bind(&likeli::Gaussian_likelihood::gaussian_likelihood,&gaussian_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
+    pf::likelihood_model peg_likelihood_hell    =  std::bind(&likeli::Hellinger_likelihood::likelihood,&hellinger_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
 
-
-    plugfilter::PF_parameters   pf_parameters(peg_measurement,peg_likelihood);
-                                pf_parameters.Y_dim = 3;
-                                pf_parameters.number_particles = 1500;
-                                pf_parameters.pf_color_type    = pf::C_WEIGHTS;
+    plugfilter::PF_parameters   pf_parameters(peg_measurement,peg_likelihood_hell);
+                                pf_parameters.Y_dim                 = 3;
+                                pf_parameters.number_particles      = 1500;
+                                pf_parameters.pf_color_type         = pf::C_WEIGHTS;
+                                pf_parameters.particle_filter_type  = plugfilter::PMF;
                                 pf_parameters.sampling_parameters.set_diag(0.005,0.005,0.005);
 
-    plugfilter::Plug_pf_manager plug_pf_manager(pf_parameters);
+    plugfilter::Plug_pf_manager plug_pf_manager(pf_parameters,fixed_frame,"lwr_peg_link");
                                 plug_pf_manager.init_visualise(nh);
     plugfilter::Plug_service    plug_service(nh,plug_pf_manager);
-
 
 
     /// Listeners Velocity
@@ -107,11 +110,8 @@ int main(int argc,char** argv){
     tf::Matrix3x3           peg_orient_tf;
 
 
-
-
                             peg_tip_position_listener.update(peg_origin_tf,peg_orient_tf);
                             peg_origin_tf_tmp = peg_origin_tf;
-
 
     /// Listener Sensor
 
@@ -120,21 +120,41 @@ int main(int argc,char** argv){
 
     /// PDF feature methods
 
-    const arma::mat&    points  = plug_pf_manager.particle_filter->particles;
-    const arma::colvec& weights = plug_pf_manager.particle_filter->weights;
+  // const arma::mat&    points  = plug_pf_manager.particle_filter->particles;
+  //  const arma::colvec& weights = plug_pf_manager.particle_filter->weights;
 
-    Belief_features     belief_features(nh,points,weights);
+ //   Belief_features     belief_features(nh,points,weights);
 
     tf::Matrix3x3 Rot_peg;
     Rot_peg.setRPY(0,0,M_PI);
 
     arma::colvec3    u;
-    arma::colvec3   peg_origin;
-    arma::mat33     peg_orient;
-    arma::colvec&   Y = plug_sensor_model.Y;
+    arma::colvec3    peg_origin;
+    arma::mat33      peg_orient;
+    peg_orient.zeros();
+    peg_origin.zeros();
+    arma::colvec&    Y = plug_sensor_model.Y;
 
-    bool non_zero_orient,no_Y;
+    bool bcorrect_orient = false;
+
     peg_origin_tf_tmp = peg_origin_tf;
+
+
+    while(nh.ok() && (bcorrect_orient == false))
+    {
+
+        peg_tip_position_listener.update(peg_origin_tf,peg_orient_tf);
+        opti_rviz::type_conv::tf2mat(peg_orient_tf,peg_orient);
+        opti_rviz::type_conv::tf2vec(peg_origin_tf,peg_origin);
+        bcorrect_orient = arma::any(arma::vectorise(peg_orient));
+        ros::spinOnce();
+        rate.sleep();
+    }
+    peg_origin_tf_tmp = peg_origin_tf;
+    get_veclocity(u,peg_origin_tf,peg_origin_tf_tmp);
+
+    u.print("u");
+    peg_orient.print("peg_orient");
 
 
     while(nh.ok()){
@@ -149,30 +169,29 @@ int main(int argc,char** argv){
         opti_rviz::type_conv::tf2vec(peg_origin_tf,peg_origin);
 
 
-        non_zero_orient = !arma::any(arma::vectorise(peg_orient));
-        no_Y = Y.is_empty();
+        bcorrect_orient = arma::any(arma::vectorise(peg_orient));
 
-        if(non_zero_orient){
-            peg_orient.print("peg_orient is zero");
-        }
+        if(!(Y.is_empty()) && bcorrect_orient){
+          /*  Y(0) = 0;
+            Y(1) = 0;
+            Y(2) = 0;*/
 
-        if(no_Y){
-            std::cout<< "Y is empty" << std::endl;
-        }
+            Y(1) = 0;
+            Y(2) = 0;
 
-        if(!no_Y && !non_zero_orient){
-           plug_pf_manager.update(Y,u,peg_orient);
+            ROS_INFO_STREAM_THROTTLE(2.0,"Y: " << Y(0) << " " << Y(1) << " " << Y(2));
+            plug_pf_manager.update(Y,u,peg_orient,Hz);
         }
 
         /// belief feature (belief compression) computation
 
-         belief_features.update();
+      //   belief_features.update();
 
 
        /// particle filter visualisation
 
          plug_pf_manager.visualise();
-       //  publisher.publish();*/
+         //publisher.publish();
 
       /*  time_taken =  time_taken + std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - start_time).count() / 1000000.0;
           count++;

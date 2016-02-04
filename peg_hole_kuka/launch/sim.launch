@@ -1,60 +1,18 @@
 <?xml version="1.0" ?>
 <launch>
 
-<<<<<<< HEAD
  <!-- LAUNCH SIMULATION-->
  <include file="$(find lwr_launch)/launch/simulation.launch">
-	<arg name="robot_name" 		value="peg_lwr_robot"/>
-	<arg name="robot_path" 		value="$(find peg_lwr_robot)/robot"/>
- 	<arg name="rviz_config"       	value="$(find peg_lwr_launch)/launch/rviz/rviz_config.rviz"/>
- 	<arg name="t1_limits" 	      	value="false"/>
+	<arg name="robot_name" 			value="peg_lwr_robot"/>
+	<arg name="robot_path" 			value="$(find peg_lwr_robot)/robot"/>
+ 	<arg name="rviz_config"       		value="$(find peg_lwr_launch)/launch/rviz/rviz_config.rviz"/>
+   	<arg name="controllers" 		value="joint_controllers"/>
+ 	<arg name="t1_limits" 	      		value="false"/>
+	<arg name="hw_interface_file" 		value="$(find peg_lwr_robot)/config/hw_interface.yaml"/>
+	<arg name="controller_config_file"	value="$(find peg_lwr_robot)/config/controllers.yaml"/>
+	<arg name="gazebo_world_file"		value="$(find peg_lwr_robot)/worlds/simple_environment.world"/>	
+	<arg name="t1_limits_file"		value="$(find peg_lwr_robot)/config/t1_joint_limits.yaml"/>
  </include>
-=======
-
-  <!-- Set Robot model/rviz configuration path-->
-  <arg name="urdf-name"                   value="kuka_lwr_peg.xacro"/>
-  <arg name="load-rviz"                   value="false"/>
-  <arg name="rviz-config-path"            value="$(find kuka_lwr_bringup)/rviz-config/lwr-rviz-config.rviz"/>
-
-  <!-- Load KUKA Realtime visualization -->
-  <include file="$(find kuka_lwr_bringup)/launch/lwr_simulation.launch">
-  <!-- Override Argument to desired robot model -->
-    <arg name="urdf-name"                   value="$(arg urdf-name)"/>
-    <arg name="load-rviz"                   value="$(arg load-rviz)"/>
-    <arg name="rviz-config-path"            value="$(arg rviz-config-path)"/>    
-  </include>
-
-  <!-- NAME OF YOUR ROBOT (/Robots/KUKA_LASA_ROLLER)-->
-  <arg name="robot_name"                      value="KUKA_LASA_PEG"   />
-  <!-- NAME OF YOUR TOOL (/Robots/KUKA_LASA_ROLLER)-->
-  <arg name="ee_link"                         value="TOOL"      />  
-  <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
-  <arg name="simulation_mode"                 value="true"    />    
-  <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
-  <arg name="use_boxy"                        value="true"/>    
-  <!-- NAME OF Output topic -->
-  <arg name="output_joints_topic"             value="/r_arm_vel/command"   />   
-
-   <!-- START JOINT STATE TO CARTESIAN TRANSFORMER-->
-   <!--  Robot cartesian state estimator. Estimates end effector pose and force/torques from the joint angles/torques-->
-   <include file="$(find state_transformers)/launch/joint_to_cart.launch">
-   	<arg name="robot_name"                value="$(arg robot_name)"   />
-        <arg name="ee_link"                   value="$(arg ee_link)"      />  
-        <arg name="simulation_mode"           value="$(arg simulation_mode)"    />  
-   </include>
-
-   <!-- START CARTESIAN COMMAND TO JOINT STATE TRANSFORMER-->
-   <!-- Controller for converting cartesian commands (pose/forces/torques) to joint velocities.-->
-   <include file="$(find state_transformers)/launch/cart_cmd_to_joint_vel.launch">
-   	<arg name="robot_name"                value="$(arg robot_name)"   />
-        <arg name="ee_link"                   value="$(arg ee_link)"      /> 
-        <arg name="use_boxy"                  value="$(arg use_boxy)"/>  
-        <arg name="output_joints_topic"       value="$(arg output_joints_topic)"   />         
-   </include>      
-
-
-
->>>>>>> b8e3c1d98f6cd4687cc036fd5f78f8ca11312676
 
   <!--    ENVIRONMENT -->
   <!-- arg -->
@@ -65,7 +23,7 @@
   <!-- table socket -->
   <include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
 	  	<arg name="use_rviz" 			value="False"/>
-		<arg name="origin"   			value="-0.7 -0.047544 0.34405"/>
+		<arg name="origin"   			value="-0.78945 0.056019 0.34139"/>
 		<arg name="orientation"			value="0 0 0 1"/>
 		<arg name="load_saved"			value="False"/>	
 		<arg name="use_vision_broadcaster" 	value="False"/>

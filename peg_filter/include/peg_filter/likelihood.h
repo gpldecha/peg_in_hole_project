@@ -20,17 +20,19 @@
 
 namespace likeli{
 
-//typedef enum {SIMPLE_CONTACT,FOUR_CONTACT,THREE_PIN,FORCE_IID} likelihood_type;
-
 class Gaussian_likelihood{
 
 public:
 
     Gaussian_likelihood(const arma::colvec& variance);
 
-                  //arma::colvec& L, const arma::colvec& Y, const arma::mat& hY
-    void gaussian_likelihood(arma::colvec& L, const arma::colvec& Y, const arma::mat& hY);
-
+    /**
+     * @brief gaussian_likelihood
+     * @param L     : output likelihood
+     * @param Y     : (K x 1),  input sensor values
+     * @param hY    : (num_points x K), expected sensor values
+     */
+    void gaussian_likelihood(double* L, const arma::colvec& Y, const arma::mat& hY);
 
 private:
 
@@ -38,7 +40,19 @@ private:
 
 };
 
+class Hellinger_likelihood{
 
+public:
+
+    /**
+     * @brief likelihood
+     * @param L     : output likelihood
+     * @param Y     : (K x 1) input sensor value
+     * @param hY    : (num_points x K), expected sensor values
+     */
+    void likelihood(double* L, const arma::colvec& Y, const arma::mat &hY);
+
+};
 
 
 /*

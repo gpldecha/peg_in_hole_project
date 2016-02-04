@@ -9,6 +9,8 @@
 
 #include "kuka_action_client/String_cmd.h"
 #include "particle_filter/String_cmd.h"
+#include "netft_rdt_driver/netft_rdt_bias.h"
+#include "netft_rdt_driver/String_cmd.h"
 #include <map>
 
 /**
@@ -61,13 +63,15 @@ private:
 
     void init_commands();
 
-    bool call_peg_policy(const std::string& cmd);
+    bool call_netft(const std::string& cmd, std::string& res);
+
+    bool call_peg_policy(const std::string& cmd, std::string &res);
 
     bool call_action(const std::string& cmd);
 
     bool call_particle_filter(const std::string& cmd);
 
-    bool call_utility(const std::string& cmd);
+    bool call_utility(const std::string& cmd, std::string& res);
 
     bool call_planner(const std::string& cmd);
 
@@ -83,6 +87,10 @@ private:
 
     ros::ServiceClient                       exploration_client;
     exploration_planner::String_cmd          exploration_cmd;
+
+    ros::ServiceClient                       netft_client;
+    netft_rdt_driver::String_cmd             netft_cmd;
+
 
     ros::ServiceClient                       peg_policy_client;
     peg_hole_policy::String_cmd              peg_hole_policy;

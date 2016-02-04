@@ -1,7 +1,15 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(peg_hole_policy)
 
-find_package(catkin REQUIRED roscpp kuka_action_server robot_base_planners peg_sensor message_generation robot_motion_generation)
+find_package(catkin REQUIRED
+roscpp
+kuka_action_server
+robot_base_planners
+peg_sensor
+message_generation
+robot_motion_generation
+netft_rdt_driver
+)
 
 find_package(Armadillo REQUIRED)
 
@@ -15,6 +23,11 @@ add_service_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+)
+
+generate_dynamic_reconfigure_options(
+    cfg/gains.cfg
+    cfg/cdd_filter.cfg
 )
 
 catkin_package(
@@ -35,19 +48,23 @@ set(H_FILES ${INCLUDE_DIR}/peg_hole_policy/peg_hole_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/find_socket.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/insert_peg.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/base_find.h
-
+            ${INCLUDE_DIR}/peg_hole_policy/policies/gmm_search.h
+            ${INCLUDE_DIR}/peg_hole_policy/velocity_controller.h
 
 )
 
 set(S_FILES ${SRC_DIR}/peg_hole_policy.cpp
             ${SRC_DIR}/state_machine.cpp
+            ${SRC_DIR}/velocity_controller.cpp
             ${SRC_DIR}/policies/find_table.cpp
             ${SRC_DIR}/policies/find_socket.cpp
             ${SRC_DIR}/policies/insert_peg.cpp
             ${SRC_DIR}/policies/base_find.cpp
+            ${SRC_DIR}/policies/gmm_search.cpp
+
 )
 
 add_library(${PROJECT_NAME} ${H_FILES} ${S_FILES} )
 target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} ${ARMADILLO_LIBRARIES})
 
-add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencpp ${PROJECT_NAME}_generate_messages_cpp ${PROJECT_NAME}_gencfg)

@@ -58,13 +58,20 @@ void Insert_peg::get_linear_velocity(tf::Vector3& velocity,const tf::Vector3& pe
     }
 
 
-    ROS_INFO("speed: %f m/s  dist: %f",speed,distance_target);
+   // ROS_INFO("speed: %f m/s  dist: %f",speed,distance_target);
     direction = speed * direction;
 
     velocity.setX(direction(0));
     velocity.setY(direction(1));
     velocity.setZ(direction(2));
 
+}
+
+
+void Insert_peg::get_linear_velocity(tf::Vector3 &velocity, const tf::Vector3 &peg_origin,tf::Vector3& des_origin,tf::Quaternion& des_orient){
+    get_linear_velocity(velocity,peg_origin);
+    des_origin = T;
+    des_orient.setRPY(0,0,0);
 }
 
 

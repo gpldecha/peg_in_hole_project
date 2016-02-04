@@ -1,5 +1,7 @@
 #include "peg_filter/likelihood.h"
 #include <functional>
+#include "statistics/distributions/distributions.h"
+
 namespace likeli{
 
 Gaussian_likelihood::Gaussian_likelihood(const arma::colvec& variance)
@@ -10,21 +12,23 @@ Gaussian_likelihood::Gaussian_likelihood(const arma::colvec& variance)
 
 }
 
-void Gaussian_likelihood::gaussian_likelihood(arma::colvec &L, const arma::colvec &Y, const arma::mat &hY){
+void Gaussian_likelihood::gaussian_likelihood(double *L, const arma::colvec &Y, const arma::mat &hY){
+    for(std::size_t i = 0; i < hY.n_rows;i++){
 
-    //std::cout<< "Gaussian_likelihood" << std::endl;
-   // std::cout<< "L:  (" << L.n_rows << " x " << L.n_cols << ")" << std::endl;
-   // std::cout<< "Y:  (" << Y.n_rows << " x " << Y.n_cols << ")" << std::endl;
-   // std::cout<< "hY: (" << hY.n_rows << " x " << hY.n_cols << ")" << std::endl;
+        L[i] =     exp(  one_div_var(0) * (hY(i,0) - Y(0)) * (hY(i,0) - Y(0))
+                         + one_div_var(1) * (hY(i,1) - Y(1)) * (hY(i,1) - Y(1))
+                         + one_div_var(2) * (hY(i,2) - Y(2)) * (hY(i,2) - Y(2))
+                         );
 
+    }
 
-    assert(L.n_elem == hY.n_elem);
+    /* assert(L.n_elem == hY.n_elem);
     double value = 0;
     double one_var = (1.0/(0.02*0.02));
     //Y.print("Y");
 
     bool bSense;
-    if(Y(0) <= 0.02){
+    if(Y(0) >= 0.5){
         bSense = true;
     }else{
         bSense = false;
@@ -39,7 +43,7 @@ void Gaussian_likelihood::gaussian_likelihood(arma::colvec &L, const arma::colve
            // L(i) = 1 - exp(-0.5 * one_var * (hY(i,0) - Y(0)) * (hY(i,0) - Y(0)) );
             L(i) = 1 - exp(-0.5 * one_var * hY(i,0)*hY(i,0));
            // std::cout<< "no sense" << std::endl;
-       }else{          /// Case when there is sensing*/
+       }else{          /// Case when there is sensing
             L(i) =     exp(  one_div_var(0) * (hY(i,0) - Y(0)) * (hY(i,0) - Y(0))
                             + one_div_var(1) * (hY(i,1) - Y(1)) * (hY(i,1) - Y(1))
                             + one_div_var(2) * (hY(i,2) - Y(2)) * (hY(i,2) - Y(2))
@@ -74,17 +78,98 @@ void Gaussian_likelihood::gaussian_likelihood(arma::colvec &L, const arma::colve
     if(L.has_nan()){
        std::cout<< "L has NAN" << std::endl;
         exit(0);
+    }*/
+
+}
+
+
+void Hellinger_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::mat &hY){
+
+
+    // hY are distances to closest featuers
+
+
+   // std::cout<< "==== Y = " << Y(0) << "   ===== " << std::endl;
+    bool bSense;
+    if((int)Y(0) == 0){
+        bSense = false;
+    }else{
+        bSense = true;
+    }
+ //   std::cout<< "=== bSense (" << bSense << ") ===" << std::endl;
+
+    for(std::size_t i = 0; i < hY.n_rows;i++){
+
+        if(hY(i,0) == -1)
+        {
+            L[i] = 0;
+
+        }else{
+
+            // Y(0) == 1
+            if(bSense)
+            {
+                if(hY(i,0) <= 0.03)
+                {
+                    L[i] = 1;
+                }else{
+                    L[i] = 0;
+                }
+            }else{
+
+                if(hY(i,0) < 0.01)
+                {
+                    L[i] = 0;
+                }else{
+                    L[i] = 1;
+                }
+
+            }
+
+
+            // P = hY.row(i).st();
+            // P = P / (arma::norm(P,2) + std::numeric_limits<double>::min() );
+
+            /*     if( std::fabs(Y[i] - hY(i,0)) < 0.01)
+            {
+                L[i] = 0.0;
+            }else{
+                L[i] = 1.0;
+            }*/
+
+
+            /* L[i] =     exp( -(1.0/0.1) *   ((hY(i,0) - Y(0)) * (hY(i,0) - Y(0))
+                                    + (hY(i,1) - Y(1)) * (hY(i,1) - Y(1))
+                                    + (hY(i,2) - Y(2)) * (hY(i,2) - Y(2)))
+                            );*/
+
+            // sum_L = sum_L + L[i];
+
+            if(std::isnan(L[i])){
+                std::cout<< "L has NAN" << std::endl;
+                exit(0);
+            }
+
+            //            L(i) = stats::Distance::Hellinger(Q,P);
+
+
+            /*if(arma::sum(arma::abs(hY.row(i).st() - Y)) != 0){
+                L(i) = 0;
+            }else{
+                L(i) = 1;
+            }*/
+        }
+
     }
 
 
+    /*if(sum_L == 0){
+        double val = 1.0/static_cast<double>(hY.n_rows);
+        for(std::size_t i = 0; i < hY.n_rows;i++){
+            L[i] = val;
+        }
+    }*/
 
-
-
-    //L.print("likelihood");
-
-   // L = L / (arma::sum(L)) ;
-
-  //  L = exp(-0.5 * L);
 
 }
 

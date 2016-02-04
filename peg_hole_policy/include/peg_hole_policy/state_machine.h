@@ -4,16 +4,38 @@
 #include <ros/ros.h>
 #include "peg_sensor/listener.h"
 #include <queue>
+#include <Eigen/Eigen>
+#include "geometry_msgs/WrenchStamped.h"
 
 namespace ph_policy{
 
-typedef enum Location{
-    air,
-    table,
-    socket,
-    hole
-}Location;
+typedef enum State{
+    AIR,
+    CONTACT,
+    EDGE
+}State;
 
+inline std::string state2str(State state)
+{
+    switch(state)
+    {
+    case AIR:
+    {
+        return "AIR";
+    }
+    case CONTACT:
+    {
+        return "CONTACT";
+    }
+    case EDGE:
+    {
+        return "EDGE";
+    }
+    }
+}
+
+
+/*
 class State{
 
     public:
@@ -50,27 +72,21 @@ class State{
 
 
 };
+*/
 
 
 class State_machine{
-
 
 public:
 
     State_machine(ros::NodeHandle& nh, const std::string &y_topic);
 
-    void update();
+    void update(Eigen::Vector3d& Y_c,geometry_msgs::Wrench& wrench);
 
 private:
 
-    void update_contact();
 
-    void update_location();
-
-public:
-
-
-    State state;
+    State state, state_tmp,tmp;
 
 
 private:

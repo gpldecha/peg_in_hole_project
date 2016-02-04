@@ -3,8 +3,8 @@
 
 #include <ros/ros.h>
 #include <std_msgs/Float64MultiArray.h>
-
 #include <armadillo>
+#include "visualise/vis_points.h"
 
 class Mode_feature{
 
@@ -20,6 +20,8 @@ public:
     Mode_feature(ros::NodeHandle& nh, const arma::mat& points,const arma::colvec& weights);
 
     void update();
+
+    void visualize();
 
 private:
 
@@ -40,6 +42,8 @@ private:
     arma::uword                 index,index_tmp;
     bool                        bFirst;
 
+    opti_rviz::Vis_points       vis_points;
+    arma::fmat                  vis_pts;
 
 };
 

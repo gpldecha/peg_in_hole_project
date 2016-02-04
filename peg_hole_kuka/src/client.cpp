@@ -8,8 +8,44 @@ PEG_action_client::PEG_action_client(){
 }
 
 void PEG_action_client::initialise(){
-    init_cart();
-    init_simple_bel_planner();
+    {
+        ac::Goal                  goal;
+        geometry_msgs::Transform  link_socket;
+        tf::Transform             tf_link_socket;
+        get_link_socket_goal(tf_link_socket);
+
+        tf::Quaternion            rotation;
+        rotation.setRPY(0,0,M_PI);
+        tf_link_socket.setRotation( tf_link_socket.getRotation() * rotation );
+      //  rotation.setRPY(M_PI/4,0,0);
+      //  tf_link_socket.setRotation( rotation* tf_link_socket.getRotation() );
+
+
+        link_socket.translation.x   = tf_link_socket.getOrigin().x();
+        link_socket.translation.y   = tf_link_socket.getOrigin().y();
+        link_socket.translation.z   = tf_link_socket.getOrigin().z();
+
+        link_socket.rotation.w      = tf_link_socket.getRotation().w();
+        link_socket.rotation.x      = tf_link_socket.getRotation().x();
+        link_socket.rotation.y      = tf_link_socket.getRotation().y();
+        link_socket.rotation.z      = tf_link_socket.getRotation().z();
+
+        goal.action_type            = "plug_search";
+        goal.target_frame           = link_socket;
+        goal.max_speed              = 0.02;
+        goal.min_speed              = 0.005;
+        goals["plug_search"]        = goal;
+
+    }
+
+    {
+        ac::Goal goal;
+        goal.action_type        = "linear";
+        goals["linear"]         = goal;
+
+    }
+   // init_cart();
+   // init_simple_bel_planner();
 }
 
 void PEG_action_client::get_link_socket_goal(tf::Transform& transform){
@@ -89,7 +125,15 @@ void PEG_action_client::init_simple_bel_planner(){
 
 void PEG_action_client::init_cart(){
 
-    {
+    enum{KUKA_DOF = 7};
+    kuka_fri_bridge::JointStates jointStateImpedance;
+    jointStateImpedance.name.resize(KUKA_DOF);
+    jointStateImpedance.position.resize(KUKA_DOF);
+    jointStateImpedance.velocity.resize(KUKA_DOF);
+    jointStateImpedance.effort.resize(KUKA_DOF);
+    jointStateImpedance.stiffness.resize(KUKA_DOF);
+
+   /* {
         ac::Goal                    goal;
         geometry_msgs::Transform    target;
 
@@ -211,37 +255,35 @@ void PEG_action_client::init_cart(){
         goal.max_speed              = 0.02;
         goal.min_speed              = 0.0;
         goals["go_connect_vel"]     = goal;
+    }*/
+
+
+    /*
+
+    {
+      ac::Goal goal;
+      goal.action_type = "set_imp_damp";
+
+     // jointStateImpedance.damping.resize(0);
+      for(std::size_t i = 0; i < KUKA_DOF;i++){
+          jointStateImpedance.stiffness[i] = 200;
+      }
+      goal.JointStates = jointStateImpedance;
+
+      goals["impedance_two"] = goal;
     }
 
     {
-        ac::Goal                  goal;
-        geometry_msgs::Transform  link_socket;
-        tf::Transform             tf_link_socket;
-        get_link_socket_goal(tf_link_socket);
+      ac::Goal goal;
+      goal.action_type = "set_imp_damp";
 
-        tf::Quaternion            rotation;
-        rotation.setRPY(0,0,M_PI);
-        tf_link_socket.setRotation( tf_link_socket.getRotation() * rotation );
-      //  rotation.setRPY(M_PI/4,0,0);
-      //  tf_link_socket.setRotation( rotation* tf_link_socket.getRotation() );
-
-
-        link_socket.translation.x   = tf_link_socket.getOrigin().x();
-        link_socket.translation.y   = tf_link_socket.getOrigin().y();
-        link_socket.translation.z   = tf_link_socket.getOrigin().z();
-
-        link_socket.rotation.w      = tf_link_socket.getRotation().w();
-        link_socket.rotation.x      = tf_link_socket.getRotation().x();
-        link_socket.rotation.y      = tf_link_socket.getRotation().y();
-        link_socket.rotation.z      = tf_link_socket.getRotation().z();
-
-        goal.action_type            = "plug_search";
-        goal.target_frame           = link_socket;
-        goal.max_speed              = 0.02;
-        goal.min_speed              = 0.005;
-        goals["plug_search"]        = goal;
-
-    }
+      //jointStateImpedance.damping.resize(0);
+      for(std::size_t i = 0; i < KUKA_DOF;i++){
+          jointStateImpedance.stiffness[i] = 500;
+      }
+      goal.JointStates = jointStateImpedance;
+      goals["impedance_five"] = goal;
+    }*/
 
 
 }

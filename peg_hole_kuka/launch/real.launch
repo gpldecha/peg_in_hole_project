@@ -1,101 +1,22 @@
 <?xml version="1.0" ?>
 <launch>
 
-<<<<<<< HEAD
-
-=======
->>>>>>> b8e3c1d98f6cd4687cc036fd5f78f8ca11312676
   <!-- Set Robot model/rviz configuration path-->
-  <arg name="urdf-name"                   value="kuka_lwr_peg.xacro"/>
-  <arg name="load-rviz"                   value="false"/>
-  <arg name="rviz-config-path"            value="$(find kuka_lwr_bringup)/rviz-config/lwr-rviz-config.rviz"/>
 
-  <!-- Load KUKA Realtime visualization -->
-<<<<<<< HEAD
-  <include file="$(find kuka_lwr_bringup)/launch/lwr_realtime.launch">
-  <!-- Override Argument to desired robot model -->
-    <arg name="urdf-name"                   value="$(arg urdf-name)"/>
-    <arg name="load-rviz"                   value="$(arg load-rviz)"/>
-    <arg name="rviz-config-path"            value="$(arg rviz-config-path)"/>
+  <arg name="urdf-robot" 	default="peg_lwr_robot.urdf.xacro"/>
+  <arg name="controllers" 	default="joint_controllers"/>
+  <arg name="start_controller"	default="joint_controllers"/>
+
+  <include file="$(find kuka_fri_bridge)/launch/fri_bridge.launch">
+	<arg name="controller_file" 	value="$(find peg_lwr_robot)/config/controllers.yaml"/>
+	<arg name="hw_interface_file"   value="$(find peg_lwr_robot)/config/hw_interface.yaml"/>
+	<arg name="joint_limit_file"    value="$(find peg_lwr_robot)/config/t1_joint_limits.yaml"/>
+	<arg name="fri_driver_file"     value="$(find peg_lwr_robot)/config/980241-FRI-Driver.init"/>
+	<arg name="robot_urdf_file" 	value="$(find peg_lwr_robot)/robot/$(arg urdf-robot)"/>
+	<arg name="load-rviz"		value="False"/>
+	<arg name="controllers"		value="$(arg controllers)"/>
+  	<arg name="start_controller"	value="$(arg start_controller)"/>
   </include>
-  
-  <!-- Overriding parameter values -->
-  <!-- NAME OF YOUR ROBOT (/Robots/KUKA_LASA_ROLLER)-->
-  <arg name="robot_name"                      value="KUKA_LASA_PEG"   />
-  <!-- NAME OF YOUR TOOL (/Robots/KUKA_LASA_ROLLER)-->
-  <arg name="ee_link"                         value="TOOL"      />  
-  <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
-  <arg name="simulation_mode"                 value="false"    />    
-  <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
-  <arg name="use_boxy"                        value="false"/>    
-  <!-- NAME OF Output topic -->
-  <arg name="output_joints_topic"             value="/KUKA/joint_imp_cmd"   />     
-
-
-  <!-- START JOINT STATE TO CARTESIAN TRANSFORMER-->
-  <!--  Robot cartesian state estimator. Estimates end effector pose and force/torques from the joint angles/torques-->
-  <include file="$(find state_transformers)/launch/joint_to_cart.launch">
-  	<arg name="robot_name"                value="$(arg robot_name)"   />
-        <arg name="ee_link"                   value="$(arg ee_link)"      />  
-        <arg name="simulation_mode"           value="$(arg simulation_mode)"    />  
-  </include>
-
-  <!-- START CARTESIAN COMMAND TO JOINT STATE TRANSFORMER-->
-  <!-- Controller for converting cartesian velocities to joint velocities.
-  <include file="$(find state_transformers)/launch/cart_vel_to_joint_vel.launch">
-  	<arg name="robot_name"                value="$(arg robot_name)"   />
-        <arg name="ee_link"                   value="$(arg ee_link)"      /> 
-        <arg name="use_boxy"                  value="$(arg use_boxy)"/>  
-        <arg name="output_joints_topic"       value="$(arg output_joints_topic)"   />         
-   </include>    -->
-
-   <!-- START CARTESIAN COMMAND TO JOINT STATE TRANSFORMER-->
-   <include file="$(find state_transformers)/launch/state_transformers.launch">
-	   <arg name="robot_name"                value="$(arg robot_name)"   />
-           <arg name="ee_link"                   value="$(arg ee_link)"      /> 
-           <arg name="use_boxy"                  value="$(arg use_boxy)"/>  
-           <arg name="output_joints_topic"       value="$(arg output_joints_topic)"   />  
-   </include>      
-=======
-  <include file="$(find kuka_lwr_bringup)/launch/lwr_simulation.launch">
-  <!-- Override Argument to desired robot model -->
-    <arg name="urdf-name"                   value="$(arg urdf-name)"/>
-    <arg name="load-rviz"                   value="$(arg load-rviz)"/>
-    <arg name="rviz-config-path"            value="$(arg rviz-config-path)"/>    
-  </include>
-
-   <!-- Overriding parameter values -->
-   <!-- NAME OF YOUR ROBOT (/Robots/KUKA_LASA_ROLLER)-->
-   <arg name="robot_name"                      value="KUKA_LASA_PEG"   />
-   <!-- NAME OF YOUR TOOL (/Robots/KUKA_LASA_ROLLER)-->
-   <arg name="ee_link"                         value="TOOL"      />  
-   <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
-   <arg name="simulation_mode"                 value="false"    />    
-   <!-- THIS PARAMETER SHOULD BE SET TO TRUE FOR SIMULATION -->
-   <arg name="use_boxy"                        value="false"/>    
-   <!-- NAME OF Output topic -->
-   <arg name="output_joints_topic"             value="/KUKA/joint_imp_cmd"   />   
-
-
-   <!-- START JOINT STATE TO CARTESIAN TRANSFORMER-->
-   <!--  Robot cartesian state estimator. Estimates end effector pose and force/torques from the joint angles/torques-->
-   <include file="$(find state_transformers)/launch/joint_to_cart.launch">
-   	<arg name="robot_name"                value="$(arg robot_name)"   />
-        <arg name="ee_link"                   value="$(arg ee_link)"      />  
-        <arg name="simulation_mode"           value="$(arg simulation_mode)"    />  
-   </include>
-
-
-   <!-- START CARTESIAN COMMAND TO JOINT STATE TRANSFORMER-->
-   <!-- Controller for converting cartesian commands (pose/forces/torques) to joint velocities.-->
-   <include file="$(find state_transformers)/launch/cart_cmd_to_joint_vel.launch">
-   	<arg name="robot_name"                value="$(arg robot_name)"   />
-        <arg name="ee_link"                   value="$(arg ee_link)"      /> 
-        <arg name="use_boxy"                  value="$(arg use_boxy)"/>  
-        <arg name="output_joints_topic"       value="$(arg output_joints_topic)"   /> 
-   </include>      	
->>>>>>> b8e3c1d98f6cd4687cc036fd5f78f8ca11312676
-
 
   <!--    ENVIRONMENT -->
 
@@ -107,7 +28,7 @@
   <!-- table socket -->
   <include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
 	  	<arg name="use_rviz" 			value="False"/>
-		<arg name="origin"   			value="-0.84875 0.034115 0.33551"/>
+		<arg name="origin"   			value="-0.78944 0.056018 0.34136"/>
 		<arg name="orientation"			value="0 0 0 1"/>
 		<arg name="load_saved"			value="False"/>	
 		<arg name="use_vision_broadcaster" 	value="False"/>

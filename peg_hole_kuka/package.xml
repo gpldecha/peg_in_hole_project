@@ -46,9 +46,6 @@
   <build_depend>sensor_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>tf</build_depend>
-  <build_depend>iai_control_msgs</build_depend>
-  <build_depend>lasa_action_planners</build_depend>
-  <build_depend>robohow_common_msgs</build_depend>
 
   <build_depend> kuka_action_server </build_depend>
   <run_depend>   kuka_action_server </run_depend>
@@ -67,14 +64,17 @@
   <build_depend> peg_hole_policy </build_depend>
   <run_depend>   peg_hole_policy </run_depend>
 
+  <build_depend> simple_example </build_depend>
+  <run_depend>   simple_example </run_depend>
+
+  <build_depend> netft_rdt_driver </build_depend>
+  <run_depend>   netft_rdt_driver </run_depend>
+
 
   <run_depend>sensor_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>tf</run_depend>
-  <run_depend>iai_control_msgs</run_depend>
-  <run_depend>lasa_action_planners</run_depend>
-  <run_depend>robohow_common_msgs</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

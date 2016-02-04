@@ -16,7 +16,7 @@
 	
 
 	<!-- launch overlord command interface -->
-       <include file="$(find peg_hole_kuka)/launch/peg_kuka_cmd.launch"/>
+       <!--include file="$(find peg_hole_kuka)/launch/peg_kuka_cmd.launch"/-->
 
 
 </launch>

@@ -59,6 +59,10 @@
   <build_depend>    robot_motion_generation          </build_depend>
   <run_depend>      robot_motion_generation          </run_depend>
 
+  <build_depend>	netft_rdt_driver		</build_depend>
+  <run_depend>		netft_rdt_driver		</run_depend>
+
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

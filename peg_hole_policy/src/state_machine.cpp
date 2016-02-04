@@ -7,8 +7,36 @@ peg_sensor_listener(nh,y_topic)
 {
 
 
+    state = AIR;
+
 }
 
+void State_machine::update(Eigen::Vector3d& Y_c, geometry_msgs::Wrench &wrench){
+
+
+    if(Y_c(0) >= 0.8)
+    {
+        tmp = CONTACT;
+    }
+    if(Y_c(1) >= 0.8)
+    {
+        tmp = EDGE;
+    }
+    if(Y_c(0) < 0.8)
+    {
+        tmp = AIR;
+    }
+
+    if(tmp != state)
+    {
+        state_tmp = state;
+        state     = tmp;
+        ROS_INFO_STREAM("" << state2str(state_tmp) << " => " << state2str(state) );
+    }
+
+}
+
+/*
 void State_machine::update_contact(){
 
 
@@ -21,23 +49,7 @@ void State_machine::update_contact(){
         }
     }
 
-
-
-}
-
-void State_machine::update_location(){
-
-
-
-}
-
-
-void State_machine::update(){
-
-    update_contact();
-    update_location();
-
-}
+}*/
 
 
 }

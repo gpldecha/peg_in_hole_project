@@ -14,6 +14,7 @@ void Belief_features::add_feature(feature_type f_type){
 void Belief_features::update(){
 
     mode_features.update();
+    mode_features.visualize();
 
 }
 

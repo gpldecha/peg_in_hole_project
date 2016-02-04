@@ -5,6 +5,7 @@
 #include <particle_filter/particle_filter.h>
 #include <particle_filter/particle_filter_gmm.h>
 #include <particle_filter/static_grid_filter.h>
+#include <point_mass_filter/point_mass_filter.h>
 
 #include <peg_filter/likelihood.h>
 #include <peg_filter/motion.h>
@@ -26,7 +27,7 @@ namespace plugfilter {
 
 
 typedef enum {C_LIKE,C_WEIGHTS} color_type;
-typedef enum {SIR,GMM,HIST} pf_type;
+typedef enum {SIR,GMM,HIST,PMF} pf_type;
 
 
 
@@ -58,18 +59,18 @@ class Plug_pf_manager {
 
 public:
 
-    typedef std::shared_ptr<pf::Particle_filter_sir>                ptr_pf_sir;
-    typedef std::shared_ptr<pf::Particle_filter_gmm>                ptr_pf_gmm;
-    typedef std::shared_ptr<pf::Static_grid_filter>                 ptr_pf_grid;
-    typedef std::shared_ptr<pf::Particle_filter>                    ptr_pf;
- //   typedef std::unique_ptr<likeli::Plug_likelihood_base>           uptr_like_base;
+    typedef boost::shared_ptr<pf::Particle_filter_sir>                ptr_pf_sir;
+    typedef boost::shared_ptr<pf::Particle_filter_gmm>                ptr_pf_gmm;
+    typedef boost::shared_ptr<pf::Static_grid_filter>                 ptr_pf_grid;
+    typedef boost::shared_ptr<pf::Base_particle_filter>               ptr_pf;
+    typedef boost::shared_ptr<pf::Point_mass_filter>                  ptr_pmf;
 
 
 public:
 
-    Plug_pf_manager(const PF_parameters& pf_parameters);
+    Plug_pf_manager(const PF_parameters& pf_parameters, const string &fixed_frame, const string &target_frame);
 
-    void update(const arma::colvec& Y, const arma::colvec &u,const arma::mat33& rot);
+    void update(const arma::colvec& Y, const arma::colvec &u,const arma::mat33& rot, double duration_s);
 
     void visualise();
 
@@ -80,6 +81,7 @@ public:
     void init_visualise(ros::NodeHandle& node);
 
     void initialise_prior_pdf(const arma::colvec3& Plug_position);
+
 
 private:
 
@@ -97,6 +99,9 @@ private:
 public:
 
     ptr_pf                                  particle_filter;
+
+    ptr_pf_sir                              pf_sir_;
+    ptr_pmf                                 ptr_pmf_;
     bool                                    bUpdate;
 
 private:

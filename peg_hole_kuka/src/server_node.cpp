@@ -9,6 +9,7 @@
 #include "robot_planners/planner_ee.h"
 
 #include "peg_hole_policy/peg_hole_policy.h"
+#include "simple_actions/linear_cart_action.h"
 
 
 int main(int argc, char** argv)
@@ -28,6 +29,11 @@ int main(int argc, char** argv)
     param_name_value[node_name + "/world_frame"]         = "";
     param_name_value[node_name + "/path_sensor_model"]   = "";
 
+    param_name_value[node_name + "/ft_topic"]            = "";
+    param_name_value[node_name + "/classifier_topic"]    = "";
+    param_name_value[node_name + "/F_topic"]             = "";
+    param_name_value[node_name + "/gmm_param_path"]      = "";
+
 
     if(!pps::parser_string(nh,param_name_value)){
         ROS_ERROR("failed to parse all parameters!");
@@ -37,11 +43,20 @@ int main(int argc, char** argv)
     std::string action_server_name  =  param_name_value[node_name + "/action_server_name"];
     std::string world_frame         =  param_name_value[node_name + "/world_frame"];
     std::string path_sensor_model   =  param_name_value[node_name + "/path_sensor_model"];
+    std::string ft_topic            =  param_name_value[node_name + "/ft_topic"];
+    std::string classifier_topic    =  param_name_value[node_name + "/classifier_topic"];
+    std::string F_topic             =  param_name_value[node_name + "/F_topic"];
+    std::string path_gmm_param      =  param_name_value[node_name + "/gmm_param_path"];
+
 
     /**  ------------- Initialise control policies ------------- **/
 
 
+    belief::Gmm_planner gmm_planner(nh,world_frame,sensor_topic,classifier_topic,F_topic,path_parameters);
+
     ph_policy::Peg_hole_policy peg_hole_policy(nh,path_sensor_model,world_frame);
+
+    simple_actions::Linear_cart_action linear_cart_action(nh);
 
 
 
@@ -53,6 +68,8 @@ int main(int argc, char** argv)
     /**  ------------- Push back policies ------------- **/
 
     action_server.push_back(&peg_hole_policy,"plug_search");
+    //action_server.push_back(&linear_cart_action,"linear");
+
 
     ROS_INFO("ACTION SERVER STARTED!");
     ros::spin();
