@@ -27,8 +27,9 @@ Initialised and launches the server actions. One action, plug_search, is added t
 ## peg_kuka_cmd.launch
 
 1. call plug_search
-⋅⋅* startes the **plug_search** action in the action server
+  * startes the **plug_search** action in the action server
 2. call gmm
+  * starts the GMM policy via a call to a service in the plug_search action.
 
 #### publish
 * actions (velocity) to the robot controller
