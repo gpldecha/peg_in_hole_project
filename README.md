@@ -23,7 +23,13 @@ topics: [name,type]
 Initialised and launches the server actions. One action, plug_search, is added to the action server.
 
 ### Action plug_search (ros package Peg_hole_policy)
-  
+
+## peg_kuka_cmd.launch
+
+1. call plug_search
+⋅⋅* startes the **plug_search** action in the action server
+2. call gmm
+
 #### publish
 * actions (velocity) to the robot controller
 #### subscribe
