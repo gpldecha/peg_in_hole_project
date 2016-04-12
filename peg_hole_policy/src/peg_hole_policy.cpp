@@ -1,44 +1,39 @@
 #include "peg_hole_policy/peg_hole_policy.h"
 #include <control_toolbox/filters.h>
+#include <optitrack_rviz/type_conversion.h>
 #include <chrono>
 namespace ph_policy{
 
 Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
                                  const std::string& path_sensor_model,
-                                 const std::string& fixed_frame):
+                                 const std::string& fixed_frame,
+                                 belief::Gmm_planner& gmm_planner,
+                                 Peg_world_wrapper &peg_world_wrapper):
     Base_ee_j_action(nh,"joint_controllers"),
     Base_action_server(nh),
-    bel_planner(nh,),
-    state_machine(nh,"peg_sensor_classifer"),
     find_table(nh,path_sensor_model,fixed_frame),
     find_socket(nh,path_sensor_model,fixed_frame),
-    insert_peg(nh,path_sensor_model,fixed_frame),
     ee_peg_listener(fixed_frame,"lwr_peg_link"),
+    state_machine(nh,*(peg_world_wrapper.peg_sensor_model.get())),
+    gmm_planner(gmm_planner),
+    search_policy(nh,gmm_planner,state_machine,peg_world_wrapper.get_wrapped_objects(),*(peg_world_wrapper.peg_sensor_model.get())),
     vis_vector(nh,"direction"),
     velocity_controller(nh),
-    ft_listener_(nh,"tf_sensor/netft_data")
+    ft_listener_(nh,"/ft_sensor/netft_data")
 {
-    /*
-     * ros::NodeHandle&   nh,
-                const std::string& world_frame,
-                const std::string& sensor_topic,
-                const std::string& ft_classifier_topic,
-                const std::string& bel_feature_topic,
-                std::string path_parameters*/
-
 
     server_srv              = nh.advertiseService("cmd_peg_policy",&Peg_hole_policy::cmd_callback,this);
-    ft_classifier_sub_      = nh.subscribe("ft_classifier",10,&Peg_hole_policy::ft_classifier_callback,this);
-    net_ft_sc_              = nh.serviceClient<netft_rdt_driver::String_cmd>("/tf_sensor/bias_cmd");
-
+    ft_classifier_sub_      = nh.subscribe("ft_classifier",1,&Peg_hole_policy::ft_classifier_callback,this);
+    net_ft_sc_              = nh.serviceClient<netft_rdt_driver::String_cmd>("/ft_sensor/bias_cmd");
+    x_des_subscriber        = nh.subscribe("/lwr/joint_controllers/des_ee_pos",1,&Peg_hole_policy::x_des_callback,this);
 
     world_frame             = fixed_frame;
 
 
     initial_config          = true;
     tf_count                = 0;
-    control_rate            = 100.0;
-    current_policy          = NONE;
+    control_rate            = 200.0;
+    current_policy          = policy::NONE;
 
     linear_cddynamics.reset( new motion::CDDynamics(3,0.01,4) );
     angular_cddynamics.reset( new motion::CDDynamics(3,0.01,4) );
@@ -59,36 +54,18 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
     }
     angular_cddynamics->SetVelocityLimits(velLimits);
 
-    stiffness.resize(7);
-    stiffness_tmp.resize(7);
-    for(std::size_t i = 0; i < KUKA_NUM_JOINTS;i++){
-        stiffness[i]         = 200;
-        stiffness_tmp[i]     = 200;
-        stiff_msg.data[i] = stiffness[i];
-        damp_msg.data[i]  = 0;
-    }
-    bGrav=false;
     grav_msg.data = false;
 
-    vis_vector.scale = 1;
-    vis_vector.g     = 0;
-    vis_vector.b     = 0;
-    vis_vector.r     = 1;
     arrows.resize(1);
+    arrows[0].set_scale(0.01,0.015,0.015);
+    arrows[0].set_rgba(1,1,0,1);
 
-    arrows[0].shaft_diameter = 0.01;
-    arrows[0].head_diameter  = 0.015;
-    arrows[0].head_length    = 0.015;
-
+    std::cout<< "before vis_vector initialise" << std::endl;
     vis_vector.initialise("world",arrows);
 
     velocity_reguliser_ = Velocity_reguliser(0.2,0.1);
 
-
-    std::string path_parameters = "/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/PolicyModelSaved/PolicyModel_txt/gmm_xhu";
-    std::vector<std::size_t> in  = {{0,1,2,3}};
-    std::vector<std::size_t> out = {{4,5,6}};
-    gma_planner = planners::GMAPlanner(path_parameters,in,out);
+    gmm_planner.print();
 
 }
 
@@ -99,34 +76,11 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     if(!activate_controller("joint_controllers")){
         return false;
     }
-    current_policy           = NONE;
-    double min_speed         = 0.1;
-    double max_speed         = 0.15;
-
-    /// setting bel curve max and min speeds
-
-    if(min_speed <= 0.0){
-        max_speed = 0.01;
-        ROS_WARN("max_speed not set in goal, max speed set to default: 1cm/s");
-    }
-
-    find_table.beta_vel_reg     = 0.1;
-    find_socket.beta_vel_reg    = 0.1;
-    insert_peg.beta_vel_reg     = 0.1;
-
-    find_table.velocity_reguliser.set_max_speed_ms(max_speed);
-    find_socket.velocity_reguliser.set_max_speed_ms(max_speed);
-    insert_peg.velocity_reguliser.set_max_speed_ms(max_speed);
-
-    find_table.velocity_reguliser.set_min_speed_ms(min_speed);
-    find_socket.velocity_reguliser.set_min_speed_ms(min_speed);
-    insert_peg.velocity_reguliser.set_min_speed_ms(min_speed);
-
+    current_policy           = policy::NONE;
     tf::Quaternion qdiff;
 
     tf::Vector3     velocity, velocity_tmp;
-    tf::Vector3     current_origin, current_origin_tmp;
-    tf::Quaternion  current_orient_WF;
+
 
 
     motion::Vector filter_vel(3);
@@ -134,13 +88,14 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     linear_cddynamics->SetState(filter_vel);
     linear_cddynamics->SetDt(1.0/control_rate);
 
+    ee_peg_listener.update(current_origin_WF,current_orient_WF);
+    current_origin_tmp = current_origin_WF;
 
-    ee_peg_listener.update(current_origin,current_orient_WF);
-    current_origin_tmp = current_origin;
-
-    static tf::TransformBroadcaster br;
-
-    ctrl_type = JOINT_POSITION;
+    ctrl_type       = ctrl_types::JOINT_POSITION;
+    cart_vel_type   = CART_VEL_TYPE::OPEN_LOOP;
+    // start in open loop
+    string_msg.data = "velocity_open";
+    sendString(string_msg);
 
     bool success = true;
     ros::Rate       loop_rate(control_rate);
@@ -152,6 +107,11 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     velocity.setZero();
 
     net_ft_reset_bias();
+    arma::colvec3 force;
+
+    bool bSwitchPASSIVE = false;
+
+    q_des_q_.setRPY(0,0,0);
 
     while(ros::ok()) {
 
@@ -160,84 +120,82 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
         ros_dt          = time - last_time;
         velocity_tmp    = velocity;
 
-        ee_peg_listener.update(current_origin,current_orient_WF);
+        ee_peg_listener.update(current_origin_WF,current_orient_WF);
+
         des_orient_WF   = current_orient_WF;
-        des_origin_     = current_origin;
-        current_dx      = (current_origin - current_origin_tmp) * (1.0 / control_rate);
+        des_origin_     = current_origin_WF;
+        current_dx      = (current_origin_WF - current_origin_tmp) * (1.0 / control_rate);
         wrench_         = ft_listener_.current_msg.wrench;
 
+        force(0)        = wrench_.force.x;
+        force(1)        = wrench_.force.y;
+        force(2)        = wrench_.force.z;
 
-        state_machine.update(Y_c,wrench_);
+        search_policy.update_force_vis(force,current_origin_WF,current_orient_WF);
+        opti_rviz::debug::tf_debuf(x_des_q_,q_des_q_,"x_des_q_");
 
-        if(ctrl_type != JOINT_POSITION){
+
+        if(ctrl_type != ctrl_types::JOINT_POSITION){
 
             switch(current_policy){
-            case FIND_TABLE:
+            case policy::SEARCH_POLICY:
             {
-                find_table.get_linear_velocity(velocity,current_origin,des_origin_,des_orient_WF);
-
-                tf::Quaternion tmp2;
-                tmp2.setRPY(0,-M_PI/2,0);
-                des_orient_WF = des_orient_WF * tmp2;
-                break;
-            }
-            case FIND_SOCKET:
-            {
-                find_socket.get_linear_velocity(velocity,current_origin,des_origin_,des_orient_WF);
-                tf::Quaternion tmp2;
-                tmp2.setRPY(0,-M_PI/2,0);
-                des_orient_WF = tmp2 * des_orient_WF;
-                break;
-            }
-            case FIND_HOLE:
-            {
-                insert_peg.get_linear_velocity(velocity,current_origin);
-                tf::Quaternion tmp2;
-                tmp2.setRPY(0,-M_PI/2,0);
-                des_orient_WF = tmp2 * des_orient_WF;
-                break;
-            }
-            case SEARCH_POLICY:
-            {
-                gma_planner.condition(F);
-                gma_planner.get_ee_linear_velocity(gma_velocity);
-                velocity[0] = gma_velocity[0];
-                velocity[1] = gma_velocity[1];
-                velocity[2] = gma_velocity[2];
-
-                tf::Quaternion tmp2;
-                tmp2.setRPY(0,-M_PI/2,0);
-                des_orient_WF = tmp2 * des_orient_WF;
+                tf::Matrix3x3 current_orient;
+                current_orient.setRotation(current_orient_WF);
+                search_policy.get_velocity(velocity,des_orient_WF,current_origin_WF,current_orient,Y_c,wrench_);
                 break;
             }
             default:
             {
-
                 velocity.setZero();
                 break;
             }
-            }
+            };
 
-            // assume constant velocity
-            velocity = velocity / (velocity.length() + std::numeric_limits<double>::min());
-            velocity = 0.10 * velocity;
 
-            for(std::size_t i = 0; i < 3;i++){
-                velocity[i]  = filters::exponentialSmoothing(velocity[i],velocity_tmp[i], 0.2);
-                if(std::isnan(velocity[i]) || std::isinf(velocity[i]))
+            if(velocity.length() != 0){
+                // assume constant velocity
+                velocity = velocity / (velocity.length() + std::numeric_limits<double>::min());
+
+                if(cart_vel_type == CART_VEL_TYPE::OPEN_LOOP)
                 {
-                    velocity[i] = 0;
-                    ROS_WARN_THROTTLE(0.1,"velocity is nan or inf (peg_hole_policy)");
+                    velocity = 0.01 * velocity;
+                }else if(cart_vel_type == CART_VEL_TYPE::PASSIVE_DS){
+                    velocity = 0.025 * velocity;
+                }
+
+                for(std::size_t i = 0; i < 3;i++){
+                    velocity[i]  = filters::exponentialSmoothing(velocity[i],velocity_tmp[i], 0.02);
+                    if(std::isnan(velocity[i]) || std::isinf(velocity[i]))
+                    {
+                        velocity[i] = 0;
+                        ROS_WARN_THROTTLE(0.1,"velocity is nan or inf (peg_hole_policy)");
+                    }
                 }
             }
 
+            // Safety check magnitude of velocity
+            if(velocity.length() >= 0.2){
+                ROS_WARN_STREAM_THROTTLE(1.0,"velocity magnite[" << velocity.length() << "] to large! [peg_hole_policy]");
+                velocity.setZero();
+            }
 
+            /// Plot direction velocity
+            arrows[0].origin    = current_origin_WF;
+            arrows[0].direction = velocity;
+            arrows[0].direction = arrows[0].direction.normalize();
+            arrows[0].direction = 0.1 *  arrows[0].direction;
+
+            vis_vector.update(arrows);
+            vis_vector.publish();
 
             /// COMPUTE ANGULAR VELOCITY
             qdiff = des_orient_WF - current_orient_WF;
             Eigen::Quaternion<double>  dq (qdiff.getW(),qdiff.getX(),qdiff.getY(),qdiff.getZ());
             Eigen::Quaternion<double>   q(current_orient_WF.getW(),current_orient_WF.getX(),current_orient_WF.getY(), current_orient_WF.getZ());
             Eigen::Vector3d w = motion::d2qw<double>(q,dq);
+
+            //velocity.setZero();
 
             linear_vel_cmd_(0)  = velocity[0];
             linear_vel_cmd_(1)  = velocity[1];
@@ -249,33 +207,13 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
 
             orientation_cmd_ = Eigen::Quaterniond(des_orient_WF.w(),des_orient_WF.x(),des_orient_WF.y(),des_orient_WF.z());
 
+            ROS_INFO_STREAM_THROTTLE(1.0,"linear_vel_cmd_: " << linear_vel_cmd_[0] << " " << linear_vel_cmd_[1] << " " << linear_vel_cmd_[2] );
 
-            arrows[0].origin    = current_origin;
-            arrows[0].direction = velocity;
-            arrows[0].direction = arrows[0].direction.normalize();
-            arrows[0].direction = 0.1 *  arrows[0].direction;
-            vis_vector.update(arrows);
-            vis_vector.publish();
-
-
-
-            tf::Transform transform;
-            transform.setOrigin(current_origin);
-            transform.setRotation(current_orient_WF);
-            br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "current"));
-
-            transform.setOrigin(des_origin_);
-            transform.setRotation(des_orient_WF);
-            br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "target"));
-
-
+            //linear_vel_cmd_.setZero();
 
             // SET COMMAND VALUES
             set_command(linear_vel_cmd_,angular_vel_cmd_,orientation_cmd_);
-
-
         }
-
 
 
         feedback.progress = 0;
@@ -290,7 +228,7 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
 
         ros::spinOnce();
         loop_rate.sleep();
-        current_origin_tmp = current_origin;
+        current_origin_tmp = current_origin_WF;
     }
 
 
@@ -299,7 +237,7 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     req.cmd = "grav_comp";
     cmd_callback(req,res);
 
-    current_policy = NONE;
+    current_policy = policy::NONE;
     linear_vel_cmd_.setZero();
     angular_vel_cmd_.setZero();
 
@@ -328,13 +266,32 @@ void Peg_hole_policy::set_command(const Eigen::Vector3d& linear_vel_cmd,
 
     sendCartVel(des_ee_vel_msg);
     sendOrient(orient_msg);
+}
 
+void Peg_hole_policy::disconnect(){
+
+    tf::StampedTransform transform;
+    opti_rviz::Listener::get_tf_once("world","lwr_peg_link",transform);
+    tf::Vector3 target = transform.getOrigin();
+    target[0] = target[0] + 0.05;
+    opti_rviz::type_conv::tf2geom(target,current_orient_WF,ee_pos_msg);
+    sendCartPose(ee_pos_msg);
 }
 
 void Peg_hole_policy::cdd_callback(peg_hole_policy::cdd_filterConfig& config, uint32_t level){
-
     linear_cddynamics->SetWn(config.Wn);
+}
 
+
+void Peg_hole_policy::x_des_callback(const geometry_msgs::Pose& pos){
+    //  std::cout<< "pos: " << pos.position.x << " " << pos.position.y << " " << pos.position.z << std::endl;
+    x_des_q_.setX(pos.position.x);
+    x_des_q_.setY(pos.position.y);
+    x_des_q_.setZ(pos.position.z);
+    q_des_q_.setX(pos.orientation.x);
+    q_des_q_.setY(pos.orientation.y);
+    q_des_q_.setZ(pos.orientation.z);
+    q_des_q_.setW(pos.orientation.w);
 }
 
 bool Peg_hole_policy::net_ft_reset_bias(){
@@ -367,52 +324,90 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
 
     ROS_INFO("cmd_callback:: Peg_hole_policy");
     std::cout<< "cmd: " << cmd << std::endl;
-    if(cmd == "go_table"){
-        current_policy = FIND_TABLE;
-        ctrl_type      = CARTESIAN;
-        res.res = "going to table!";
-    }else if(cmd == "go_socket"){
-        current_policy = FIND_SOCKET;
-        ctrl_type      = CARTESIAN;
-        res.res = "going to socket!";
-    }else if(cmd == "insert"){
-        current_policy = FIND_HOLE;
-        ctrl_type      = CARTESIAN;
-        res.res = "going to connect peg and socket!";
+    if (cmd == "gmm"){
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        res.res        = "gmr policy ON!";
+        search_policy.reset();
+        grav_msg.data  = false;
+        sendGrav(grav_msg);
+    }else if(cmd == "passive_ds"){
+        string_msg.data = "velocity_ps";
+        sendString(string_msg);
+        cart_vel_type = CART_VEL_TYPE::PASSIVE_DS;
+    }else if(cmd == "open_loop"){
+        string_msg.data = "velocity_open";
+        sendString(string_msg);
+        cart_vel_type = CART_VEL_TYPE::OPEN_LOOP;
     }else if(cmd == "pause"){
-        current_policy = NONE;
-        ctrl_type      = CARTESIAN;
+        current_policy = policy::NONE;
+        ctrl_type      = ctrl_types::CARTESIAN;
         res.res = "pause!";
     }else if(cmd == "go_front"){
-        current_policy = NONE;
-        ctrl_type      = JOINT_POSITION;
-        joint_pos_msg.data = {{-1.02974,0.471239,0.401426,-1.76278,-1.0472,-0.802851,0.785398}};
+        current_policy = policy::NONE;
+        ctrl_type      = ctrl_types::JOINT_POSITION;
+        joint_pos_msg.data  = {{-1.02974,0.471239,0.401426,-1.76278,-1.0472,-0.802851,0.785398}};
+        damp_msg.data       = {{0.7,0.7,0.7,0.7,0.7,0.7,0.7}};
+        stiff_msg.data      = {{100,100,100,100,100,100,100}};
+        sendDamp(damp_msg);
+        sendStiff(stiff_msg);
         sendJointPos(joint_pos_msg);
         res.res = "going front";
         ros::spinOnce();
+
+    }else if(cmd == "go_peg_right"){
+        current_policy      = policy::NONE;
+        ctrl_type           = ctrl_types::JOINT_POSITION;
+        {
+            using namespace opti_rviz;
+            joint_pos_msg.data  = {{deg2rad(-29.2),deg2rad(34.35),deg2rad(20),deg2rad(-105),deg2rad(-16.13),deg2rad(-47.46),deg2rad(0)}};
+        }
+        damp_msg.data       = {{0.7,0.7,0.7,0.7,0.7,0.7,0.7}};
+        stiff_msg.data      = {{100,100,100,100,100,100,100}};
+        sendDamp(damp_msg);
+        sendStiff(stiff_msg);
+        sendJointPos(joint_pos_msg);
+        res.res = "going front";
+        ros::spinOnce();
+    }else if(cmd == "insert"){
+        search_policy.set_action(actions::FIND_SOCKET_HOLE);
+        search_policy.set_socket_policy(SOCKET_POLICY::INSERT);
+        res.res = "insert..!";
+        ros::spinOnce();
+    }else if(cmd=="go_socket"){
+        search_policy.set_action(actions::FIND_SOCKET_HOLE);
+        search_policy.set_socket_policy(SOCKET_POLICY::TO_SOCKET);
+        res.res = "socket..!";
+    }else if(cmd == "disconnect"){
+        disconnect();
+        res.res = "disconnecting..!";
+        ros::spinOnce();
     }else if(cmd == "go_left"){
-        current_policy = NONE;
-        ctrl_type      = JOINT_POSITION;
+        current_policy = policy::NONE;
+        ctrl_type      = ctrl_types::JOINT_POSITION;
         joint_pos_msg.data = {{0.803,0.4995,0.0286,-1.986,0.9915,-1.1997,-0.5516}};
         sendJointPos(joint_pos_msg);
         res.res = "going left";
         ros::spinOnce();
     }else if(cmd == "home"){
-        current_policy = NONE;
-        ctrl_type      = JOINT_POSITION;
+        current_policy = policy::NONE;
+        ctrl_type      = ctrl_types::JOINT_POSITION;
         joint_pos_msg.data  =  {{0,0.785398,0.122173,-2.01099,-0.174533,0.261799,0}};
         sendJointPos(joint_pos_msg);
         res.res = "going home";
         ros::spinOnce();
     }else if(cmd == "grav_comp"){
-        current_policy = NONE;
-        ctrl_type      = JOINT_POSITION;
+        current_policy = policy::NONE;
+        ctrl_type      = ctrl_types::JOINT_POSITION;
         grav_msg.data  = !grav_msg.data;
+        if(grav_msg.data){res.res = "gravity: false";}else{res.res = "gravity: true";}
         sendGrav(grav_msg);
     }else{
         res.res = "no such cmd [" + cmd + "]!";
         return false;
     }
+    std::cout<< res.res << std::endl;
+
 
     return true;
 }

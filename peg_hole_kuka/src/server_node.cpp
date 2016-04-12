@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
     // ----------- Launch ros node ----------------------
 
-    ros::init(argc, argv, "plan2ctrl");
+    ros::init(argc, argv,"");
     ROS_INFO("Initializing Server");
     ros::NodeHandle nh;
 
@@ -52,11 +52,23 @@ int main(int argc, char** argv)
     /**  ------------- Initialise control policies ------------- **/
 
 
-    belief::Gmm_planner gmm_planner(nh,world_frame,sensor_topic,classifier_topic,F_topic,path_parameters);
+    belief::Gmm_planner_initialiser init;
+    init.belief_state_size      = 4;
+    init.bel_feature_topic      = F_topic;
+    init.ft_classifier_topic    = classifier_topic;
+    init.sensor_topic           = ft_topic;
+    init.world_frame            = world_frame;
+    init.path_parameters        = path_gmm_param;
+    belief::Gmm_planner gmm_planner(nh,init);
 
-    ph_policy::Peg_hole_policy peg_hole_policy(nh,path_sensor_model,world_frame);
+    Peg_world_wrapper   peg_world_wrapper(nh,"peg_hole_kuka_action",path_sensor_model,world_frame,"lwr_peg_link");
 
-    simple_actions::Linear_cart_action linear_cart_action(nh);
+   // Peg_sensor_model&   peg_sensor_model = *(peg_world_wrapper.peg_sensor_model.get());
+
+
+    ph_policy::Peg_hole_policy peg_hole_policy(nh,path_sensor_model,world_frame,gmm_planner,peg_world_wrapper);
+
+   // simple_actions::Linear_cart_action linear_cart_action(nh);
 
 
 

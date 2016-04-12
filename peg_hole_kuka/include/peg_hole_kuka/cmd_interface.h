@@ -11,7 +11,9 @@
 #include "particle_filter/String_cmd.h"
 #include "netft_rdt_driver/netft_rdt_bias.h"
 #include "netft_rdt_driver/String_cmd.h"
+#include "record_ros/String_cmd.h"
 #include <map>
+#include "console/Console.h"
 
 /**
  *  Command Interface for peg in hole task
@@ -23,6 +25,7 @@
  *
  */
 
+
 class Cmd_interface{
 
 public:
@@ -33,7 +36,8 @@ public:
         FT,
         PLANNER,
         UTILITY,
-        PEG_POLICY
+        PEG_POLICY,
+        RECORD
     } cmd_type;
 
     class cmd_info{
@@ -53,9 +57,12 @@ public:
                   const std::string& pf_client_name,
                   const std::string& exploration_client_name,
                   const std::string& peg_policy_client_name,
-                  const std::string& voice_topic_name);
+                  const std::string& voice_topic_name,
+                  const string &record_topic_name);
 
     bool service_callback(peg_hole_kuka::String_cmd::Request& req,peg_hole_kuka::String_cmd::Response &res);
+
+    void set_console(Console* console);
 
 private:
 
@@ -74,6 +81,9 @@ private:
     bool call_utility(const std::string& cmd, std::string& res);
 
     bool call_planner(const std::string& cmd);
+
+    bool call_record(const std::string& cmd);
+
 
 private:
 
@@ -95,8 +105,14 @@ private:
     ros::ServiceClient                       peg_policy_client;
     peg_hole_policy::String_cmd              peg_hole_policy;
 
+    ros::ServiceClient                       record_client;
+    record_ros::String_cmd                   record_cmd;
+
 
     ros::Subscriber                          nl_subscriber; /// natural language voice interface
+
+
+    Console*                                 console;
 
     std::map<std::string,cmd_info>           cmds;
     std::map<std::string,cmd_info>::iterator it;

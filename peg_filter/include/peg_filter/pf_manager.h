@@ -22,7 +22,6 @@
 #include <array>
 #include <map>
 
-
 namespace plugfilter {
 
 
@@ -34,6 +33,9 @@ typedef enum {SIR,GMM,HIST,PMF} pf_type;
 class PF_parameters {
 
 public:
+
+    PF_parameters();
+
 
     PF_parameters(pf::Measurement_h&     measurement_h,
                   pf::likelihood_model& likelihood_f);
@@ -59,16 +61,13 @@ class Plug_pf_manager {
 
 public:
 
-    typedef boost::shared_ptr<pf::Particle_filter_sir>                ptr_pf_sir;
-    typedef boost::shared_ptr<pf::Particle_filter_gmm>                ptr_pf_gmm;
-    typedef boost::shared_ptr<pf::Static_grid_filter>                 ptr_pf_grid;
-    typedef boost::shared_ptr<pf::Base_particle_filter>               ptr_pf;
-    typedef boost::shared_ptr<pf::Point_mass_filter>                  ptr_pmf;
-
-
 public:
 
-    Plug_pf_manager(const PF_parameters& pf_parameters, const string &fixed_frame, const string &target_frame);
+    Plug_pf_manager();
+
+    void add(pf::Base_particle_filter* base_particle_filter,const std::string& name);
+
+    bool select_method(const std::string& name);
 
     void update(const arma::colvec& Y, const arma::colvec &u,const arma::mat33& rot, double duration_s);
 
@@ -80,48 +79,10 @@ public:
 
     void init_visualise(ros::NodeHandle& node);
 
-    void initialise_prior_pdf(const arma::colvec3& Plug_position);
-
-
 private:
 
-    void initialise_motion_model();
-
-
-    inline float rescale(float x,float old_min,float old_max,float new_min,float new_max){
-        return (((x - old_min) * (new_max - new_min)) / (old_max - old_min)) + new_min;
-    }
-
-    void update_center_rectangle(const arma::colvec3& P,arma::colvec3 rec_pos,const arma::colvec3& dim);
-
-    bool is_in_rectangle(const arma::colvec3& P,const arma::colvec3 rec_pos,const arma::colvec3& dim) const;
-
-public:
-
-    ptr_pf                                  particle_filter;
-
-    ptr_pf_sir                              pf_sir_;
-    ptr_pmf                                 ptr_pmf_;
-    bool                                    bUpdate;
-
-private:
-
-    std::unique_ptr<Plug_motion_model>      peg_motion_model;
-
-    pf::Sampling                            sampler;
-
-    /// The three necessary functions needed for the particle filter
-
-    pf::likelihood_model                    peg_likelihood_f;
-    pf::Measurement_h                       peg_measurement_h;
-    pf::motion_model                        peg_motion_model_f;
-
-
-    stats::Uniform                          uniform;
-    pf_type                                 particle_filter_type;
-    opti_rviz::Vis_point_cloud::display_mode viz_mode;
-    pf::color_type                          color_t;
-
+    std::map<std::string,pf::Base_particle_filter*> filter_methods;
+    std::map<std::string,pf::Base_particle_filter*>::iterator it_filter_method;
 
 };
 

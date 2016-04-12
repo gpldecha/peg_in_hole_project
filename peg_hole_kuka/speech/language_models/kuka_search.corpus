@@ -20,7 +20,15 @@ print
 impedance two
 impedance five
 reset bias
+open loop
+passive ds
 
+record
+
+filter
+filter reset
+
+policy
 
 I will teach you
 I will train you

@@ -5,45 +5,57 @@
 #include <std_msgs/Float64MultiArray.h>
 #include <armadillo>
 #include "visualise/vis_points.h"
+#include "visualise/vis_gmm.h"
 
-class Mode_feature{
+#include "base_bel_compress.h"
+#include "particle_filter/particle_filter_definitions.h"
+
+class ModeBeliefCompress : public BaseBeliefCompression{
 
     enum  {
-        X = 0,
-        Y = 1,
-        Z = 2,
-        W = 3
+        hX = 0,
+        hY = 1,
+        hZ = 2,
+        H = 3
     } fv;
 
 public:
 
-    Mode_feature(ros::NodeHandle& nh, const arma::mat& points,const arma::colvec& weights);
+    ModeBeliefCompress(ros::NodeHandle& nh,const std::string& name);
 
-    void update();
+    virtual void update(const arma::colvec3& velocity, const arma::mat& points, const arma::cube& P);
 
     void visualize();
 
-private:
-
-    void get_mode_feature();
+    arma::colvec3 get_mode();
 
 private:
 
-    const arma::mat&            points;
-    const arma::colvec&         weights;
+    void arg_max_x(arma::colvec3& pos, double& w, const arma::colvec3& pos_tmp,const arma::mat& points, const arma::cube &P);
+
+private:
+
+    arma::mat*                  points_ptr;
+    arma::cube*                 P_ptr;
+    arma::mat33                 Sigma;  // sample covariance
 
     std_msgs::Float64MultiArray feature_msg;
     ros::Publisher              pub;
 
-    double                      max_w;
+    double                      Entropy;
+    double                      max_w, argmax_w;
     double                      max_tmp;
     double                      delta_max_threashold;
-    arma::colvec3               mode_point;
+    arma::colvec3               mode_point,mode_point_tmp;
+    arma::rowvec3               mean;
     arma::uword                 index,index_tmp;
     bool                        bFirst;
 
     opti_rviz::Vis_points       vis_points;
     arma::fmat                  vis_pts;
+    opti_rviz::Vis_gmm          vis_gmm;
+
+    bool bFristModeFeature;
 
 };
 

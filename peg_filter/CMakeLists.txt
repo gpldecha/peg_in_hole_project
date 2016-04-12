@@ -64,6 +64,7 @@ set(H_FILES
              ${INCLUDE_DIR}/peg_filter/pf_manager.h
              ${INCLUDE_DIR}/peg_filter/plug_service.h
 
+             ${INCLUDE_DIR}/peg_filter/belief_features/base_bel_compress.h
              ${INCLUDE_DIR}/peg_filter/belief_features/belief_features.h
              ${INCLUDE_DIR}/peg_filter/belief_features/mode_feature.h
 

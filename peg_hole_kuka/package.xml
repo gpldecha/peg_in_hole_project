@@ -47,12 +47,6 @@
   <build_depend>geometry_msgs</build_depend>
   <build_depend>tf</build_depend>
 
-  <build_depend> kuka_action_server </build_depend>
-  <run_depend>   kuka_action_server </run_depend>
-
-  <build_depend> kuka_action_client </build_depend>
-  <run_depend>   kuka_action_client </run_depend>
-
   <build_depend> peg_filter </build_depend>
 
   <build_depend> exploration_planner </build_depend>

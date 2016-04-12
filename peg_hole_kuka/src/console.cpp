@@ -110,6 +110,10 @@ void PegConsole::addcallback(ros_callback* callback){
     service_callback = callback;
 }
 
+Console *PegConsole::get_console(){
+    return &mConsole;
+}
+
 void PegConsole::ConsoleUpdate(){
     std::string s    = mOutputStream.str();
     /*std::size_t cpos = 0;

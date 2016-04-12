@@ -6,12 +6,14 @@ Cmd_interface::Cmd_interface(ros::NodeHandle &nh,
                              const std::string& pf_client_name,
                              const std::string& exploration_client_name,
                              const std::string& peg_policy_client_name,
-                             const std::string& voice_topic_name)
+                             const std::string& voice_topic_name,
+                             const std::string& record_topic_name)
 {
     service                 = nh.advertiseService(service_name,&Cmd_interface::service_callback,this);
 
 
     action_client           = nh.serviceClient<kuka_action_client::String_cmd>(action_client_name);
+
     particle_filter_client  = nh.serviceClient<particle_filter::String_cmd>(pf_client_name);
     exploration_client      = nh.serviceClient<exploration_planner::String_cmd>(exploration_client_name);
     peg_policy_client       = nh.serviceClient<peg_hole_policy::String_cmd>(peg_policy_client_name);
@@ -19,8 +21,14 @@ Cmd_interface::Cmd_interface(ros::NodeHandle &nh,
 
     nl_subscriber           = nh.subscribe(voice_topic_name,1,&Cmd_interface::nl_command_callback,this);
 
+    record_client           = nh.serviceClient<record_ros::String_cmd>(record_topic_name);
+
     init_commands();
 
+}
+
+void Cmd_interface::set_console(Console* console){
+    this->console = console;
 }
 
 void Cmd_interface::init_commands(){
@@ -36,6 +44,19 @@ void Cmd_interface::init_commands(){
     cmds["go_front"]            = cmd_info("go_front",  cmd_type::PEG_POLICY);
     cmds["go_left"]             = cmd_info("go_left",   cmd_type::PEG_POLICY);
     cmds["home"]                = cmd_info("home",      cmd_type::PEG_POLICY);
+    cmds["gmm"]                 = cmd_info("gmm",       cmd_type::PEG_POLICY);
+    cmds["open_loop"]           = cmd_info("open_loop", cmd_type::PEG_POLICY);
+    cmds["passive_ds"]          = cmd_info("passive_ds", cmd_type::PEG_POLICY);
+    cmds["go_peg_right"]        = cmd_info("go_peg_right", cmd_type::PEG_POLICY);
+    cmds["disconnect"]          = cmd_info("disconnect", cmd_type::PEG_POLICY);
+
+
+
+
+    cmds["record"]              = cmd_info("record", cmd_type::RECORD);
+
+
+
 
     cmds["bias"]                = cmd_info("bias",      cmd_type::FT);
 
@@ -71,7 +92,7 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
         cmd_type cmd_t  = cmd_inf.c_type;
         std::string cmd = cmd_inf.cmd_name;
 
-        std::cout<< "cmd: " << cmd << std::endl;
+        console->Print("cmd: " + cmd);
 
         switch(cmd_t){
         case cmd_type::ACTION:
@@ -100,6 +121,11 @@ bool Cmd_interface::service_callback(peg_hole_kuka::String_cmd::Request& req,peg
         case cmd_type::UTILITY:
         {
             return call_utility(cmd,res.res);
+            break;
+        }
+        case cmd_type::RECORD:
+        {
+            return call_record(cmd);
             break;
         }
         default:
@@ -132,11 +158,12 @@ bool Cmd_interface::call_peg_policy(const std::string& cmd, std::string& res){
     peg_hole_policy.request.cmd = cmd;
     if(!peg_policy_client.call(peg_hole_policy.request,peg_hole_policy.response)){
         res = peg_hole_policy.response.res;
-        std::cout<< peg_hole_policy.response.res << std::endl;
+        console->Print(peg_hole_policy.response.res);
+
         return false;
     }else{
         res = peg_hole_policy.response.res;
-        std::cout<< peg_hole_policy.response.res << std::endl;
+        console->Print(peg_hole_policy.response.res);
         return true;
     }
 }
@@ -159,6 +186,19 @@ bool Cmd_interface::call_planner(const std::string& cmd){
         return true;
     }else{
         ROS_ERROR("no such cmd [%s] declared in Cmd_interface",cmd.c_str());
+        return false;
+    }
+}
+
+bool Cmd_interface::call_record(const std::string& cmd){
+    if(cmd == "record"){
+        record_cmd.request.cmd  = "record";
+        record_cmd.response.res = "None";
+        record_client.call(record_cmd);
+        console->Print(" " + record_cmd.response.res);
+        return true;
+    }else{
+        ROS_ERROR_STREAM("no such cmd [" << cmd << "]");
         return false;
     }
 }

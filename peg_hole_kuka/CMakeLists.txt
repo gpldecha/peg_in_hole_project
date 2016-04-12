@@ -5,8 +5,6 @@ find_package(catkin REQUIRED
 tf
 roscpp
 cmake_modules
-kuka_action_server
-kuka_action_client
 message_generation
 peg_filter
 exploration_planner

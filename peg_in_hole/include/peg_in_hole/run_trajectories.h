@@ -32,7 +32,6 @@ public:
         b_print_sensor  = false;
     }
 
-    psm::type_sensor      t_sensor;
     wobj::WrapObject&     wrapped_objects;
     bool                  b_print_sensor;
 

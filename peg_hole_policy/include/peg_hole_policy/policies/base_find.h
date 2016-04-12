@@ -13,7 +13,7 @@ class Base_find{
 
 public:
 
-    Base_find(ros::NodeHandle& nh,const std::string& path_sensor_model,const std::string& fixed_frame);
+    Base_find(ros::NodeHandle& nh, const std::string& path_sensor_model, const std::string& fixed_frame, const std::string &peg_frame);
 
     virtual void get_linear_velocity(tf::Vector3& velocity,const tf::Vector3& peg_origin) = 0;
 

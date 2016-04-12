@@ -44,11 +44,11 @@
   <build_depend>    robot_base_planner  </build_depend>
   <run_depend>      robot_base_planner  </run_depend>
 
+  <build_depend>    exploration_planner  </build_depend>
+  <run_depend>      exploration_planner  </run_depend>
+
   <build_depend>    roscpp              </build_depend>
   <run_depend>      roscpp              </run_depend>
-
-  <build_depend>    kuka_action_server  </build_depend>
-  <run_depend>      kuka_action_server  </run_depend>
 
   <build_depend>    peg_sensor          </build_depend>
   <run_depend>      peg_sensor          </run_depend>
@@ -62,7 +62,12 @@
   <build_depend>	netft_rdt_driver		</build_depend>
   <run_depend>		netft_rdt_driver		</run_depend>
 
+  <build_depend>	optitrack_rviz		</build_depend>
+  <run_depend>		optitrack_rviz		</run_depend>
 
+
+  <build_depend>	particle_filter		</build_depend>
+  <run_depend>		particle_filter		</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -11,7 +11,7 @@
 
 	<arg name="origin"			default="1 0 0"/>
 	<arg name="orientation"			default="0 0 0.707107 0.707107"/>
-	
+	<arg name="world_frame" 		default="/world"/>
 
 
 	<group ns="peg_handle">
@@ -21,11 +21,11 @@
 
 		<group if="$(arg use_vision_broadcaster)">
 			<node name="peg_handle" type="peg_handle_node" pkg="peg_handle" 
-			      args="-fixed_frame world_frame -target_frame_listener plug_root -target_frame_broadcaster link_cylinder -origin $(arg origin) -orientation $(arg orientation) -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"
+			      args="-fixed_frame $(arg world_frame) -target_frame_listener plug_root -target_frame_broadcaster link_cylinder -origin $(arg origin) -orientation $(arg orientation) -save $(arg save_path) -load $(arg load_saved) -rate 100" output="screen"
 			/>
 		</group>
 		<group if="$(arg use_broadcaster)">
-			<node pkg="tf" type="static_transform_publisher" name="peg_static_broadcaster" args="$(arg origin) $(arg orientation) world_frame peg_link 100" />
+			<node pkg="tf" type="static_transform_publisher" name="peg_static_broadcaster" args="$(arg origin) $(arg orientation) $(arg world_frame) peg_link 100" />
 		</group>
 
 	</group>

@@ -9,6 +9,7 @@ int main(int argc, char** argv){
     input["-rate"]              = "100";
     input["-fixed_frame"]       = "world_frame";
     input["-path_sensor_model"] = "";
+    input["-peg_link_name"]     = "";
 
 
     if(!opti_rviz::Input::process_input(argc,argv,input)){
@@ -21,11 +22,13 @@ int main(int argc, char** argv){
     std::string fixed_frame           = input["-fixed_frame"] ;
     std::string path_sensor_model     = input["-path_sensor_model"];
     std::string urdf_path             = input["-urdf"];
+    std::string peg_link_name         = input["-peg_link_name"];
+
 
     ros::init(argc, argv, "peg_in_hole");
     ros::NodeHandle nh;
 
-    Peg_world_wrapper peg_world_wrapper(nh,"peg_in_hole",path_sensor_model,fixed_frame);
+    Peg_world_wrapper peg_world_wrapper(nh,"peg_in_hole",path_sensor_model,fixed_frame,peg_link_name);
 
     ros::Rate rate(boost::lexical_cast<float>(input["-rate"]));
     while(nh.ok()){

@@ -17,4 +17,8 @@ allegro_hand_control:
      'impedance two': impedance_two
      'impedance five': impedance_five
      'reset bias': bias
-
+     'filter reset': pf_reset
+     'policy': gmm
+     'open loop': open_loop
+     'passive ds': passive_ds
+     'record': record

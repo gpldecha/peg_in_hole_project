@@ -4,7 +4,7 @@ namespace ph_policy{
 
 
 Find_table::Find_table(ros::NodeHandle& nh,const std::string& path_sensor_model,const std::string& fixed_frame):
-    Base_find(nh,path_sensor_model,fixed_frame)
+    Base_find(nh,path_sensor_model,fixed_frame,"lwr_peg_link")
 {
 
     peg_world_wrapper.get_wrapped_objects().print_info(wobj::NAMES);
@@ -29,15 +29,15 @@ void Find_table::get_linear_velocity(tf::Vector3 &velocity, const tf::Vector3& p
     }
 
     direction       = (surf_proj - peg_position);
-    ROS_INFO_STREAM_THROTTLE(1.0,"surf_proj:       " << surf_proj(0) << " " << surf_proj(1) << " " << surf_proj(2));
-    ROS_INFO_STREAM_THROTTLE(1.0,"distance_target: " << distance_target);
+   // ROS_INFO_STREAM_THROTTLE(1.0,"surf_proj:       " << surf_proj(0) << " " << surf_proj(1) << " " << surf_proj(2));
+   // ROS_INFO_STREAM_THROTTLE(1.0,"distance_target: " << distance_target);
 
     distance_target =  arma::norm(direction,2);
     direction       =  direction/(distance_target + std::numeric_limits<double>::min());
     speed           =  velocity_reguliser.bel_shape_curve(distance_target,beta_vel_reg);
 
 
-    ROS_INFO_STREAM_THROTTLE(1.0,"speed: " << speed << " m/s");
+   // ROS_INFO_STREAM_THROTTLE(1.0,"speed: " << speed << " m/s");
     direction = speed * direction;
     velocity.setX(direction(0));
     velocity.setY(direction(1));

@@ -7,36 +7,30 @@
 
 #include <set>
 #include <armadillo>
+#include <boost/shared_ptr.hpp>
+#include <map>
+#include "base_bel_compress.h"
 
 
-
-class Belief_features{
-
-    typedef enum feature_type{
-        moste_likely,
-        mean,
-        entropy
-    } feature_type;
+class Belief_compression{
 
 public:
 
-    Belief_features(ros::NodeHandle& nh, const arma::mat& points,const arma::colvec& weights);
+    Belief_compression();
 
-    void update();
+    void update(const arma::colvec3 &velocity, const arma::mat &points, const arma::cube &P);
 
-    void add_feature(feature_type f_type);
+    bool set_method(const std::string& name);
 
-
-private:
-
-    Mode_feature                     mode_features;
-
-    std::set<feature_type>           feature_types;
-    std::set<feature_type>::iterator it;
-
+    void add_bel_compress_method(BaseBeliefCompression *bel_compress_method);
 
 
 private:
+
+    //Mode_feature                     mode_features;
+    std::map<std::string,BaseBeliefCompression*> methods;
+    std::map<std::string,BaseBeliefCompression*>::iterator it;
+
 
 
 };

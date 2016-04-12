@@ -27,7 +27,6 @@ int main(int argc, char** argv)
     std::string action_serivce_name   =  param_name_value[node_name + "/action_service_name"];
     std::string cmd_service_name      =  param_name_value[node_name + "/cmd_service_name"];
     std::string action_server_name    =  param_name_value[node_name + "/action_server_name"];
-
     /** ------------- Initialise Action Client & Set Action-Goals ------------- **/
 
     ac::Kuka_action_client  kuka_action_client(action_server_name);

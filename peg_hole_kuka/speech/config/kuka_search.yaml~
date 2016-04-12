@@ -3,18 +3,22 @@ allegro_hand_control:
   topics:
     - allegroHand/lib_cmd : String
   allegroHand/lib_cmd:
-     'okay robot go front': go_front
-     'okay robot go left': go_left
-     'okay robot table': go_table
-     'okay robot socket': go_socket
-     'okay robot insert': insert
+     'go front': go_front
+     'go left': go_left
+     'go to table': go_table
+     'socket': go_socket
+     'insert': insert
      'search': plug_search
      'stop': stop
      'pause': pause
-     'okay robot disconnect': disconnect
+     'okay disconnect': disconnect
      'gravity': grav_comp
      'print': print
      'impedance two': impedance_two
      'impedance five': impedance_five
      'reset bias': bias
-
+     'filter reset': pf_reset
+     'policy': gmm
+     'open loop': open_loop
+     'passive ds': passive_ds
+     'record': record	

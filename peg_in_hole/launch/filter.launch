@@ -1,15 +1,13 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <launch>
-
-
 	<arg name="sensor_topic"	value="/ft_classifier"/>
-	<arg name="action_topic" 	default="lwr_peg_link"/>
-	<arg name="peg_link_name" 	value="lwr_peg_link"/>
+	<arg name="action_topic" 	value="peg_link"/>
+	<arg name="peg_link_name" 	value="peg_link"/>
 
 	<!-- launch FT sensor -->
 	<include file="$(find netft_rdt_driver)/launch/ft_sensor.launch">
 		<arg  name="rate" 	 value="100"/>	
-		<arg  name="frame_id"    value="lwr_peg_link"/>
+		<arg  name="frame_id"    value="peg_link"/>
 		<arg  name="alpha"       value="0.2"/>
 		<arg  name="rot"	 value="0.7"/>
 		<arg  name="scale_y" 	 value="-1"/>
@@ -19,7 +17,9 @@
 	<include file="$(find ft_sensor_python)/launch/ft_sensor.launch"/>
 
 	<!-- launch peg sensor -->
-	<include file="$(find peg_sensor)/launch/peg_sensor.launch"/>
+	<include file="$(find peg_sensor)/launch/peg_sensor.launch">
+		<arg name="peg_link_name"       value="peg_link"/>
+	</include>
 
 	<!-- launch particle filter -->
 	<include file="$(find peg_filter)/launch/peg_particle_filter.launch">

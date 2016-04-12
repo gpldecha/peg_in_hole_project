@@ -6,16 +6,25 @@
 #include <ros/ros.h>
 #include <peg_filter/pf_manager.h>
 #include <optitrack_rviz/listener.h>
+#include <functional>
 
 namespace plugfilter {
 
+
+
 class Plug_service{
 
+public:
+
     enum{RESET,BETA,NOISE,START};
+
+    typedef std::function<void(double x, double y, double z)> Initialise;
 
 public:
 
     Plug_service(ros::NodeHandle& node,Plug_pf_manager& plug_pf_manager);
+
+    void set_initilisation_function(const Initialise* initialise_f);
 
 private:
 
@@ -25,6 +34,7 @@ private:
 
     ros::ServiceServer                      service;
     Plug_pf_manager&                        plug_pf_manager;
+    const Initialise*                       initialise_f;
     std::map<std::string,int>               cmds;
 
 };

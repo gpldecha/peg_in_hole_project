@@ -36,20 +36,10 @@ void State_machine::update(Eigen::Vector3d& Y_c, geometry_msgs::Wrench &wrench){
 
 }
 
-/*
-void State_machine::update_contact(){
+State State_machine::get_state() const{
 
+}
 
-    if(peg_sensor_listener.Y.n_elem > 1){
-
-        if(peg_sensor_listener.Y(0) == 1){
-            state.set_contact(true);
-        }else{
-            state.set_contact(false);
-        }
-    }
-
-}*/
 
 
 }

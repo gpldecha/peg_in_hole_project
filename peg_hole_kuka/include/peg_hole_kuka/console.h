@@ -55,6 +55,7 @@ public:
 
     void addcallback(ros_callback* callback);
 
+    Console *get_console();
 
 
 private:
