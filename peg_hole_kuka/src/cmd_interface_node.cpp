@@ -1,7 +1,7 @@
 #include <ros/ros.h>
 
 #include "peg_hole_kuka/cmd_interface.h"
-#include "kuka_action_client/action_client_cmd_interface.h"
+#include "lwr_ros_client/action_client_cmd_interface.h"
 #include "peg_hole_kuka/console.h"
 #include <memory>
 #include <functional>
@@ -15,12 +15,12 @@ int main(int argc,char** argv)
 
     /**  ------------- Overlord command interface  ------------- **/
 
-    std::string service_name            = "cmd_overlord";
-    std::string action_client_name      = "/kuka_action_client/kuka_action_cmd";    /// to communicate with action client (call actions)
-    std::string pf_client_name          = "/pf_service";
-    std::string exploration_client_name = "/bel_simple_planner_cmd";
-    std::string peg_policy_client_name  = "/cmd_peg_policy";                        /// to communicate with peg_hole_policy (call sub-actions)
-    std::string voice_topic_name        = "/allegroHand/lib_cmd";                   /// listen for voice
+    std::string service_name            =  "cmd_overlord";
+    std::string action_client_name      =  "/kuka_actions";                         /// to communicate with action client (call actions)
+    std::string pf_client_name          =  "/pf_service";
+    std::string exploration_client_name =  "/bel_simple_planner_cmd";
+    std::string peg_policy_client_name  =  "/cmd_peg_policy";                        /// to communicate with peg_hole_policy (call sub-actions)
+    std::string voice_topic_name        =  "/allegroHand/lib_cmd";                   /// listen for voice
     std::string record_topic_name       =  "/record/cmd";
 
     Cmd_interface cmd_interface(nh,
@@ -33,8 +33,6 @@ int main(int argc,char** argv)
                                 record_topic_name);
 
 
-
-
     cmdi::PegConsole peg_console(nh,cmd_interface);
 
     peg_console.get_console();
@@ -42,7 +40,6 @@ int main(int argc,char** argv)
 
     peg_console.AddConsoleCommand("plug_search");
     peg_console.AddConsoleCommand("gmm");
-
 
     peg_console.AddConsoleCommand("grav_comp");
     peg_console.AddConsoleCommand("go_front");
@@ -67,7 +64,6 @@ int main(int argc,char** argv)
     peg_console.AddConsoleCommand("passive_ds");
 
     cmd_interface.set_console(peg_console.get_console());
-
 
     peg_console.start();
 

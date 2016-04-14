@@ -2,7 +2,7 @@
 #define KUKA_PEG_ACTION_CLIENT_H_
 
 
-#include "kuka_action_client/kuka_action_client.h"
+#include "lwr_ros_client/kuka_action_client.h"
 #include <geometry_msgs/Transform.h>
 #include <Eigen/Core>
 #include <optitrack_rviz/listener.h>
@@ -24,7 +24,7 @@ public:
 
 public:
 
-    std::map<std::string,ac::Goal> goals;
+    //std::map<std::string,ac::Goal> goals;
 
 
 };

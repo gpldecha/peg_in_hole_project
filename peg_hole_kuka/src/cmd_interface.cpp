@@ -12,7 +12,7 @@ Cmd_interface::Cmd_interface(ros::NodeHandle &nh,
     service                 = nh.advertiseService(service_name,&Cmd_interface::service_callback,this);
 
 
-    action_client           = nh.serviceClient<kuka_action_client::String_cmd>(action_client_name);
+    action_client           = nh.serviceClient<lwr_ros_client::String_cmd>(action_client_name);
 
     particle_filter_client  = nh.serviceClient<particle_filter::String_cmd>(pf_client_name);
     exploration_client      = nh.serviceClient<exploration_planner::String_cmd>(exploration_client_name);
@@ -51,16 +51,9 @@ void Cmd_interface::init_commands(){
     cmds["disconnect"]          = cmd_info("disconnect", cmd_type::PEG_POLICY);
 
 
-
-
     cmds["record"]              = cmd_info("record", cmd_type::RECORD);
 
-
-
-
     cmds["bias"]                = cmd_info("bias",      cmd_type::FT);
-
-
 
     cmds["pf_reset"]            = cmd_info("pf reset",cmd_type::PF);
     cmds["pf_start"]            = cmd_info("pf start",cmd_type::PF);
@@ -212,8 +205,6 @@ bool Cmd_interface::call_particle_filter(const std::string& cmd){
           ROS_ERROR("no such cmd [%s] declared in Cmd_interface",cmd.c_str());
           return false;
       }
-
-
 
     if (!particle_filter_client.call(particle_filter_cmd)){
         ROS_ERROR("Cmd_interface::service_callback            Failed to call service particle_filter [%s]",cmd.c_str());

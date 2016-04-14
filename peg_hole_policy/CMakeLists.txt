@@ -11,6 +11,9 @@ robot_motion_generation
 netft_rdt_driver
 particle_filter
 optitrack_rviz
+dynamic_reconfigure
+lwr_ros_interface
+lwr_ros_client
 )
 
 find_package(Armadillo REQUIRED)

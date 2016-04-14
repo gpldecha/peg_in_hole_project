@@ -7,13 +7,14 @@
 #include <exploration_planner/String_cmd.h>
 #include <peg_hole_policy/String_cmd.h>
 
-#include "kuka_action_client/String_cmd.h"
+#include "lwr_ros_client/String_cmd.h"
 #include "particle_filter/String_cmd.h"
 #include "netft_rdt_driver/netft_rdt_bias.h"
 #include "netft_rdt_driver/String_cmd.h"
 #include "record_ros/String_cmd.h"
 #include <map>
-#include "console/Console.h"
+#include <string>
+#include "lwr_console/Console.h"
 
 /**
  *  Command Interface for peg in hole task
@@ -58,7 +59,7 @@ public:
                   const std::string& exploration_client_name,
                   const std::string& peg_policy_client_name,
                   const std::string& voice_topic_name,
-                  const string &record_topic_name);
+                  const std::string &record_topic_name);
 
     bool service_callback(peg_hole_kuka::String_cmd::Request& req,peg_hole_kuka::String_cmd::Response &res);
 
@@ -90,7 +91,7 @@ private:
     ros::ServiceServer                       service;
 
     ros::ServiceClient                       action_client;
-    kuka_action_client::String_cmd           action_cmd;
+    lwr_ros_client::String_cmd               action_cmd;
 
     ros::ServiceClient                       particle_filter_client;
     particle_filter::String_cmd              particle_filter_cmd;

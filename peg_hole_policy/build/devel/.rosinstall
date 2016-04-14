@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/guillaume/roscode/catkin_ws/src/peg_in_hole_project/peg_hole_policy/build/devel/setup.sh

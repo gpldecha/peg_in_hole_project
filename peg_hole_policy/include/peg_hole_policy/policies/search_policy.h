@@ -12,6 +12,8 @@
 #include "peg_hole_policy/policies/force_control.h"
 #include "peg_hole_policy/policies/insert_peg.h"
 
+#include <geometry_msgs/Wrench.h>
+
 namespace ph_policy{
 
 typedef enum actions{

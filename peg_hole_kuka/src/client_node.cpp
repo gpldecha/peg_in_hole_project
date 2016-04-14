@@ -1,8 +1,7 @@
 #include <ros/ros.h>
 
-#include "kuka_action_client/action_client_cmd_interface.h"
-#include "kuka_action_client/kuka_action_client.h"
-#include "kuka_action_client/ros_param_parser.h"
+#include "lwr_ros_client/action_client_cmd_interface.h"
+#include "lwr_ros_client/ros_param_parser.h"
 #include "peg_hole_kuka/client.h"
 
 int main(int argc, char** argv)
@@ -19,7 +18,7 @@ int main(int argc, char** argv)
     param_name_value[node_name + "/cmd_service_name"]      = "";
     param_name_value[node_name + "/action_server_name"]    = "";
 
-    if(!pps::parser_string(nh,param_name_value)){
+    if(!pps::Parser::parser_string(nh,param_name_value)){
         ROS_ERROR("failed to parse all parameters!");
         return -1;
     }
@@ -27,32 +26,31 @@ int main(int argc, char** argv)
     std::string action_serivce_name   =  param_name_value[node_name + "/action_service_name"];
     std::string cmd_service_name      =  param_name_value[node_name + "/cmd_service_name"];
     std::string action_server_name    =  param_name_value[node_name + "/action_server_name"];
+
     /** ------------- Initialise Action Client & Set Action-Goals ------------- **/
 
-    ac::Kuka_action_client  kuka_action_client(action_server_name);
-    PEG_action_client peg_action_clients;
-    peg_action_clients.initialise();
-    kuka_action_client.push_back(peg_action_clients.goals);
+    //ac::Kuka_action_client  kuka_action_client(action_server_name);
 
-    /**  ------------- Initialise Control cmd  interface  ------------- **/
-
-    ac::Action_client_cmd_interface action_client_cmd_interface(nh,kuka_action_client,action_serivce_name,cmd_service_name);
-    //action_client_cmd_interface.init_nl_subscriber(speech_topic);
+    //PEG_action_client peg_action_clients;
+    //peg_action_clients.initialise();
 
 
-    ROS_INFO("ACTION CLIENT STARTED!");
-    action_client_cmd_interface.console.start();
 
-    ros::Rate rate(50);
-    while(ros::ok()){
 
-        action_client_cmd_interface.console.ConsoleUpdate();
+    //kuka_action_client.push_back(peg_action_clients.goals);
 
-        rate.sleep();
-        ros::spinOnce();
-    }
 
-    action_client_cmd_interface.console.stop();
+    /**  ------------- Initialise Service, Voice & Cmd interface  -------------
+     *  The control command interface is an interface to the action client.
+     *  It provied a ros service and a voice command interface such to
+     *  command the client server to send desired action requests to the action server.
+     */
+    // ac::Action_client_cmd_interface action_cmd_interface(nh,kuka_action_client,action_serivce_name,cmd_service_name);
+    // action_cmd_interface.init_nl_subscriber(speech_topic);
+
+     ROS_INFO("action CLIENT started!");
+     ros::spin();
+
 
 
     return 0;

@@ -50,8 +50,8 @@ target_link_libraries(cmd_interface ${catkin_LIBRARIES})
 
 # --- Create Action Server Node Pour action
 
-add_executable(peg_kuka_server_node  ${SRC_DIR}/server_node.cpp)
-target_link_libraries(peg_kuka_server_node ${catkin_LIBRARIES})
+add_executable(peg_kuka_action_node  ${SRC_DIR}/client_action_node.cpp)
+target_link_libraries(peg_kuka_action_node ${catkin_LIBRARIES})
 
 # --- Create Action Client Node Pour action
 

@@ -8,8 +8,8 @@ PEG_action_client::PEG_action_client(){
 }
 
 void PEG_action_client::initialise(){
-    {
-        ac::Goal                  goal;
+   // {
+        /*ac::Goal                  goal;
         geometry_msgs::Transform  link_socket;
         tf::Transform             tf_link_socket;
         get_link_socket_goal(tf_link_socket);
@@ -43,7 +43,7 @@ void PEG_action_client::initialise(){
         goal.action_type        = "linear";
         goals["linear"]         = goal;
 
-    }
+    }*/
    // init_cart();
    // init_simple_bel_planner();
 }
@@ -73,7 +73,7 @@ void PEG_action_client::init_simple_bel_planner(){
     link_socket.rotation.y      = tf_link_socket.getRotation().y();
     link_socket.rotation.z      = tf_link_socket.getRotation().z();
 
-    enum{KUKA_DOF = 7};
+/*    enum{KUKA_DOF = 7};
     std::array<double,KUKA_DOF> des_position;
     kuka_fri_bridge::JointStates jointStateImpedance;
     jointStateImpedance.position.resize(KUKA_DOF);
@@ -118,172 +118,20 @@ void PEG_action_client::init_simple_bel_planner(){
 
     std::array<double,KUKA_DOF> des_velocity;
     std::array<double,KUKA_DOF> des_stiffness;
-
+*/
 
 
 }
 
 void PEG_action_client::init_cart(){
 
-    enum{KUKA_DOF = 7};
+  /*  enum{KUKA_DOF = 7};
     kuka_fri_bridge::JointStates jointStateImpedance;
     jointStateImpedance.name.resize(KUKA_DOF);
     jointStateImpedance.position.resize(KUKA_DOF);
     jointStateImpedance.velocity.resize(KUKA_DOF);
     jointStateImpedance.effort.resize(KUKA_DOF);
-    jointStateImpedance.stiffness.resize(KUKA_DOF);
-
-   /* {
-        ac::Goal                    goal;
-        geometry_msgs::Transform    target;
-
-        target.translation.x = -0.6;
-        target.translation.y = -0.047544;
-        target.translation.z =  0.34405;
-        tf::Quaternion            rotation;
-        rotation.setRPY(0,0,M_PI);
-
-        target.rotation.w      = rotation.getW();
-        target.rotation.x      = rotation.getX();
-        target.rotation.y      = rotation.getY();
-        target.rotation.z      = rotation.getZ();
-
-        goal.action_type            = "goto_cart";
-        goal.target_frame           = target;
-        goal.max_speed              = 0.02;
-        goal.min_speed              = 0.0;
-        goals["disconnect"]         = goal;
-
-    }
-
-    {
-        ac::Goal                    goal;
-        geometry_msgs::Transform    target;
-
-        target.translation.x = -0.65;
-        target.translation.y = -0.05;
-        target.translation.z =  0.4;
-        tf::Quaternion            rotation;
-        rotation.setRPY(0,0,M_PI);
-
-        target.rotation.w      = rotation.getW();
-        target.rotation.x      = rotation.getX();
-        target.rotation.y      = rotation.getY();
-        target.rotation.z      = rotation.getZ();
-
-        goal.action_type       = "goto_cart";
-        goal.target_frame      = target;
-        goal.max_speed         = 0.02;
-        goal.min_speed         = 0.0;
-        goals["disconnect_1"]  = goal;
-
-    }
-
-
-    {
-        ac::Goal                    goal;
-        geometry_msgs::Transform    target;
-
-        target.translation.x = -0.68;
-        target.translation.y = -0.03;
-        target.translation.z =  0.4;
-        tf::Quaternion            rotation;
-        rotation.setRPY(0,0,M_PI);
-
-        target.rotation.w      = rotation.getW();
-        target.rotation.x      = rotation.getX();
-        target.rotation.y      = rotation.getY();
-        target.rotation.z      = rotation.getZ();
-
-        goal.action_type            = "goto_cart";
-        goal.target_frame           = target;
-        goal.max_speed              = 0.02;
-        goal.min_speed              = 0.0;
-        goals["disconnect_2"]       = goal;
-
-    }
-
-    {
-        ac::Goal                    goal;
-        geometry_msgs::Transform    link_socket;
-        tf::Transform               tf_link_socket;
-        get_link_socket_goal(tf_link_socket);
-
-        link_socket.translation.x   = tf_link_socket.getOrigin().getX();
-        link_socket.translation.y   = tf_link_socket.getOrigin().getY();
-        link_socket.translation.z   = tf_link_socket.getOrigin().getZ();
-
-        tf::Quaternion            rotation;
-        rotation.setRPY(0,0,M_PI);
-        tf_link_socket.setRotation( tf_link_socket.getRotation() * rotation );
-
-        link_socket.rotation.w      = tf_link_socket.getRotation().w();
-        link_socket.rotation.x      = tf_link_socket.getRotation().x();
-        link_socket.rotation.y      = tf_link_socket.getRotation().y();
-        link_socket.rotation.z      = tf_link_socket.getRotation().z();
-
-        goal.action_type            = "goto_cart";
-        goal.target_frame           = link_socket;
-        goal.max_speed              = 0.02;
-        goal.min_speed              = 0.0;
-
-        goals["go_connect_pos"]     = goal;
-
-    }
-
-    {
-        ac::Goal                    goal;
-        geometry_msgs::Transform    link_socket;
-        tf::Transform               tf_link_socket;
-        get_link_socket_goal(tf_link_socket);
-
-        link_socket.translation.x   = tf_link_socket.getOrigin().getX();
-        link_socket.translation.y   = tf_link_socket.getOrigin().getY();
-        link_socket.translation.z   = tf_link_socket.getOrigin().getZ();
-
-        tf::Quaternion            rotation;
-        rotation.setRPY(0,0,M_PI);
-        tf_link_socket.setRotation( tf_link_socket.getRotation() * rotation );
-
-        link_socket.rotation.w      = tf_link_socket.getRotation().w();
-        link_socket.rotation.x      = tf_link_socket.getRotation().x();
-        link_socket.rotation.y      = tf_link_socket.getRotation().y();
-        link_socket.rotation.z      = tf_link_socket.getRotation().z();
-
-        goal.action_type            = "goto_cart";
-        goal.target_frame           = link_socket;
-        goal.max_speed              = 0.02;
-        goal.min_speed              = 0.0;
-        goals["go_connect_vel"]     = goal;
-    }*/
-
-
-    /*
-
-    {
-      ac::Goal goal;
-      goal.action_type = "set_imp_damp";
-
-     // jointStateImpedance.damping.resize(0);
-      for(std::size_t i = 0; i < KUKA_DOF;i++){
-          jointStateImpedance.stiffness[i] = 200;
-      }
-      goal.JointStates = jointStateImpedance;
-
-      goals["impedance_two"] = goal;
-    }
-
-    {
-      ac::Goal goal;
-      goal.action_type = "set_imp_damp";
-
-      //jointStateImpedance.damping.resize(0);
-      for(std::size_t i = 0; i < KUKA_DOF;i++){
-          jointStateImpedance.stiffness[i] = 500;
-      }
-      goal.JointStates = jointStateImpedance;
-      goals["impedance_five"] = goal;
-    }*/
+    jointStateImpedance.stiffness.resize(KUKA_DOF);*/
 
 
 }

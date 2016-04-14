@@ -41,33 +41,42 @@
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>    robot_base_planner  </build_depend>
-  <run_depend>      robot_base_planner  </run_depend>
+  <build_depend>        robot_base_planner          </build_depend>
+  <run_depend>          robot_base_planner          </run_depend>
 
-  <build_depend>    exploration_planner  </build_depend>
-  <run_depend>      exploration_planner  </run_depend>
+  <build_depend>        exploration_planner         </build_depend>
+  <run_depend>          exploration_planner         </run_depend>
 
-  <build_depend>    roscpp              </build_depend>
-  <run_depend>      roscpp              </run_depend>
+  <build_depend>        roscpp                      </build_depend>
+  <run_depend>          roscpp                      </run_depend>
 
-  <build_depend>    peg_sensor          </build_depend>
-  <run_depend>      peg_sensor          </run_depend>
+  <build_depend>        peg_sensor                  </build_depend>
+  <run_depend>          peg_sensor                  </run_depend>
 
-  <build_depend>    message_generation          </build_depend>
-  <run_depend>      message_generation          </run_depend>
+  <build_depend>        message_generation          </build_depend>
+  <run_depend>          message_generation          </run_depend>
 
-  <build_depend>    robot_motion_generation          </build_depend>
-  <run_depend>      robot_motion_generation          </run_depend>
+  <build_depend>        robot_motion_generation     </build_depend>
+  <run_depend>          robot_motion_generation     </run_depend>
 
-  <build_depend>	netft_rdt_driver		</build_depend>
-  <run_depend>		netft_rdt_driver		</run_depend>
+  <build_depend>	netft_rdt_driver            </build_depend>
+  <run_depend>		netft_rdt_driver            </run_depend>
 
-  <build_depend>	optitrack_rviz		</build_depend>
-  <run_depend>		optitrack_rviz		</run_depend>
+  <build_depend>	optitrack_rviz              </build_depend>
+  <run_depend>		optitrack_rviz              </run_depend>
 
+  <build_depend>	particle_filter             </build_depend>
+  <run_depend>		particle_filter             </run_depend>
 
-  <build_depend>	particle_filter		</build_depend>
-  <run_depend>		particle_filter		</run_depend>
+  <build_depend>	dynamic_reconfigure         </build_depend>
+  <run_depend>		dynamic_reconfigure         </run_depend>
+
+  <build_depend>	lwr_ros_interface           </build_depend>
+  <run_depend>		lwr_ros_interface           </run_depend>
+
+  <build_depend>	lwr_ros_client              </build_depend>
+  <run_depend>		lwr_ros_client              </run_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

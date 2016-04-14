@@ -3,20 +3,48 @@
 
 	<!--arg name="speech_topic"		default="/allegroHand/lib_cmd" /-->
 	<arg name="speech_topic"		default="NONE" />
-	<arg name="action_service_name"		default="kuka_action_cmd" />
-	<arg name="cmd_service_name"		default="kuka_interface_cmd" />
-	<arg name="action_server_name" 	 	default="kuka_server" />
+	<arg name="action_service"  		default="kuka_actions" />
 
-	<node name="kuka_client_node" pkg="peg_hole_kuka" type="peg_kuka_client_node" required="true" output="screen">
-  		<param name="speech_topic" 	 	value="$(arg speech_topic)"/>
-  		<param name="action_service_name" 	value="$(arg action_service_name)"/>
-  		<param name="cmd_service_name" 	 	value="$(arg cmd_service_name)"/>
-  		<param name="action_server_name" 	value="$(arg action_server_name)"/>
+	<arg name="path_sensor_model"   	value="$(find objects)/meshes/plug/config/X.txt"/>
+	<arg name="ft_topic"			default="/ft_sensor/netft_data"/>
+	<arg name="classifier_topic"		default="/ft_classifier"/>
+	<arg name="F_topic"      		default="/belief_features"/>
+	<arg name="gmm_param_path"      	default="/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/PolicyModelSaved/PolicyModel_txt/gmm_xhu"/>
+
+
+
+  	<!--    ENVIRONMENT -->
+
+  	<!-- arg -->
+  	<arg name="world_frame" 	value="world_frame"/>
+  	<arg name="socket_type" 	default="table_sw_one"/>
+  	<arg name="table_urdf" 		value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+
+  	<!-- table socket -->
+  	<include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
+	  	<arg name="use_rviz" 			value="False"/>
+		<arg name="origin"   			value="-0.76525 0.033781 0.37919"/>
+		<arg name="orientation"			value="0 0 0 1"/>
+		<arg name="load_saved"			value="False"/>	
+		<arg name="use_vision_broadcaster" 	value="False"/>
+		<arg name="use_broadcaster" 		value="True"/> 
+  	</include> 
+
+  <!-- rviz -->
+  <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" />
+
+
+	<node name="peg_kuka_action" pkg="peg_hole_kuka" type="peg_kuka_action_node" required="true" output="screen">
+  		<param name="speech_topic" 	 		value="$(arg speech_topic)"/>
+  		<param name="action_service" 			value="$(arg action_service)"/>
+  		<param name="world_frame" 			value="/world" />
+		
+		<param name="path_sensor_model" 		value="$(arg path_sensor_model)"/>
+		<param name="ft_topic"				value="$(arg ft_topic)"/>
+		<param name="classifier_topic"			value="$(arg classifier_topic)"/>
+		<param name="F_topic"      			value="$(arg F_topic)"/>
+		<param name="gmm_param_path"      		value="$(arg gmm_param_path)"/>
   	</node>	
 	
-
-	<!-- launch overlord command interface -->
-       <!--include file="$(find peg_hole_kuka)/launch/peg_kuka_cmd.launch"/-->
-
 
 </launch>

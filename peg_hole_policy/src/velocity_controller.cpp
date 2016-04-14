@@ -23,7 +23,6 @@ Velocity_controller::Velocity_controller(ros::NodeHandle& nh){
 
     nd1 = ros::NodeHandle("gains");
 
-
     dynamic_server_gains_param.reset(new dynamic_reconfigure::Server< peg_hole_policy::gainsConfig>( nd1 ));
     dynamic_server_gains_param->setCallback( boost::bind(&Velocity_controller::gains_callback, this, _1, _2));
 

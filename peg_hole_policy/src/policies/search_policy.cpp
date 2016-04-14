@@ -99,8 +99,6 @@ Search_policy::Search_policy(ros::NodeHandle& nh,
 {
     q_tmp.setRPY(0,-M_PI/2,0);
     reset();
-
-
 }
 
 
@@ -196,7 +194,10 @@ void Search_policy::get_velocity(tf::Vector3&    velocity,
     {
     case FIND_TABLE:
     {
+        ROS_INFO_STREAM_THROTTLE(1.0,"-> FIND_TABLE");
         gmm_belief.get_linear_velocity(arma_velocity);
+        ROS_INFO_STREAM_THROTTLE(1.0,"arma_velocity: " << arma_velocity(0) << " " << arma_velocity(1) << " " << arma_velocity(2));
+
         break;
     }
     case GO_TO_EDGE:

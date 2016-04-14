@@ -17,32 +17,32 @@
 #include "robot_motion_generation/angular_velocity.h"
 #include "exploration_planner/belief_gmm_planner.h"
 
-#include "peg_hole_policy/policies/search_policy.h"
-
 #include "optitrack_rviz/listener.h"
-#include <visualise/vis_vector.h>
+#include "visualise/vis_vector.h"
 
 #include "peg_hole_policy/cdd_filterConfig.h"
-
-#include <boost/scoped_ptr.hpp>
-
+#include "peg_hole_policy/String_cmd.h"
+#include "peg_hole_policy/policies/search_policy.h"
 
 #include "netft_rdt_driver/ft_listener.h"
 #include "netft_rdt_driver/String_cmd.h"
-#include "peg_hole_policy/String_cmd.h"
+
 #include <optitrack_rviz/listener.h>
+#include <robot_motion_generation/CDDynamics.h>
 
+#include <lwr_ros_interface/ros_ee_j.h>
+#include <lwr_ros_action/base_action.h>
+#include "lwr_ros_interface/switch_controller.h"
 
+#include <boost/scoped_ptr.hpp>
 #include <memory>
+
 
 namespace ph_policy{
 
 
 enum class policy{
     NONE,
-  //  FIND_TABLE,
-  //  FIND_SOCKET,
-  //  FIND_HOLE,
     SEARCH_POLICY
 };
 
@@ -57,18 +57,19 @@ enum class CART_VEL_TYPE{
 };
 
 
-class Peg_hole_policy : public asrv::Base_ee_j_action, public asrv::Base_action_server {
+class Peg_hole_policy  : public ros_controller_interface::Ros_ee_j, public ac::Base_action {
 
 
 public:
 
     Peg_hole_policy(ros::NodeHandle& nh,
-                    const std::string &path_sensor_model,
                     const std::string &fixed_frame,
                     belief::Gmm_planner& gmm_planner,
                     Peg_world_wrapper &peg_world_wrapper);
 
-    virtual bool execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal);
+   virtual bool update();
+
+   virtual bool stop();
 
 private:
 
@@ -106,7 +107,6 @@ private:
     geometry_msgs::Twist    des_ee_vel_msg;   /// desired end-effector velocities
 
 
-    Velocity_reguliser      velocity_reguliser_;
     opti_rviz::Listener     ee_peg_listener;
     ros::Subscriber         x_des_subscriber;
 
@@ -144,30 +144,12 @@ private:
     State_machine                   state_machine;
     Search_policy                   search_policy;
 
-    Find_table                      find_table;
-    Find_socket                     find_socket;
-    Velocity_reguliser              velocity_reguliser;
-    belief::Gmm_planner&            gmm_planner;
-
-    /// Listener
-
-    /// Cartesian control
-    CART_VEL_TYPE                   cart_vel_type;
-
-
-    Velocity_controller             velocity_controller;
-
-    /// DYNAMIC RECONFIGURE
-
-    ros::NodeHandle nd_cdd;
-    boost::scoped_ptr<motion::CDDynamics> linear_cddynamics;
-    boost::scoped_ptr<motion::CDDynamics> angular_cddynamics;
-    boost::scoped_ptr< dynamic_reconfigure::Server< peg_hole_policy::cdd_filterConfig> >    dynamic_server_cdd_param;
-
     /// Visualise direction
 
     opti_rviz::Vis_vectors              vis_vector;
     std::vector<opti_rviz::Arrow>       arrows;
+
+    ros_controller_interface::Switch_controller switch_controller;
 
 };
 

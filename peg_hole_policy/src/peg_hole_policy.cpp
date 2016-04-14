@@ -1,25 +1,22 @@
 #include "peg_hole_policy/peg_hole_policy.h"
 #include <control_toolbox/filters.h>
 #include <optitrack_rviz/type_conversion.h>
+
 #include <chrono>
+
 namespace ph_policy{
 
 Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
-                                 const std::string& path_sensor_model,
                                  const std::string& fixed_frame,
                                  belief::Gmm_planner& gmm_planner,
                                  Peg_world_wrapper &peg_world_wrapper):
-    Base_ee_j_action(nh,"joint_controllers"),
-    Base_action_server(nh),
-    find_table(nh,path_sensor_model,fixed_frame),
-    find_socket(nh,path_sensor_model,fixed_frame),
     ee_peg_listener(fixed_frame,"lwr_peg_link"),
     state_machine(nh,*(peg_world_wrapper.peg_sensor_model.get())),
-    gmm_planner(gmm_planner),
     search_policy(nh,gmm_planner,state_machine,peg_world_wrapper.get_wrapped_objects(),*(peg_world_wrapper.peg_sensor_model.get())),
     vis_vector(nh,"direction"),
-    velocity_controller(nh),
-    ft_listener_(nh,"/ft_sensor/netft_data")
+    ft_listener_(nh,"/ft_sensor/netft_data"),
+    Ros_ee_j(nh),
+    switch_controller(nh)
 {
 
     server_srv              = nh.advertiseService("cmd_peg_policy",&Peg_hole_policy::cmd_callback,this);
@@ -35,45 +32,27 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
     control_rate            = 200.0;
     current_policy          = policy::NONE;
 
-    linear_cddynamics.reset( new motion::CDDynamics(3,0.01,4) );
-    angular_cddynamics.reset( new motion::CDDynamics(3,0.01,4) );
-
-    nd_cdd = ros::NodeHandle("cdd");
-
-    dynamic_server_cdd_param.reset(new dynamic_reconfigure::Server< peg_hole_policy::cdd_filterConfig>(nd_cdd));
-    dynamic_server_cdd_param->setCallback( boost::bind(&Peg_hole_policy::cdd_callback,    this, _1, _2));
-
-    motion::Vector velLimits(3);
-    for(std::size_t i = 0; i < 3; i++){
-        velLimits(i)  = 0.04; // x ms^-1
-    }
-    linear_cddynamics->SetVelocityLimits(velLimits);
-
-    for(std::size_t i = 0; i < 3; i++){
-        velLimits(i)  = 0.02; // x ms^-1
-    }
-    angular_cddynamics->SetVelocityLimits(velLimits);
 
     grav_msg.data = false;
 
     arrows.resize(1);
     arrows[0].set_scale(0.01,0.015,0.015);
     arrows[0].set_rgba(1,1,0,1);
-
-    std::cout<< "before vis_vector initialise" << std::endl;
     vis_vector.initialise("world",arrows);
 
-    velocity_reguliser_ = Velocity_reguliser(0.2,0.1);
 
-    gmm_planner.print();
 
 }
 
+bool Peg_hole_policy::stop(){
 
+}
 
-bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& feedback,const asrv::cptrGoal& goal){
+bool Peg_hole_policy::update(){
 
-    if(!activate_controller("joint_controllers")){
+    ROS_INFO_STREAM("Peg Hole Policy ON!");
+
+    if(!switch_controller.activate_controller("joint_controllers")){
         return false;
     }
     current_policy           = policy::NONE;
@@ -82,17 +61,11 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     tf::Vector3     velocity, velocity_tmp;
 
 
-
-    motion::Vector filter_vel(3);
-    filter_vel.setZero();
-    linear_cddynamics->SetState(filter_vel);
-    linear_cddynamics->SetDt(1.0/control_rate);
-
     ee_peg_listener.update(current_origin_WF,current_orient_WF);
     current_origin_tmp = current_origin_WF;
 
     ctrl_type       = ctrl_types::JOINT_POSITION;
-    cart_vel_type   = CART_VEL_TYPE::OPEN_LOOP;
+
     // start in open loop
     string_msg.data = "velocity_open";
     sendString(string_msg);
@@ -109,10 +82,9 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     net_ft_reset_bias();
     arma::colvec3 force;
 
-    bool bSwitchPASSIVE = false;
-
     q_des_q_.setRPY(0,0,0);
 
+    ROS_INFO_STREAM("Staring Peg hole loop");
     while(ros::ok()) {
 
         last_time       = time;
@@ -156,13 +128,7 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
             if(velocity.length() != 0){
                 // assume constant velocity
                 velocity = velocity / (velocity.length() + std::numeric_limits<double>::min());
-
-                if(cart_vel_type == CART_VEL_TYPE::OPEN_LOOP)
-                {
-                    velocity = 0.01 * velocity;
-                }else if(cart_vel_type == CART_VEL_TYPE::PASSIVE_DS){
-                    velocity = 0.025 * velocity;
-                }
+                velocity = 0.01 * velocity;
 
                 for(std::size_t i = 0; i < 3;i++){
                     velocity[i]  = filters::exponentialSmoothing(velocity[i],velocity_tmp[i], 0.02);
@@ -216,16 +182,6 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
         }
 
 
-        feedback.progress = 0;
-        as_.publishFeedback(feedback);
-        if (as_.isPreemptRequested() || !ros::ok())
-        {
-            ROS_INFO("Preempted");
-            as_.setPreempted();
-            success = false;
-            break;
-        }
-
         ros::spinOnce();
         loop_rate.sleep();
         current_origin_tmp = current_origin_WF;
@@ -240,6 +196,8 @@ bool Peg_hole_policy::execute_CB(asrv::alib_server& as_,asrv::alib_feedback& fee
     current_policy = policy::NONE;
     linear_vel_cmd_.setZero();
     angular_vel_cmd_.setZero();
+
+    ROS_INFO_STREAM("Peg Hole Policy OFF!");
 
     return success;
 }
@@ -277,11 +235,6 @@ void Peg_hole_policy::disconnect(){
     opti_rviz::type_conv::tf2geom(target,current_orient_WF,ee_pos_msg);
     sendCartPose(ee_pos_msg);
 }
-
-void Peg_hole_policy::cdd_callback(peg_hole_policy::cdd_filterConfig& config, uint32_t level){
-    linear_cddynamics->SetWn(config.Wn);
-}
-
 
 void Peg_hole_policy::x_des_callback(const geometry_msgs::Pose& pos){
     //  std::cout<< "pos: " << pos.position.x << " " << pos.position.y << " " << pos.position.z << std::endl;
@@ -331,15 +284,7 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         search_policy.reset();
         grav_msg.data  = false;
         sendGrav(grav_msg);
-    }else if(cmd == "passive_ds"){
-        string_msg.data = "velocity_ps";
-        sendString(string_msg);
-        cart_vel_type = CART_VEL_TYPE::PASSIVE_DS;
-    }else if(cmd == "open_loop"){
-        string_msg.data = "velocity_open";
-        sendString(string_msg);
-        cart_vel_type = CART_VEL_TYPE::OPEN_LOOP;
-    }else if(cmd == "pause"){
+     }else if(cmd == "pause"){
         current_policy = policy::NONE;
         ctrl_type      = ctrl_types::CARTESIAN;
         res.res = "pause!";
@@ -399,7 +344,7 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
     }else if(cmd == "grav_comp"){
         current_policy = policy::NONE;
         ctrl_type      = ctrl_types::JOINT_POSITION;
-        grav_msg.data  = !grav_msg.data;
+        grav_msg.data  = true;//!grav_msg.data;
         if(grav_msg.data){res.res = "gravity: false";}else{res.res = "gravity: true";}
         sendGrav(grav_msg);
     }else{

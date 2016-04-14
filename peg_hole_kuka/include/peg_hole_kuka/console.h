@@ -1,9 +1,9 @@
 #ifndef PEG_HOLE_KUKA__CONSOLE_H_
 #define PEG_HOLE_KUKA__CONSOLE_H_
 
-#include "console/Console.h"
-#include "console/NCConsole.h"
-#include "console/Various.h"
+#include "lwr_console/Console.h"
+#include "lwr_console/NCConsole.h"
+#include "lwr_console/Various.h"
 #include "peg_hole_kuka/String_cmd.h"
 #include "peg_hole_kuka/cmd_interface.h"
 

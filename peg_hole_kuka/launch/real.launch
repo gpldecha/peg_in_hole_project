@@ -7,7 +7,7 @@
   <arg name="controllers" 	default="joint_controllers"/>
   <arg name="start_controller"	default="joint_controllers"/>
 
-  <include file="$(find kuka_fri_bridge)/launch/fri_bridge.launch">
+  <include file="$(find lwr_fri)/launch/lwr_fri.launch">
 	<arg name="controller_file" 	value="$(find peg_lwr_robot)/config/controllers.yaml"/>
 	<arg name="hw_interface_file"   value="$(find peg_lwr_robot)/config/hw_interface.yaml"/>
 	<arg name="joint_limit_file"    value="$(find peg_lwr_robot)/config/t1_joint_limits.yaml"/>
@@ -18,25 +18,7 @@
   	<arg name="start_controller"	value="$(arg start_controller)"/>
   </include>
 
-  <!--    ENVIRONMENT -->
 
-  <!-- arg -->
-  <arg name="world_frame" 	value="world_frame"/>
-  <arg name="socket_type" 	default="table_sw_one"/>
-  <arg name="table_urdf" 	value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
-
-  <!-- table socket -->
-  <include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
-	  	<arg name="use_rviz" 			value="False"/>
-		<arg name="origin"   			value="-0.76063 0.035483 0.35799"/>
-		<arg name="orientation"			value="0 0 0 1"/>
-		<arg name="load_saved"			value="False"/>	
-		<arg name="use_vision_broadcaster" 	value="False"/>
-		<arg name="use_broadcaster" 		value="True"/> 
-  </include> 
-
-  <!-- rviz -->
-  <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" />
 
 
 </launch>

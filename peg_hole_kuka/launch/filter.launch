@@ -10,7 +10,7 @@
 	<include file="$(find netft_rdt_driver)/launch/ft_sensor.launch">
 		<arg  name="rate" 	 value="100"/>	
 		<arg  name="frame_id"    value="lwr_peg_link"/>
-		<arg  name="alpha"       value="0.2"/>
+		<arg  name="alpha"       value="0.99"/>
 		<arg  name="rot"	 value="0.7"/>
 		<arg  name="scale_y" 	 value="-1"/>
 	</include>
@@ -19,13 +19,13 @@
 	<include file="$(find ft_sensor_python)/launch/ft_sensor.launch"/>
 
 	<!-- launch peg sensor -->
-	<include file="$(find peg_sensor)/launch/peg_sensor.launch"/>
+	<!--include file="$(find peg_sensor)/launch/peg_sensor.launch"/-->
 
 	<!-- launch particle filter -->
-	<include file="$(find peg_filter)/launch/peg_particle_filter.launch">
+	<!--include file="$(find peg_filter)/launch/peg_particle_filter.launch">
 		<arg name="sensor_topic" 	value="$(arg sensor_topic)"/>
 		<arg name="action_topic" 	value="$(arg action_topic)"/>
 		<arg name="peg_link_name" 	value="$(arg peg_link_name)"/>
-	</include>
+	</include-->
 
 </launch>

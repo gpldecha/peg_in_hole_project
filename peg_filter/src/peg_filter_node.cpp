@@ -290,6 +290,8 @@ int main(int argc,char** argv){
     double Hz = boost::lexical_cast<float>(srate);
     ros::Rate rate(Hz);
 
+    ROS_INFO_STREAM("loaded variables! [peg_filter_node]");
+
 
     // initialise world (should be the same as in peg_sensor_classifier_node !!!)
 
@@ -302,12 +304,11 @@ int main(int argc,char** argv){
     sensor_manager.add("contact",&contact_distance_model);
 
     if(!sensor_manager.select_model("contact")){
-        std::cout<< "FAILED to select_model" << std::endl;
+        ROS_ERROR("FAILED to select_model");
         exit(0);
     }
 
     /// ------------------  Point Mass Filter -------------------------
-
 
 
     likeli::Binary_likelihood binary_likelihood;
@@ -317,7 +318,7 @@ int main(int argc,char** argv){
 
 
 
-    int init_pmf_type = 0;
+    int init_pmf_type = 1;
 
 
 
@@ -407,9 +408,9 @@ int main(int argc,char** argv){
     belief_compression.add_bel_compress_method(&mode_belief_compression);
     if(belief_compression.set_method("mode_entropy"))
     {
-        ROS_INFO("belief compression set");
+        ROS_INFO("belief compression set [peg_filter_node]");
     }else{
-        ROS_ERROR("belief compression not set");
+        ROS_ERROR("belief compression not set [peg_filter_node]");
         exit(0);
     }
 
@@ -456,7 +457,7 @@ int main(int argc,char** argv){
     }
     else
     {
-        ROS_ERROR("Failed to call netft bias service");
+        ROS_ERROR("Failed to call netft bias service [peg_filter_node]");
     }
 
     while(nh.ok() && !bBiasUpdated)
@@ -489,10 +490,10 @@ int main(int argc,char** argv){
         opti_rviz::type_conv::tf2vec(transform.getOrigin(),wall_position);
     }
 
-    double time_taken;
-    int count = 0;
-    int number = 10;
-    arma::colvec3 m_u;
+   // double time_taken;
+   // int count = 0;
+   // int number = 10;
+   // arma::colvec3 m_u;
     arma::colvec3 plan_norm;
     plan_norm(0) = 1; plan_norm(1) = 0; plan_norm(2) = 0;
     arma::colvec3 target,mode_SF, mode, tt, bb;
