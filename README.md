@@ -38,5 +38,7 @@ topics: [name, type]
 * [ft_classifier,std_msgs::Float32MultiArray]
 
 
+### Useful things
 
+* rosrun rqt_reconfigure rqt_reconfigure
 
