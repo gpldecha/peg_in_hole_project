@@ -36,6 +36,11 @@ Initialised and launches the server actions. One action, plug_search, is added t
 #### subscribe
 topics: [name, type]
 * [ft_classifier,std_msgs::Float32MultiArray]
+* 
+
+### Sensing
+* **virtual sensor**  topic: /virtual_classifier : [std_msgs/Float64MultiArray], distance to features
+* **ft sensor**       topic: /ft_classifier      : [std_msgs/Float64MultiArray]
 
 
 ### Useful things
