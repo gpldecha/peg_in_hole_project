@@ -28,7 +28,7 @@ int main(int argc, char** argv){
     ros::init(argc, argv, "peg_in_hole");
     ros::NodeHandle nh;
 
-    Peg_world_wrapper peg_world_wrapper(nh,"peg_in_hole",path_sensor_model,fixed_frame,peg_link_name);
+    Peg_world_wrapper peg_world_wrapper(nh,true,"peg_in_hole",path_sensor_model,fixed_frame,peg_link_name);
 
     ros::Rate rate(boost::lexical_cast<float>(input["-rate"]));
     while(nh.ok()){

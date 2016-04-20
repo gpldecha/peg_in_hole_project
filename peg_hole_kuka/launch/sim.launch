@@ -16,19 +16,19 @@
 
   <!--    ENVIRONMENT -->
   <!-- arg -->
-  <arg name="world_frame" 	value="/world_frame"/>
+  <!--arg name="world_frame" 	value="/world_frame"/>
   <arg name="socket_type" 	value="table_sw_one"/>
-  <arg name="table_urdf" 	value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+  <arg name="table_urdf" 	value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" /-->
 
   <!-- table socket -->
-  <include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
+  <!--include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
 	  	<arg name="use_rviz" 			value="False"/>
 		<arg name="origin"   			value="-0.78945 0.056019 0.34139"/>
 		<arg name="orientation"			value="0 0 0 1"/>
 		<arg name="load_saved"			value="False"/>	
 		<arg name="use_vision_broadcaster" 	value="False"/>
 		<arg name="use_broadcaster" 		value="True"/> 
-  </include> 
+  </include--> 
 
 
 </launch>

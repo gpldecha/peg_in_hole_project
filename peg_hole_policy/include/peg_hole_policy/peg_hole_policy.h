@@ -13,7 +13,6 @@
 #include "robot_planners/gmmPlanner.h"
 #include "robot_planners/velocity_reguliser.h"
 
-
 #include "robot_motion_generation/angular_velocity.h"
 #include "exploration_planner/belief_gmm_planner.h"
 
@@ -23,12 +22,14 @@
 #include "peg_hole_policy/cdd_filterConfig.h"
 #include "peg_hole_policy/String_cmd.h"
 #include "peg_hole_policy/policies/search_policy.h"
+#include "peg_hole_policy/policies/specialised_policy.h"
+
+#include "record_ros/String_cmd.h"
 
 #include "netft_rdt_driver/ft_listener.h"
 #include "netft_rdt_driver/String_cmd.h"
 
 #include <optitrack_rviz/listener.h>
-#include <robot_motion_generation/CDDynamics.h>
 
 #include <lwr_ros_interface/ros_ee_j.h>
 #include <lwr_ros_action/base_action.h>
@@ -51,25 +52,24 @@ enum class ctrl_types{
     JOINT_POSITION
 };
 
-enum class CART_VEL_TYPE{
-    OPEN_LOOP,
-    PASSIVE_DS
-};
-
-
 class Peg_hole_policy  : public ros_controller_interface::Ros_ee_j, public ac::Base_action {
 
 
 public:
 
     Peg_hole_policy(ros::NodeHandle& nh,
-                    const std::string &fixed_frame,
-                    belief::Gmm_planner& gmm_planner,
-                    Peg_world_wrapper &peg_world_wrapper);
+                    const std::string& fixed_frame,
+                    const std::string& ft_topic,
+                    const std::string& ft_classifier_topic,
+                    const std::string& belief_state_topic,
+                    const std::string& record_topic_name,
+                    Peg_world_wrapper& peg_world_wrapper);
 
    virtual bool update();
 
    virtual bool stop();
+
+   void print_debug();
 
 private:
 
@@ -79,17 +79,29 @@ private:
 
 private:
 
-    void cdd_callback(peg_hole_policy::cdd_filterConfig& config, uint32_t level);
-
     bool cmd_callback(peg_hole_policy::String_cmd::Request& req, peg_hole_policy::String_cmd::Response& res);
 
     void x_des_callback(const geometry_msgs::Pose &pos);
 
-    void ft_classifier_callback(const std_msgs::Float32MultiArray &msg);
+    void sensor_classifier_callback(const std_msgs::Float64MultiArray &msg);
+
+    void belief_state_callback(const std_msgs::Float64MultiArrayConstPtr &msg);
+
+    void check_record(bool start);
+
+private:
+
+    void reset();
+
+    void smooth_velocity();
 
     bool net_ft_reset_bias();
 
     void disconnect();
+
+    void rviz_velocity();
+
+    void set_angular_velocity();
 
 private:
 
@@ -98,6 +110,15 @@ private:
     tf::Quaternion          des_orient_WF;
     tf::Vector3             current_origin_WF, current_origin_tmp;
     tf::Quaternion          current_orient_WF;
+    tf::Quaternion          qdiff;
+    tf::Vector3             velocity, velocity_tmp;
+
+    arma::colvec            belief_state_WF;
+    arma::colvec            belief_state_SF;
+    arma::colvec3           socket_pos_WF;
+
+    arma::colvec3 force;
+
 
     // desired position and orientation given from the open loop controller
     tf::Vector3             x_des_q_;
@@ -109,11 +130,21 @@ private:
 
     opti_rviz::Listener     ee_peg_listener;
     ros::Subscriber         x_des_subscriber;
+    ros::Subscriber         belief_info_sub;
+    Peg_sensor_model&       peg_sensor_model;
 
 
     double              control_rate;
     bool                initial_config;
+    bool                bFirst;
     std::size_t         tf_count;
+
+    arma::colvec3            T;
+    arma::mat33              Rt;
+    arma::colvec3            pos_tmp,tmp;
+
+    bool                     bRecord;
+    ros::ServiceClient                       record_client;
 
 
 
@@ -129,8 +160,10 @@ private:
 
     netft::Ft_listener              ft_listener_;
 
-    ros::Subscriber                 ft_classifier_sub_;
-    arma::colvec3                   Y_c;
+    ros::Subscriber                 sensor_classifier_sub_;
+
+
+    arma::colvec                    Y_c;
 
     geometry_msgs::Wrench           wrench_;
     ros::ServiceClient              net_ft_sc_;
@@ -138,11 +171,16 @@ private:
 
     /// POLICIES
 
+    boost::shared_ptr<ph_policy::Specialised>          specialised_policy;
+    boost::shared_ptr<ph_policy::GMM>                  gmm_policy;
+    boost::scoped_ptr<ph_policy::Search_policy>        search_policy;
+    ph_policy::Get_back_on                             get_back_on;
+
+
     policy                          current_policy;
     ctrl_types                      ctrl_type;
 
     State_machine                   state_machine;
-    Search_policy                   search_policy;
 
     /// Visualise direction
 

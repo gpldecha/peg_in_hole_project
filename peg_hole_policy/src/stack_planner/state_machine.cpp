@@ -1,4 +1,4 @@
-#include "peg_hole_policy/policies/state_machine.h"
+#include "peg_hole_policy/stack_planner/state_machine.h"
 #include <optitrack_rviz/type_conversion.h>
 
 namespace ph_policy {
@@ -95,7 +95,7 @@ void State_machine::update(const arma::colvec3 &velocity,
         states.push_back(SOCKET_ENTRY);
     }
 
-    if( (std::fabs(mode_SF(1)) < 0.005 && std::fabs(mode_SF(2)) < 0.005) && std::fabs(mode_SF(0) < 0.015) && has_state(LOW_UNCERTAINTY,states) )
+    if( Y_c(2) == 1 && has_state(LOW_UNCERTAINTY,states) )
     {
         states.push_back(SLIGHTLY_IN);
     }

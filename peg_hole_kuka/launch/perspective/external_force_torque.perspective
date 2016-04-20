@@ -92,11 +92,11 @@
                 }, 
                 "y_limits": {
                   "type": "repr", 
-                  "repr": "[-12.932757377624512, 7.493568420410156]"
+                  "repr": "[-20.21312232, 12.182082402484319]"
                 }, 
                 "x_limits": {
                   "type": "repr", 
-                  "repr": "[120.00187802314758, 121.00187802314758]"
+                  "repr": "[183.77574944496155, 184.77574944496155]"
                 }
               }, 
               "groups": {}
@@ -131,15 +131,15 @@
                 }, 
                 "topics": {
                   "type": "repr", 
-                  "repr": "[u'/ft_sensor/netft_data/wrench/torque/z', u'/ft_sensor/netft_data/wrench/torque/x', u'/ft_sensor/netft_data/wrench/torque/y']"
+                  "repr": "[u'/ft_classifier/data[6]', u'/ft_classifier/data[4]', u'/ft_classifier/data[7]', u'/ft_classifier/data[5]']"
                 }, 
                 "y_limits": {
                   "type": "repr", 
-                  "repr": "[-0.6539333462715149, 1.8542715311050415]"
+                  "repr": "[9.357622968839299e-14, 1.0369604578330662]"
                 }, 
                 "x_limits": {
                   "type": "repr", 
-                  "repr": "[120.09876728057861, 121.09876728057861]"
+                  "repr": "[183.88325095176697, 184.88325095176697]"
                 }
               }, 
               "groups": {}
@@ -174,15 +174,15 @@
                 }, 
                 "topics": {
                   "type": "repr", 
-                  "repr": "[u'/ft_classifier/data[1]', u'/ft_classifier/data[2]', u'/ft_classifier/data[0]']"
+                  "repr": "[u'/mixed_classifier/data[4]', u'/mixed_classifier/data[6]', u'/mixed_classifier/data[5]', u'/mixed_classifier/data[7]']"
                 }, 
                 "y_limits": {
                   "type": "repr", 
-                  "repr": "[-0.16577639884752476, 1.3250193343178953]"
+                  "repr": "[-0.028067319065846474, 1.1234214608681334]"
                 }, 
                 "x_limits": {
                   "type": "repr", 
-                  "repr": "[120.23658609390259, 121.23658609390259]"
+                  "repr": "[184.04542303085327, 185.04542303085327]"
                 }
               }, 
               "groups": {}
@@ -349,8 +349,8 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)", 
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0001000000000d760000006c000012f1000002ab00000d7700000088000012f0000002aa000000020000')", 
-          "pretty-print": "     v l     w         "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb00010000000007860000007100000d01000002b0000007870000008d00000d00000002af000000000000')", 
+          "pretty-print": "       q               "
         }, 
         "state": {
           "type": "repr(QByteArray.hex)", 

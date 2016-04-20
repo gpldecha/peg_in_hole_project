@@ -11,7 +11,6 @@
 namespace plugfilter {
 
 
-
 class Plug_service{
 
 public:

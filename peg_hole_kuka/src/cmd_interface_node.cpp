@@ -39,18 +39,22 @@ int main(int argc,char** argv)
 
 
     peg_console.AddConsoleCommand("plug_search");
+    peg_console.AddConsoleCommand("special");
+    peg_console.AddConsoleCommand("greedy");
     peg_console.AddConsoleCommand("gmm");
+    peg_console.AddConsoleCommand("qem");
+
 
     peg_console.AddConsoleCommand("grav_comp");
     peg_console.AddConsoleCommand("go_front");
     peg_console.AddConsoleCommand("go_left");
     peg_console.AddConsoleCommand("go_peg_right");
-    peg_console.AddConsoleCommand("home");
+    //peg_console.AddConsoleCommand("home");
     peg_console.AddConsoleCommand("disconnect");
     peg_console.AddConsoleCommand("insert");
 
-    peg_console.AddConsoleCommand("go_table");
-    peg_console.AddConsoleCommand("go_socket");
+   // peg_console.AddConsoleCommand("go_table");
+   // peg_console.AddConsoleCommand("go_socket");
 
     peg_console.AddConsoleCommand("stop");
     peg_console.AddConsoleCommand("bias");
@@ -60,8 +64,8 @@ int main(int argc,char** argv)
 
     peg_console.AddConsoleCommand("record");
 
-    peg_console.AddConsoleCommand("open_loop");
-    peg_console.AddConsoleCommand("passive_ds");
+   // peg_console.AddConsoleCommand("open_loop");
+   // peg_console.AddConsoleCommand("passive_ds");
 
     cmd_interface.set_console(peg_console.get_console());
 

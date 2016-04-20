@@ -8,21 +8,45 @@ namespace ph_policy{
 
 Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
                                  const std::string& fixed_frame,
-                                 belief::Gmm_planner& gmm_planner,
-                                 Peg_world_wrapper &peg_world_wrapper):
+                                 const std::string& ft_topic,
+                                 const std::string& ft_classifier_topic,
+                                 const std::string& belief_state_topic,
+                                 const std::string& record_topic_name,
+                                 Peg_world_wrapper& peg_world_wrapper):
+    world_frame(fixed_frame),
     ee_peg_listener(fixed_frame,"lwr_peg_link"),
     state_machine(nh,*(peg_world_wrapper.peg_sensor_model.get())),
-    search_policy(nh,gmm_planner,state_machine,peg_world_wrapper.get_wrapped_objects(),*(peg_world_wrapper.peg_sensor_model.get())),
+    get_back_on(peg_world_wrapper.get_wrapped_objects().get_wbox("link_wall")),
     vis_vector(nh,"direction"),
     ft_listener_(nh,"/ft_sensor/netft_data"),
+    peg_sensor_model(*peg_world_wrapper.peg_sensor_model.get()),
     Ros_ee_j(nh),
     switch_controller(nh)
 {
 
+
+    {
+        tf::StampedTransform transform;
+        opti_rviz::Listener::get_tf_once(world_frame,"link_socket",transform);
+        opti_rviz::type_conv::tf2vec(transform.getOrigin(),socket_pos_WF);
+        opti_rviz::type_conv::tf2mat(transform.getBasis(),Rt);
+        opti_rviz::type_conv::tf2vec(transform.getOrigin(),T);
+        Rt          = Rt.st();
+    }
+
+    belief_state_WF.resize(4);
+    belief_state_SF.resize(4);
+
     server_srv              = nh.advertiseService("cmd_peg_policy",&Peg_hole_policy::cmd_callback,this);
-    ft_classifier_sub_      = nh.subscribe("ft_classifier",1,&Peg_hole_policy::ft_classifier_callback,this);
     net_ft_sc_              = nh.serviceClient<netft_rdt_driver::String_cmd>("/ft_sensor/bias_cmd");
     x_des_subscriber        = nh.subscribe("/lwr/joint_controllers/des_ee_pos",1,&Peg_hole_policy::x_des_callback,this);
+
+    sensor_classifier_sub_      = nh.subscribe(ft_classifier_topic,1,&Peg_hole_policy::sensor_classifier_callback,this);
+    belief_info_sub             = nh.subscribe(belief_state_topic,1,&Peg_hole_policy::belief_state_callback,this);
+
+    record_client           = nh.serviceClient<record_ros::String_cmd>(record_topic_name);
+
+
 
     world_frame             = fixed_frame;
 
@@ -42,9 +66,59 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
 
 
 
+    specialised_policy.reset(   new ph_policy::Specialised(peg_world_wrapper.get_wrapped_objects())                     );
+    gmm_policy.reset(           new ph_policy::GMM()                                                                                        );
+    search_policy.reset(        new ph_policy::Search_policy(nh,get_back_on,*(specialised_policy.get()),*(gmm_policy.get()),state_machine,peg_sensor_model)  );
+
+    // if want to record
+    bRecord=true;
+
 }
 
 bool Peg_hole_policy::stop(){
+    return true;
+}
+
+void   Peg_hole_policy::print_debug(){
+
+}
+
+void Peg_hole_policy::reset(){
+    current_policy           = policy::NONE;
+    ctrl_type                = ctrl_types::JOINT_POSITION;
+
+
+    ee_peg_listener.update(current_origin_WF,current_orient_WF);
+    current_origin_tmp = current_origin_WF;
+
+    net_ft_reset_bias();
+
+    q_des_q_.setRPY(0,0,0);
+
+}
+
+void Peg_hole_policy::rviz_velocity(){
+    /// Plot direction velocity
+    arrows[0].origin    = current_origin_WF;
+    arrows[0].direction = velocity;
+    arrows[0].direction = arrows[0].direction.normalize();
+    arrows[0].direction = 0.1 *  arrows[0].direction;
+
+    vis_vector.update(arrows);
+    vis_vector.publish();
+}
+
+void Peg_hole_policy::set_angular_velocity(){
+
+    /// COMPUTE ANGULAR VELOCITY
+    qdiff = des_orient_WF - current_orient_WF;
+    Eigen::Quaternion<double>  dq (qdiff.getW(),qdiff.getX(),qdiff.getY(),qdiff.getZ());
+    Eigen::Quaternion<double>   q(current_orient_WF.getW(),current_orient_WF.getX(),current_orient_WF.getY(), current_orient_WF.getZ());
+    Eigen::Vector3d w = motion::d2qw<double>(q,dq);
+
+    angular_vel_cmd_(0) = w[0];
+    angular_vel_cmd_(1) = w[1];
+    angular_vel_cmd_(2) = w[2];
 
 }
 
@@ -55,57 +129,30 @@ bool Peg_hole_policy::update(){
     if(!switch_controller.activate_controller("joint_controllers")){
         return false;
     }
-    current_policy           = policy::NONE;
-    tf::Quaternion qdiff;
 
-    tf::Vector3     velocity, velocity_tmp;
-
-
-    ee_peg_listener.update(current_origin_WF,current_orient_WF);
-    current_origin_tmp = current_origin_WF;
-
-    ctrl_type       = ctrl_types::JOINT_POSITION;
-
-    // start in open loop
-    string_msg.data = "velocity_open";
-    sendString(string_msg);
-
-    bool success = true;
-    ros::Rate       loop_rate(control_rate);
-    ros::Time       time, last_time;
-    ros::Duration   ros_dt;
-
-    time = ros::Time::now();
-    last_time = time;
-    velocity.setZero();
-
-    net_ft_reset_bias();
-    arma::colvec3 force;
-
-    q_des_q_.setRPY(0,0,0);
+    ROS_INFO("Reset");
+    reset();
 
     ROS_INFO_STREAM("Staring Peg hole loop");
+    ros::Rate loop_rate(control_rate);
     while(ros::ok()) {
 
-        last_time       = time;
-        time            = ros::Time::now();
-        ros_dt          = time - last_time;
         velocity_tmp    = velocity;
 
         ee_peg_listener.update(current_origin_WF,current_orient_WF);
+        opti_rviz::type_conv::tf2vec(current_origin_WF,tmp);
+
 
         des_orient_WF   = current_orient_WF;
         des_origin_     = current_origin_WF;
         current_dx      = (current_origin_WF - current_origin_tmp) * (1.0 / control_rate);
         wrench_         = ft_listener_.current_msg.wrench;
-
         force(0)        = wrench_.force.x;
         force(1)        = wrench_.force.y;
         force(2)        = wrench_.force.z;
 
-        search_policy.update_force_vis(force,current_origin_WF,current_orient_WF);
+        search_policy->update_force_vis(force,current_origin_WF,current_orient_WF);
         opti_rviz::debug::tf_debuf(x_des_q_,q_des_q_,"x_des_q_");
-
 
         if(ctrl_type != ctrl_types::JOINT_POSITION){
 
@@ -114,7 +161,7 @@ bool Peg_hole_policy::update(){
             {
                 tf::Matrix3x3 current_orient;
                 current_orient.setRotation(current_orient_WF);
-                search_policy.get_velocity(velocity,des_orient_WF,current_origin_WF,current_orient,Y_c,wrench_);
+                search_policy->get_velocity(velocity,des_orient_WF,tmp,current_orient,Y_c,force,belief_state_WF,belief_state_SF,socket_pos_WF);
                 break;
             }
             default:
@@ -124,69 +171,27 @@ bool Peg_hole_policy::update(){
             }
             };
 
+            smooth_velocity();
 
-            if(velocity.length() != 0){
-                // assume constant velocity
-                velocity = velocity / (velocity.length() + std::numeric_limits<double>::min());
-                velocity = 0.01 * velocity;
+            rviz_velocity();
 
-                for(std::size_t i = 0; i < 3;i++){
-                    velocity[i]  = filters::exponentialSmoothing(velocity[i],velocity_tmp[i], 0.02);
-                    if(std::isnan(velocity[i]) || std::isinf(velocity[i]))
-                    {
-                        velocity[i] = 0;
-                        ROS_WARN_THROTTLE(0.1,"velocity is nan or inf (peg_hole_policy)");
-                    }
-                }
-            }
+            set_angular_velocity();
 
-            // Safety check magnitude of velocity
-            if(velocity.length() >= 0.2){
-                ROS_WARN_STREAM_THROTTLE(1.0,"velocity magnite[" << velocity.length() << "] to large! [peg_hole_policy]");
-                velocity.setZero();
-            }
-
-            /// Plot direction velocity
-            arrows[0].origin    = current_origin_WF;
-            arrows[0].direction = velocity;
-            arrows[0].direction = arrows[0].direction.normalize();
-            arrows[0].direction = 0.1 *  arrows[0].direction;
-
-            vis_vector.update(arrows);
-            vis_vector.publish();
-
-            /// COMPUTE ANGULAR VELOCITY
-            qdiff = des_orient_WF - current_orient_WF;
-            Eigen::Quaternion<double>  dq (qdiff.getW(),qdiff.getX(),qdiff.getY(),qdiff.getZ());
-            Eigen::Quaternion<double>   q(current_orient_WF.getW(),current_orient_WF.getX(),current_orient_WF.getY(), current_orient_WF.getZ());
-            Eigen::Vector3d w = motion::d2qw<double>(q,dq);
-
+            // Debug
             //velocity.setZero();
 
-            linear_vel_cmd_(0)  = velocity[0];
-            linear_vel_cmd_(1)  = velocity[1];
-            linear_vel_cmd_(2)  = velocity[2];
 
-            angular_vel_cmd_(0) = w[0];
-            angular_vel_cmd_(1) = w[1];
-            angular_vel_cmd_(2) = w[2];
-
+            opti_rviz::type_conv::tf2vec(velocity,linear_vel_cmd_);
             orientation_cmd_ = Eigen::Quaterniond(des_orient_WF.w(),des_orient_WF.x(),des_orient_WF.y(),des_orient_WF.z());
-
             ROS_INFO_STREAM_THROTTLE(1.0,"linear_vel_cmd_: " << linear_vel_cmd_[0] << " " << linear_vel_cmd_[1] << " " << linear_vel_cmd_[2] );
-
-            //linear_vel_cmd_.setZero();
-
             // SET COMMAND VALUES
             set_command(linear_vel_cmd_,angular_vel_cmd_,orientation_cmd_);
         }
-
 
         ros::spinOnce();
         loop_rate.sleep();
         current_origin_tmp = current_origin_WF;
     }
-
 
     peg_hole_policy::String_cmd::Request  req;
     peg_hole_policy::String_cmd::Response res;
@@ -199,7 +204,30 @@ bool Peg_hole_policy::update(){
 
     ROS_INFO_STREAM("Peg Hole Policy OFF!");
 
-    return success;
+    return true;
+}
+
+void Peg_hole_policy::smooth_velocity(){
+    if(velocity.length() != 0){
+        // assume constant velocity
+        velocity = velocity / (velocity.length() + std::numeric_limits<double>::min());
+        velocity = 0.01 * velocity;
+
+        for(std::size_t i = 0; i < 3;i++){
+            velocity[i]  = filters::exponentialSmoothing(velocity[i],velocity_tmp[i], 0.02);
+            if(std::isnan(velocity[i]) || std::isinf(velocity[i]))
+            {
+                velocity[i] = 0;
+                ROS_WARN_THROTTLE(0.1,"velocity is nan or inf (peg_hole_policy)");
+            }
+        }
+    }
+
+    // Safety check magnitude of velocity
+    if(velocity.length() >= 0.2){
+        ROS_WARN_STREAM_THROTTLE(1.0,"velocity magnite[" << velocity.length() << "] to large! [peg_hole_policy]");
+        velocity.setZero();
+    }
 }
 
 void Peg_hole_policy::set_command(const Eigen::Vector3d& linear_vel_cmd,
@@ -237,7 +265,6 @@ void Peg_hole_policy::disconnect(){
 }
 
 void Peg_hole_policy::x_des_callback(const geometry_msgs::Pose& pos){
-    //  std::cout<< "pos: " << pos.position.x << " " << pos.position.y << " " << pos.position.z << std::endl;
     x_des_q_.setX(pos.position.x);
     x_des_q_.setY(pos.position.y);
     x_des_q_.setZ(pos.position.z);
@@ -259,16 +286,56 @@ bool Peg_hole_policy::net_ft_reset_bias(){
     }
 }
 
-void Peg_hole_policy::ft_classifier_callback(const std_msgs::Float32MultiArray& msg){
+void Peg_hole_policy::sensor_classifier_callback(const std_msgs::Float64MultiArray& msg){
 
-    if(msg.data.size() == 3){
-        Y_c(0) = msg.data[0];
-        Y_c(1) = msg.data[1];
-        Y_c(2) = msg.data[2];
-    }else{
-        ROS_WARN_STREAM_THROTTLE(1.0,"Peg_hole_policy::ft_classifier_callback: msg.data.size(): " << msg.data.size());
+    if(msg.data.size()  != Y_c.n_elem)
+    {
+        Y_c.resize(msg.data.size());
     }
+    for(std::size_t i = 0; i < Y_c.n_elem;i++){
+        Y_c(i) = msg.data[i];
+    }
+}
 
+void Peg_hole_policy::belief_state_callback(const std_msgs::Float64MultiArrayConstPtr &msg){
+
+    if(msg->data.size() == belief_state_WF.n_elem){
+        for(std::size_t i = 0; i < msg->data.size();i++){
+            belief_state_WF(i) = msg->data[i];
+        }
+
+        pos_tmp(0) = belief_state_WF(0);
+        pos_tmp(1) = belief_state_WF(1);
+        pos_tmp(2) = belief_state_WF(2);
+
+        pos_tmp = Rt * pos_tmp - Rt * T;
+
+        belief_state_SF(0) = pos_tmp(0);
+        belief_state_SF(1) = pos_tmp(1);
+        belief_state_SF(2) = pos_tmp(2);
+        belief_state_SF(3) = belief_state_WF(3);
+
+        opti_rviz::debug::tf_debuf(pos_tmp,"mode_SF_1/pos_tmp");
+
+        //  ROS_INFO_STREAM_THROTTLE(1.0,"Gmm_planner belief_state: " << belief_state(0) << " " << belief_state(1) << " "
+        //                           << belief_state(2));
+    }else{
+        ROS_WARN_STREAM_THROTTLE(1.0,"msg->data.size() != belief_state.n_elem [Peg_hole_policy::belief_state_callback]");
+    }
+}
+
+void Peg_hole_policy::check_record(bool start){
+    if(bRecord && start){
+        record_ros::String_cmd  record_cmd;
+        record_cmd.request.cmd      = "record";
+        record_client.call(record_cmd);
+        ROS_INFO("====> Starting to record!");
+    }else if(bRecord && !start){
+        record_ros::String_cmd  record_cmd;
+        record_cmd.request.cmd      = "stop";
+        record_client.call(record_cmd);
+        ROS_INFO("====> Stopping to record!");
+    }
 }
 
 bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, peg_hole_policy::String_cmd::Response& res){
@@ -277,14 +344,35 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
 
     ROS_INFO("cmd_callback:: Peg_hole_policy");
     std::cout<< "cmd: " << cmd << std::endl;
-    if (cmd == "gmm"){
+    if (cmd == "special"){
         current_policy = policy::SEARCH_POLICY;
         ctrl_type      = ctrl_types::CARTESIAN;
-        res.res        = "gmr policy ON!";
-        search_policy.reset();
+        res.res        = "special policy ON!";
+        std::vector<std::string> args = {{"reset"}};
+        search_policy->command("special",args);
         grav_msg.data  = false;
         sendGrav(grav_msg);
-     }else if(cmd == "pause"){
+        bFirst=true;
+        check_record(true);
+    }else if(cmd == "greedy"){
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->command("greedy");
+        bFirst=true;
+        check_record(true);
+    }else if(cmd == "gmm"){
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->command("gmm");
+        bFirst=true;
+        check_record(true);
+    }else if(cmd == "qem"){
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->command("qem");
+        bFirst=true;
+        check_record(true);
+    }else if(cmd == "pause"){
         current_policy = policy::NONE;
         ctrl_type      = ctrl_types::CARTESIAN;
         res.res = "pause!";
@@ -299,7 +387,6 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         sendJointPos(joint_pos_msg);
         res.res = "going front";
         ros::spinOnce();
-
     }else if(cmd == "go_peg_right"){
         current_policy      = policy::NONE;
         ctrl_type           = ctrl_types::JOINT_POSITION;
@@ -315,15 +402,17 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         res.res = "going front";
         ros::spinOnce();
     }else if(cmd == "insert"){
-        search_policy.set_action(actions::FIND_SOCKET_HOLE);
-        search_policy.set_socket_policy(SOCKET_POLICY::INSERT);
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->command("insert");
         res.res = "insert..!";
         ros::spinOnce();
     }else if(cmd=="go_socket"){
-        search_policy.set_action(actions::FIND_SOCKET_HOLE);
-        search_policy.set_socket_policy(SOCKET_POLICY::TO_SOCKET);
+        // search_policy.set_action(actions::FIND_SOCKET_HOLE);
+        // search_policy.set_socket_policy(SOCKET_POLICY::TO_SOCKET);
         res.res = "socket..!";
     }else if(cmd == "disconnect"){
+        check_record(false);
         disconnect();
         res.res = "disconnecting..!";
         ros::spinOnce();

@@ -6,6 +6,8 @@
 #include <peg_sensor/peg_sensor_model/peg_sensor_model.h>
 #include <optitrack_rviz/debug.h>
 #include <peg_hole_policy/policies/get_back_on.h>
+#include <Eigen/Eigen>
+#include <geometry_msgs/Wrench.h>
 
 namespace ph_policy{
 

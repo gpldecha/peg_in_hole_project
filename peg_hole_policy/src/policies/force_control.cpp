@@ -21,7 +21,7 @@ Force_control::Force_control(ros::NodeHandle& nh)
      force_vector[0].set_scale(0.005,0.01,0.01);
 
      vis_vector.initialise("world",force_vector);
-     max_N = 10;
+     max_N = 6;
 }
 
 void Force_control::update(const arma::colvec3& force,const tf::Vector3& ee_position, const tf::Quaternion& ee_orientation){
@@ -85,8 +85,8 @@ void Force_control::update(const arma::colvec3& force,const tf::Vector3& ee_posi
 
 void Force_control::get_over_edge(arma::colvec3& velocity){
 
-    double fac_y =  -10 * F_n(1);
-    double fac_z =   10 * F_n(2);
+    double fac_y =  -20 * F_n(1);
+    double fac_z =   20 * F_n(2);
 
     if(fac_y > 1){fac_y = 1;}
     if(fac_z > 1){fac_z = 1;}
@@ -117,7 +117,7 @@ void Force_control::regulise_force(arma::colvec3& velocity, double max_force){
 void Force_control::force_safety(arma::colvec3& velocity, double max_force){
     if(arma::norm(F) > max_force){
         velocity.zeros();
-        ROS_WARN_STREAM_THROTTLE(1.0,"MAX force reached: " << arma::norm(F));
+        ROS_WARN_STREAM_THROTTLE(1.0,"MAX force reached: " << arma::norm(F) << "  [force_control.cpp]");
     }
 }
 

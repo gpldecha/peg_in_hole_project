@@ -48,11 +48,11 @@ int main(int argc, char** argv)
     std::string path_sensor_model   =  param_name_value[node_name + "/path_sensor_model"];
     std::string ft_topic            =  param_name_value[node_name + "/ft_topic"];
     std::string classifier_topic    =  param_name_value[node_name + "/classifier_topic"];
-    std::string F_topic             =  param_name_value[node_name + "/F_topic"];
-    std::string path_gmm_param      =  param_name_value[node_name + "/gmm_param_path"];
+    std::string belief_state_topic  =  param_name_value[node_name + "/F_topic"];
 
     std::string speech_topic        =  param_name_value[node_name + "/speech_topic"];
     std::string action_serivce      =  param_name_value[node_name + "/action_service"];
+    std::string record_service_name =  "/record/cmd";
 
     ac::Kuka_action_client kuka_action_client;
     std::map<std::string,ac::Base_action*> actions;
@@ -61,35 +61,19 @@ int main(int argc, char** argv)
     /**  ------------- Initialise control policies ------------- **/
 
 
-    belief::Gmm_planner_initialiser init;
-    init.belief_state_size      = 4;
-    init.bel_feature_topic      = F_topic;
-    init.ft_classifier_topic    = classifier_topic;
-    init.sensor_topic           = ft_topic;
-    init.world_frame            = world_frame;
-    init.path_parameters        = path_gmm_param;
-    belief::Gmm_planner gmm_planner(nh,init);
+    Peg_world_wrapper   peg_world_wrapper(nh,false,"peg_hole_kuka_action",path_sensor_model,world_frame,"lwr_peg_link"); // don't publish need model for planning
 
-    Peg_world_wrapper   peg_world_wrapper(nh,"peg_hole_kuka_action",path_sensor_model,world_frame,"lwr_peg_link");
 
-   // Peg_sensor_model&   peg_sensor_model = *(peg_world_wrapper.peg_sensor_model.get());
-
-    ph_policy::Peg_hole_policy peg_hole_policy(nh,world_frame,gmm_planner,peg_world_wrapper);
+    ph_policy::Peg_hole_policy peg_hole_policy(nh,world_frame,ft_topic,classifier_topic,belief_state_topic,record_service_name,peg_world_wrapper);
 
     actions["plug_search"] = &peg_hole_policy;
     kuka_action_client.push_back(actions);
 
+    ac::Action_client_cmd_interface action_cmd_interface(nh,kuka_action_client,action_serivce);
+    action_cmd_interface.init_nl_subscriber(speech_topic);
 
-   /**  ------------- Initialise Service, Voice & Cmd interface  -------------
-    *  The control command interface is an interface to the action client.
-    *  It provied a ros service and a voice command interface such to
-    *  command the client server to send desired action requests to the action server.
-    */
-     ac::Action_client_cmd_interface action_cmd_interface(nh,kuka_action_client,action_serivce);
-     action_cmd_interface.init_nl_subscriber(speech_topic);
-
-     ROS_INFO("action CLIENT started!");
-     ros::spin();
+    ROS_INFO("action CLIENT started!");
+    ros::spin();
 
 
     return 0;

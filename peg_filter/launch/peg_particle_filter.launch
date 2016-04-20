@@ -2,16 +2,19 @@
 <launch>
 
 	<!-- arg -->
-	<arg name="sensor_topic"	default="/ft_classifier"/>
-	<arg name="action_topic" 	default="lwr_peg_link"/>
-	<arg name="socket_type"		default="one"/>
-	<arg name="path_sensor_model"   default="$(find objects)/meshes/plug/config/X.txt"/>
-	<arg name="peg_link_name"	default="lwr_peg_link"/>
-	<arg name="table_urdf" 		value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+	<arg name="ft_sensor_topic"		default="/ft_classifier"/>
+	<arg name="virtual_sensor_topic"	default="/virtual_classifier"/>
+
+	<arg name="action_topic" 		default="lwr_peg_link"/>
+	<arg name="socket_type"			default="one"/>
+	<arg name="path_sensor_model"   	default="$(find objects)/meshes/plug/config/X.txt"/>
+	<arg name="peg_link_name"		default="lwr_peg_link"/>
+	<arg name="table_urdf" 			value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+	<arg name="sensor_type"	 		default="FT"/>
 
 	<!-- launch-prefix="xterm -e gdb -args"-->
 
-     	<node name="filter_node" pkg="peg_filter" type="peg_filter_node"  args="-sensor_topic $(arg sensor_topic) -action_topic $(arg action_topic) -urdf $(arg table_urdf) -path_sensor_model $(arg path_sensor_model) -peg_link_name $(arg peg_link_name)" required="true" output="screen"/>
+     	<node name="filter_node" pkg="peg_filter" type="peg_filter_node"  args="-ft_sensor_topic $(arg ft_sensor_topic) -virtual_sensor_topic $(arg virtual_sensor_topic) -action_topic $(arg action_topic) -urdf $(arg table_urdf) -path_sensor_model $(arg path_sensor_model) -peg_link_name $(arg peg_link_name) -sensor_type $(arg sensor_type)" required="true" output="screen"/>
 
 
 </launch>

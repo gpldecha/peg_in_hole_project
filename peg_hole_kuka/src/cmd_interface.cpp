@@ -44,20 +44,23 @@ void Cmd_interface::init_commands(){
     cmds["go_front"]            = cmd_info("go_front",  cmd_type::PEG_POLICY);
     cmds["go_left"]             = cmd_info("go_left",   cmd_type::PEG_POLICY);
     cmds["home"]                = cmd_info("home",      cmd_type::PEG_POLICY);
+
+    cmds["special"]             = cmd_info("special",   cmd_type::PEG_POLICY);
+    cmds["greedy"]              = cmd_info("greedy",    cmd_type::PEG_POLICY);
     cmds["gmm"]                 = cmd_info("gmm",       cmd_type::PEG_POLICY);
-    cmds["open_loop"]           = cmd_info("open_loop", cmd_type::PEG_POLICY);
-    cmds["passive_ds"]          = cmd_info("passive_ds", cmd_type::PEG_POLICY);
-    cmds["go_peg_right"]        = cmd_info("go_peg_right", cmd_type::PEG_POLICY);
-    cmds["disconnect"]          = cmd_info("disconnect", cmd_type::PEG_POLICY);
+    cmds["qem"]                 = cmd_info("qem",       cmd_type::PEG_POLICY);
 
+    cmds["open_loop"]           = cmd_info("open_loop",     cmd_type::PEG_POLICY);
+    cmds["passive_ds"]          = cmd_info("passive_ds",    cmd_type::PEG_POLICY);
+    cmds["go_peg_right"]        = cmd_info("go_peg_right",  cmd_type::PEG_POLICY);
+    cmds["disconnect"]          = cmd_info("disconnect",    cmd_type::PEG_POLICY);
 
-    cmds["record"]              = cmd_info("record", cmd_type::RECORD);
-
+    cmds["record"]              = cmd_info("record",    cmd_type::RECORD);
     cmds["bias"]                = cmd_info("bias",      cmd_type::FT);
 
-    cmds["pf_reset"]            = cmd_info("pf reset",cmd_type::PF);
-    cmds["pf_start"]            = cmd_info("pf start",cmd_type::PF);
-    cmds["print"]               = cmd_info("print",cmd_type::UTILITY);
+    cmds["pf_reset"]            = cmd_info("pf reset",  cmd_type::PF);
+    cmds["pf_start"]            = cmd_info("pf start",  cmd_type::PF);
+    cmds["print"]               = cmd_info("print",     cmd_type::UTILITY);
 }
 
 

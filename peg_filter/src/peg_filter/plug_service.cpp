@@ -26,7 +26,8 @@ bool Plug_service::callback(particle_filter::String_cmd::Request& req,particle_f
        {
         case RESET:
        {
-           // QUICK HACK FOR peg demo
+
+           ROS_INFO("Rest [Plug_service]");
            tf::StampedTransform transform;
            opti_rviz::Listener::get_tf_once("world","lwr_peg_link",transform);
            arma::colvec3 peg_position = {{transform.getOrigin().x(),
@@ -38,6 +39,8 @@ bool Plug_service::callback(particle_filter::String_cmd::Request& req,particle_f
            }else{
                ROS_ERROR("initialise_f == NULL [plug_service.cpp]");
            }
+
+           ROS_INFO("Rest finished [Plug_service]");
 
          /*  peg_position.print("peg_position");
            plug_pf_manager.initialise_prior_pdf(peg_position);

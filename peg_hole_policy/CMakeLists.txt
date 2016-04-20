@@ -48,7 +48,10 @@ set(SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(include ${catkin_INCLUDE_DIRS} ${INCLUDE_DIR})
 
 set(H_FILES ${INCLUDE_DIR}/peg_hole_policy/peg_hole_policy.h
-            ${INCLUDE_DIR}/peg_hole_policy/policies/state_machine.h
+            ${INCLUDE_DIR}/peg_hole_policy/stack_planner/state_machine.h
+            ${INCLUDE_DIR}/peg_hole_policy/stack_planner/planning_stack.h
+
+            ${INCLUDE_DIR}/peg_hole_policy/policies/greedy_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/find_table.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/search_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/find_socket.h
@@ -58,12 +61,15 @@ set(H_FILES ${INCLUDE_DIR}/peg_hole_policy/peg_hole_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/force_control.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/gmm_search.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/get_back_on.h
-            ${INCLUDE_DIR}/peg_hole_policy/velocity_controller.h
+            ${INCLUDE_DIR}/peg_hole_policy/policies/specialised_policy.h
 )
 
 set(S_FILES ${SRC_DIR}/peg_hole_policy.cpp
-            #${SRC_DIR}/state_machine.cpp
-            ${SRC_DIR}/velocity_controller.cpp
+
+            ${SRC_DIR}/stack_planner/planning_stack.cpp
+            ${SRC_DIR}/stack_planner/state_machine.cpp
+            ${SRC_DIR}/policies/greedy_policy.cpp
+            ${SRC_DIR}/policies/specialised_policy.cpp
             ${SRC_DIR}/policies/find_table.cpp
             ${SRC_DIR}/policies/find_socket.cpp
             ${SRC_DIR}/policies/insert_peg.cpp
@@ -71,7 +77,6 @@ set(S_FILES ${SRC_DIR}/peg_hole_policy.cpp
             ${SRC_DIR}/policies/get_back_on.cpp
             ${SRC_DIR}/policies/gmm_search.cpp
             ${SRC_DIR}/policies/search_policy.cpp
-            ${SRC_DIR}/policies/state_machine.cpp
             ${SRC_DIR}/policies/go_feature.cpp
             ${SRC_DIR}/policies/force_control.cpp
 )

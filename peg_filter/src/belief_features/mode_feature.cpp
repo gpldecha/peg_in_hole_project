@@ -78,7 +78,7 @@ void ModeBeliefCompress::arg_max_x(arma::colvec3& pos,double& w,const arma::colv
         // get the weight of the point which is the closest to the max.
         double w_idx = P.at(idx);
 
-        ROS_INFO_STREAM_THROTTLE(1.0,"w_idx/max_w : " << w_idx/max_w );
+       // ROS_INFO_STREAM_THROTTLE(1.0,"w_idx/max_w : " << w_idx/max_w );
 
 
         if(w_idx/max_w < 0.8){

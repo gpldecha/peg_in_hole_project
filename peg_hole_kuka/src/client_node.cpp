@@ -29,15 +29,10 @@ int main(int argc, char** argv)
 
     /** ------------- Initialise Action Client & Set Action-Goals ------------- **/
 
-    //ac::Kuka_action_client  kuka_action_client(action_server_name);
-
-    //PEG_action_client peg_action_clients;
-    //peg_action_clients.initialise();
+  //   ac::Kuka_action_client  kuka_action_client(action_server_name);
 
 
-
-
-    //kuka_action_client.push_back(peg_action_clients.goals);
+ //    kuka_action_client.push_back(peg_action_clients.goals);
 
 
     /**  ------------- Initialise Service, Voice & Cmd interface  -------------
