@@ -27,13 +27,5 @@
 		<arg name="y_topic" value="$(arg virtual_sensor_topic)"/>
 	</include>	
 
-	<!-- launch particle filter -->
-	<!--include file="$(find peg_filter)/launch/peg_particle_filter.launch">
-		<arg name="ft_sensor_topic" 		value="$(arg ft_sensor_topic)"/>
-		<arg name="virtual_sensor_topic" 	value="$(arg virtual_sensor_topic)"/>
-		<arg name="action_topic" 		value="$(arg action_topic)"/>
-		<arg name="peg_link_name" 		value="$(arg peg_link_name)"/>
-		<arg name="sensor_type" 		value="$(arg sensor_type)"/>
-	</include-->
 
 </launch>

@@ -22,7 +22,6 @@
 #include "peg_filter/belief_features/belief_features.h"
 #include "peg_filter/belief_features/mode_feature.h"
 
-
 #include <optitrack_rviz/listener.h>
 #include <optitrack_rviz/type_conversion.h>
 #include "netft_rdt_driver/String_cmd.h"
@@ -45,7 +44,7 @@ void get_veclocity(arma::colvec3& u,const tf::Vector3& origin, const tf::Vector3
 }
 
 bool is_above_table(arma::colvec3& x_sf){
-    ROS_INFO_STREAM_THROTTLE(0.5,"x_sf:       " << x_sf(0) << " " << x_sf(1) << " " << x_sf(2));
+  //  ROS_INFO_STREAM_THROTTLE(0.5,"x_sf:       " << x_sf(0) << " " << x_sf(1) << " " << x_sf(2));
     if((x_sf(0) > 0) && (std::fabs(x_sf(1)) <= 0.35) && (std::fabs(x_sf(2)) <= 0.15) ){
         return true;
     }else{
@@ -60,7 +59,6 @@ bool is_in_socket_area(arma::colvec3& x_bb, arma::colvec3& x_tt){
     }else{
         return false;
     }
-
 }
 
 void init_delta_length(int init_pmf_type, pf::Point_mass_filter::delta &delta_,pf::Point_mass_filter::length& length_){
@@ -141,13 +139,13 @@ void init_delta_length(int init_pmf_type, pf::Point_mass_filter::delta &delta_,p
         length_.m = 0.02;
         length_.n = 0.5;
         length_.k = 0.5;
-    }else if(init_pmf_type == 8){ // check bbox truncation
-        delta_.m  = 0.025;
-        delta_.n  = 0.025;
-        delta_.k  = 0.025;
-        length_.m = 0.5;
-        length_.n = 0.5;
-        length_.k = 0.5;
+    }else if(init_pmf_type == 8){ // To gather data close to the goal
+        delta_.m  = 0.003;
+        delta_.n  = 0.003;
+        delta_.k  = 0.003;
+        length_.m = 0.01;
+        length_.n = 0.03;
+        length_.k = 0.1;
     }else if(init_pmf_type == 9){ // check for ability for insertion (very small belief)
         delta_.m  = 0.0025;
         delta_.n  = 0.0025;
@@ -169,12 +167,19 @@ void init_delta_length(int init_pmf_type, pf::Point_mass_filter::delta &delta_,p
 void init_delta_length_experiment(int experiment_type, pf::Point_mass_filter::delta &delta_,pf::Point_mass_filter::length& length_){
 
     if(experiment_type == 1){       // to the right of the socket, larger uncertainty in Z
-        delta_.m  = 0.003;
-        delta_.n  = 0.003;
-        delta_.k  = 0.003;
+        delta_.m  = 0.0025;
+        delta_.n  = 0.0025;
+        delta_.k  = 0.0025;
         length_.m = 0.01;
         length_.n = 0.03;
-        length_.k = 0.1;
+        length_.k = 0.15;
+    }else if(experiment_type == 2){
+        delta_.m  = 0.0025;
+        delta_.n  = 0.0025;
+        delta_.k  = 0.0025;
+        length_.m = 0.01;
+        length_.n = 0.15;
+        length_.k = 0.03;
     }else{
         delta_.m  = 0.003;
         delta_.n  = 0.003;
@@ -202,12 +207,11 @@ void initialise_prior_pdf(int init_pmf_pos,int init_pmf_type,pf::Point_mass_filt
     init_delta_length(init_pmf_type,delta_,length_);
 
 
-
     pos_tmp = pos_socket;
     pos_tmp(0) = pos_peg(0);
 
     pos_tmp.print("pos_tmp");
-    pmf.reset(pos_tmp,delta_,length_);
+    pmf.reset(pos_peg,delta_,length_);
 }
 
 void initialise_prior_experiment(int expermient_type,pf::Point_mass_filter& pmf, double x, double y, double z){
@@ -229,14 +233,16 @@ void initialise_prior_experiment(int expermient_type,pf::Point_mass_filter& pmf,
     pmf.reset(peg_position,delta_,length_);
 
     if(expermient_type == 1){
-        pos_pmf = pos_socket;
-        pos_pmf(1) = pos_pmf(1) + 0.085;
-        pos_pmf(0) = pos_pmf(0) + 0.02;
+        pos_pmf     = pos_socket;
+        pos_pmf(1)  = pos_pmf(1) + 0.085;
+        pos_pmf(0)  = peg_position(0);
+    }else if(expermient_type == 2){
+        pos_pmf     = pos_socket;
+        pos_pmf(2)  = pos_pmf(2) + 0.085;
+        pos_pmf(0)  = peg_position(0);
     }
     pmf.reset(pos_pmf,delta_,length_);
 }
-
-
 
 
 
@@ -306,11 +312,13 @@ int main(int argc,char** argv){
     arma::colvec&    Y_ft       = ft_sensor_listener.Y;
     arma::colvec&    Y_virtual  = virtual_sensor_listener.Y;
     arma::colvec     Y_mixed;
-    int Y_type                  = 2;
+    int Y_type                  = 3;
 
-    Y_mixed.resize(8);
+    Y_mixed.resize(10);
 
     opti_rviz::Publisher    pub_mix(nh,"mixed_classifier");
+
+
 
 
     /// ------------------  Point Mass Filter -------------------------
@@ -319,14 +327,15 @@ int main(int argc,char** argv){
     ///
     ///
 
-    bool bExperiment    = false;
+    bool bExperiment    = true;
 
     // Debug
-    int init_pmf_type   =  10;
+    int init_pmf_type   =  8;
     int init_pmf_pos    =  1;
 
     // experiment
     int init_pmf_exp    =  1;
+    int init_exp_pos    =  1;
 
     ///
     ///
@@ -349,6 +358,9 @@ int main(int argc,char** argv){
     //    peg_likelihood   =  std::bind(&likeli::Binary_likelihood::likelihood,&binary_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3);
 
     }else if(Y_type == 2)
+    {
+        peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
+    }else if (Y_type == 3)
     {
         peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
     }else{
@@ -530,6 +542,20 @@ int main(int argc,char** argv){
         opti_rviz::type_conv::tf2vec(transform.getOrigin(),wall_position);
     }
 
+
+   opti_rviz::Vis_point_cloud  vis_pc_rec(nh,"pfilter_record");
+   vis_pc_rec.set_channel(opti_rviz::Vis_point_cloud::CHANNEL_TYPE::Intensity);
+   vis_pc_rec.initialise("world",pmf.points);
+
+   //opti_rviz::Vis_point_cloud  vis_pc_rec(nh,"pfilter_record_color");
+   //vis_pc_rec.set_channel(opti_rviz::Vis_point_cloud::CHANNEL_TYPE::Intensity);
+   //vis_pc_rec.initialise("world",pmf.points);
+
+
+
+//   void set_display_type(display_mode type);
+//   void set_channel(CHANNEL_TYPE channel_type);
+
    // double time_taken;
    // int count = 0;
    // int number = 10;
@@ -540,6 +566,8 @@ int main(int argc,char** argv){
 
     target    = table_position;
     target(0) = target(0) + 0.026;
+
+    ros::Time start_time = ros::Time::now();
 
     while(nh.ok()){
 
@@ -565,13 +593,11 @@ int main(int argc,char** argv){
 
         if(!(Y_ft.is_empty()) && bcorrect_orient){
 
-
-
             opti_rviz::debug::tf_debuf(bb,"BB");
             opti_rviz::debug::tf_debuf(tt,"TT");
 
             if(Y_ft(0) == 1 && is_above_table(bb) && is_above_table(tt) && !is_in_socket_area(bb,tt)){
-                ROS_INFO_STREAM_THROTTLE(0.2,"----------------> Is above table");
+               // ROS_INFO_STREAM_THROTTLE(0.2,"----------------> Is above table");
 
                 if(mode_SF.is_finite()){
                    // u(0) = 0.01 * (0.02 - mode_SF(0));
@@ -579,7 +605,7 @@ int main(int argc,char** argv){
                     ROS_INFO_STREAM_THROTTLE(1.0, "MODE_SF IS NOT FINITE");
                 }
 
-            }else if(Y_ft(0) == 1)
+            }else if(Y_ft(0) == 1 && !Y_virtual(psm::Contact_distance_model::C_SOCKET))
             {
                 u(0) = 0;
             }
@@ -605,13 +631,48 @@ int main(int argc,char** argv){
                 Y_mixed(5) = Y_ft(5);  // prob_right_edge
                 Y_mixed(6) = Y_ft(6);  // prob_up_edge
                 Y_mixed(7) = Y_ft(7);  // prob_down_edge
+                pub_mix.publish(Y_mixed);
+                plug_pf_manager.update(Y_mixed,u,peg_orient,Hz);
+                break;
+            }
+            case 3:
+            {
+
+                /*
+                    C_SURF          =0
+                    C_EDGE_DIST     =1
+                    C_EDGE_LEFT     =2
+                    C_EDGE_RIGHT    =3
+                    C_EDGE_TOP      =4
+                    C_EDGE_BOT      =5
+                    C_RING          =6
+                    C_S_HOLE        =7
+                    C_SOCKET        =8
+                    C_EDGE_V1       =9
+                    C_EDGE_V2       =10
+                    C_EDGE_V3       =11
+
+                */
+
+                Y_mixed(0)  = Y_ft(0);                                                  // contact / no contact
+
+                Y_mixed(1)  = Y_virtual(psm::Contact_distance_model::C_EDGE_DIST);      // Fx
+                Y_mixed(2)  = Y_virtual(psm::Contact_distance_model::C_EDGE_V2);        // Fy
+                Y_mixed(3)  = Y_virtual(psm::Contact_distance_model::C_EDGE_V3);        // Fz
+
+                Y_mixed(4)  = Y_virtual(psm::Contact_distance_model::C_EDGE_LEFT);      // prob_left_edge
+                Y_mixed(5)  = Y_virtual(psm::Contact_distance_model::C_EDGE_RIGHT);     // prob_right_edge
+                Y_mixed(6)  = Y_virtual(psm::Contact_distance_model::C_EDGE_TOP);       // prob_up_edge
+                Y_mixed(7)  = Y_virtual(psm::Contact_distance_model::C_EDGE_BOT);       // prob_down_edge
+                Y_mixed(8)  = Y_virtual(psm::Contact_distance_model::C_SOCKET);         // Y_socket
+                Y_mixed(9)  = Y_virtual(psm::Contact_distance_model::C_RING);           // Closest distance to ring edge
 
                 pub_mix.publish(Y_mixed);
-
                 plug_pf_manager.update(Y_mixed,u,peg_orient,Hz);
 
                 break;
             }
+
             default:
                 break;
             }
@@ -620,9 +681,19 @@ int main(int argc,char** argv){
             belief_compression.update(u,pmf.points,pmf.P);
         }
 
+
         /// particle filter visualisation
 
         plug_pf_manager.visualise();
+
+        /// particle filter vis for recording
+
+        if( (ros::Time::now() - start_time).toSec() > 0.02 ){
+            vis_pc_rec.update(pmf.points,pmf.P.memptr());
+            vis_pc_rec.publish();
+            start_time = ros::Time::now();
+        }
+
 
         peg_origin_tf_tmp = peg_origin_tf;
         ros::spinOnce();

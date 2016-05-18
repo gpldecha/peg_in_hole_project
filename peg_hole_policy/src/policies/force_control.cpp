@@ -83,21 +83,31 @@ void Force_control::update(const arma::colvec3& force,const tf::Vector3& ee_posi
 
 }
 
-void Force_control::get_over_edge(arma::colvec3& velocity){
+void Force_control::get_over_edge(arma::colvec3& velocity,const arma::colvec3& open_x_position, const arma::colvec3& peg_origin){
 
-    double fac_y =  -20 * F_n(1);
-    double fac_z =   20 * F_n(2);
 
-    if(fac_y > 1){fac_y = 1;}
-    if(fac_z > 1){fac_z = 1;}
-    if(fac_y < -1){fac_y = -1;}
-    if(fac_z < -1){fac_z = -1;}
 
-    Rz.setRPY(0,    0,  fac_y * (M_PI/2.0) );
-    Ry.setRPY(0,    fac_z * (M_PI/2.0),   0 );
+    if(arma::norm(open_x_position - peg_origin) > 0.02)
+    {
+       velocity.zeros();
+       velocity(0) = 1;
 
-    opti_rviz::type_conv::vec2tf(velocity,vel_tmp);
-    vel_tmp     =  Ry * Rz * vel_tmp;
+    }else{
+
+        double fac_y =  -20 * F_n(1);
+        double fac_z =   20 * F_n(2);
+
+        if(fac_y > 1){fac_y = 1;}
+        if(fac_z > 1){fac_z = 1;}
+        if(fac_y < -1){fac_y = -1;}
+        if(fac_z < -1){fac_z = -1;}
+
+        Rz.setRPY(0,    0,  fac_y * (M_PI/2.0) );
+        Ry.setRPY(0,    fac_z * (M_PI/2.0),   0 );
+
+        opti_rviz::type_conv::vec2tf(velocity,vel_tmp);
+        vel_tmp     =  Ry * Rz * vel_tmp;
+    }
 
     opti_rviz::type_conv::tf2vec(vel_tmp,velocity);
     velocity    = arma::normalise(velocity);

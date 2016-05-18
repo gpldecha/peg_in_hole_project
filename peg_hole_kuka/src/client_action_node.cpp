@@ -63,8 +63,24 @@ int main(int argc, char** argv)
 
     Peg_world_wrapper   peg_world_wrapper(nh,false,"peg_hole_kuka_action",path_sensor_model,world_frame,"lwr_peg_link"); // don't publish need model for planning
 
+    if(peg_world_wrapper.peg_sensor_model.get() == NULL)
+    {
+        ROS_ERROR("peg_world_wrapper is NULL [client_action_node]!");
+        exit(0);
+    }
 
-    ph_policy::Peg_hole_policy peg_hole_policy(nh,world_frame,ft_topic,classifier_topic,belief_state_topic,record_service_name,peg_world_wrapper);
+
+    Peg_sensor_model& peg_sensor_model = *peg_world_wrapper.peg_sensor_model.get();
+    wobj::WrapObject& wrapped_object   =  peg_world_wrapper.get_wrapped_objects();
+
+    ph_policy::Peg_hole_policy peg_hole_policy(nh,
+                                               world_frame,
+                                               ft_topic,
+                                               classifier_topic,
+                                               belief_state_topic,
+                                               record_service_name,
+                                               peg_sensor_model,
+                                               wrapped_object);
 
     actions["plug_search"] = &peg_hole_policy;
     kuka_action_client.push_back(actions);

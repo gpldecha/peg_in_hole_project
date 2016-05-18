@@ -18,6 +18,7 @@
 
 #include "optitrack_rviz/listener.h"
 #include "visualise/vis_vector.h"
+#include <optitrack_rviz/publisher.h>
 
 #include "peg_hole_policy/cdd_filterConfig.h"
 #include "peg_hole_policy/String_cmd.h"
@@ -41,7 +42,6 @@
 
 namespace ph_policy{
 
-
 enum class policy{
     NONE,
     SEARCH_POLICY
@@ -63,7 +63,8 @@ public:
                     const std::string& ft_classifier_topic,
                     const std::string& belief_state_topic,
                     const std::string& record_topic_name,
-                    Peg_world_wrapper& peg_world_wrapper);
+                     Peg_sensor_model&  peg_sensor_model,
+                    wobj::WrapObject& wrapped_objects);
 
    virtual bool update();
 
@@ -88,6 +89,10 @@ private:
     void belief_state_callback(const std_msgs::Float64MultiArrayConstPtr &msg);
 
     void check_record(bool start);
+
+    void openloopx_callback(const geometry_msgs::PoseStampedConstPtr& msg);
+
+    void reset_belief(std::string &res);
 
 private:
 
@@ -116,9 +121,19 @@ private:
     arma::colvec            belief_state_WF;
     arma::colvec            belief_state_SF;
     arma::colvec3           socket_pos_WF;
+    arma::colvec3           current_origin_SF;
+    arma::colvec3           arma_velocity;
 
-    arma::colvec3 force;
+    opti_rviz::Publisher    pub_ee_pos_SF;
+    opti_rviz::Publisher    pub_belief_SF;
 
+    arma::colvec3           force;
+    arma::colvec3           open_loop_x_origin_arma_WF;
+    tf::Vector3             open_loop_x_origin_tf;
+    tf::Quaternion          open_loop_x_orient_tf;
+
+
+    Search_policy::POLICY search_policy_type;
 
     // desired position and orientation given from the open loop controller
     tf::Vector3             x_des_q_;
@@ -129,65 +144,70 @@ private:
 
 
     opti_rviz::Listener     ee_peg_listener;
-    ros::Subscriber         x_des_subscriber;
-    ros::Subscriber         belief_info_sub;
+
     Peg_sensor_model&       peg_sensor_model;
 
-
-    double              control_rate;
-    bool                initial_config;
-    bool                bFirst;
-    std::size_t         tf_count;
-
-    arma::colvec3            T;
-    arma::mat33              Rt;
-    arma::colvec3            pos_tmp,tmp;
-
-    bool                     bRecord;
-    ros::ServiceClient                       record_client;
+    ros::Subscriber                                 sensor_classifier_sub_;
+    ros::Subscriber                                 openloopx_sub;
+    ros::Subscriber                                 x_des_subscriber;
+    ros::Subscriber                                 belief_info_sub;
+    ros::Publisher                                  belief_mode_reset_pub_;
 
 
 
-    std::string         world_frame;
+    double                                          control_rate;
+    bool                                            initial_config;
+    bool                                            bFirst;
+    std::size_t                                     tf_count;
 
-    ros::ServiceServer  server_srv;
+    arma::colvec3                                   T;
+    arma::mat33                                     Rt;
+    arma::colvec3                                   pos_tmp,arma_current_origin_WF;
 
-    Eigen::Vector3d     linear_vel_cmd_;
-    Eigen::Vector3d     angular_vel_cmd_;
-    Eigen::Quaterniond  orientation_cmd_;
+    bool                                            bRecord;
+    ros::ServiceClient                              record_client;
+
+
+
+    std::string                                     world_frame;
+
+    ros::ServiceServer                              server_srv;
+
+    Eigen::Vector3d                                 linear_vel_cmd_;
+    Eigen::Vector3d                                 angular_vel_cmd_;
+    Eigen::Quaterniond                              orientation_cmd_;
 
     /// SENSORS
 
-    netft::Ft_listener              ft_listener_;
+    netft::Ft_listener                              ft_listener_;
+    arma::colvec                                    Y_c;
 
-    ros::Subscriber                 sensor_classifier_sub_;
-
-
-    arma::colvec                    Y_c;
-
-    geometry_msgs::Wrench           wrench_;
-    ros::ServiceClient              net_ft_sc_;
-    netft_rdt_driver::String_cmd    net_ft_msg;
+    geometry_msgs::Wrench                           wrench_;
+    ros::ServiceClient                              net_ft_sc_;
+    netft_rdt_driver::String_cmd                    net_ft_msg;
 
     /// POLICIES
 
-    boost::shared_ptr<ph_policy::Specialised>          specialised_policy;
-    boost::shared_ptr<ph_policy::GMM>                  gmm_policy;
-    boost::scoped_ptr<ph_policy::Search_policy>        search_policy;
-    ph_policy::Get_back_on                             get_back_on;
+    boost::shared_ptr<ph_policy::Specialised>       specialised_policy;
+    boost::shared_ptr<ph_policy::GMM>               gmm_policy;
+    boost::scoped_ptr<ph_policy::Search_policy>     search_policy;
+    ph_policy::Get_back_on                          get_back_on;
 
 
-    policy                          current_policy;
-    ctrl_types                      ctrl_type;
+    policy                                          current_policy;
+    ctrl_types                                      ctrl_type;
 
-    State_machine                   state_machine;
+    State_machine                                   state_machine;
 
     /// Visualise direction
 
-    opti_rviz::Vis_vectors              vis_vector;
-    std::vector<opti_rviz::Arrow>       arrows;
+    opti_rviz::Vis_vectors                          vis_vector;
+    std::vector<opti_rviz::Arrow>                   arrows;
 
-    ros_controller_interface::Switch_controller switch_controller;
+    ros_controller_interface::Switch_controller     switch_controller;
+
+
+
 
 };
 

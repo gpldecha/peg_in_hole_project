@@ -49,12 +49,10 @@ int main(int argc,char** argv)
     peg_console.AddConsoleCommand("go_front");
     peg_console.AddConsoleCommand("go_left");
     peg_console.AddConsoleCommand("go_peg_right");
-    //peg_console.AddConsoleCommand("home");
     peg_console.AddConsoleCommand("disconnect");
     peg_console.AddConsoleCommand("insert");
 
-   // peg_console.AddConsoleCommand("go_table");
-   // peg_console.AddConsoleCommand("go_socket");
+    peg_console.AddConsoleCommand("bel_reset");
 
     peg_console.AddConsoleCommand("stop");
     peg_console.AddConsoleCommand("bias");

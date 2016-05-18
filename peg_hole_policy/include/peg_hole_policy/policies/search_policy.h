@@ -43,7 +43,10 @@ public:
                       const arma::colvec3&          force,
                       const arma::colvec&           belief_state_WF,
                       const arma::colvec&           belief_state_SF,
-                      const arma::colvec3&          socket_pos_WF);
+                      const arma::colvec3&          socket_pos_WF,
+                      const arma::colvec3&          open_loop_x_origin_arma_WF);
+
+    POLICY get_policy();
 
     void reset();
 
@@ -54,6 +57,10 @@ public:
 private:
 
     void get_back_on_table();
+
+    inline double dist_yz(const arma::colvec3& v1, const arma::colvec3& v2){
+        return std::sqrt( (v1(1) - v2(1)) * (v1(1) - v2(1)) + (v1(2) - v2(2)) * (v1(2) - v2(2))  );
+    }
 
 
 
@@ -67,6 +74,7 @@ private:
     arma::colvec3               arma_velocity;
     arma::colvec3               mls_WF;
     arma::colvec3               mls_SF;
+    arma::colvec3               target_WF;
     tf::Vector3                 tf_mls_WF;
 
     Insert_peg                 insert_peg;
@@ -75,6 +83,10 @@ private:
     Specialised&                specialised_policy;
     ph_policy::GMM&             gmm;
     Get_back_on&                get_back_on;
+    bool                        close_to_socket;
+    bool                        in_socket;
+    ros::Time                   start_time;
+    double                      search_time;
 
 
     tf::Quaternion              des_orient_;

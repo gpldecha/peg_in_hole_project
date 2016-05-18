@@ -149,6 +149,8 @@ private:
 
 class Mixed_likelihood{
 
+    enum class Y_TYPE{FT,VIRTUAL};
+
 public:
 
     Mixed_likelihood(ros::NodeHandle &nh, wobj::WrapObject& wrapped_world,const arma::colvec3& peg_origin);
@@ -166,6 +168,11 @@ public:
 private:
 
     const pf::Point_mass_filter::delta* ptr_delta_;
+
+    double      sum_L;
+    bool        bSense_SURF;
+    bool        bSense_edge;
+    double      lik_one;
 
     double range;
     arma::colvec3 hY_edge, Y_edge;
@@ -194,17 +201,28 @@ private:
    double                           plat_dir_radius;
    double                           force_norm;
    double                           dist_center;
+   double                           dist_socket_c;
+   double                           force_yz;
+   double                           average_value;
+
+   bool                             b_l_c,b_r_c,b_t_c,b_b_c;
+
+   Y_TYPE                           Y_type;
+
+   bool                             b_insert;
+   bool                             b_ring;
 
    bool in_circle;
    bool in_ls;
    bool in_rs;
    bool in_ts;
    bool in_bs;
+   bool in_s;
+   bool close_peg;
 
-
-    const arma::colvec3& peg_origin;
-   opti_rviz::Vis_vectors              vis_vectors;
-   std::vector<opti_rviz::Arrow>       arrows;
+   const arma::colvec3&                 peg_origin;
+   opti_rviz::Vis_vectors               vis_vectors;
+   std::vector<opti_rviz::Arrow>        arrows;
 
 
 };

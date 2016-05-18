@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<launch>
+
+
+  	<!-- ROBOT -->
+
+	<arg name="robot_name" 			value="peg_lwr_robot"/>
+	<arg name="robot_path" 			value="$(find peg_lwr_robot)/robot"/>
+
+  	<group ns="lwr">
+    		<param name="robot_description" command="$(find xacro)/xacro.py $(arg robot_path)/$(arg robot_name).urdf.xacro"/>
+    		<!--node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/-->
+	</group>
+
+  	<!--    ENVIRONMENT -->
+
+  	<!-- arg -->
+  	<arg name="world_frame" 	value="world_frame"/>
+  	<arg name="socket_type" 	default="table_sw_one"/>
+  	<arg name="table_urdf" 		value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+
+  	<!-- table socket -->
+  	<include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
+	  	<arg name="use_rviz" 			value="False"/>
+		<arg name="origin"   			value="-0.78132 0.032958 0.38055"/>
+		<arg name="orientation"			value="0 0 0 1"/>
+		<arg name="load_saved"			value="False"/>	
+		<arg name="use_vision_broadcaster" 	value="False"/>
+		<arg name="use_broadcaster" 		value="True"/> 
+  	</include> 
+
+  	<!-- rviz -->
+  	<node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_replay)/launch/rviz/peg_hole_kuka_replay.rviz"  required="true" />
+
+</launch>

@@ -35,7 +35,7 @@ void Cmd_interface::init_commands(){
 
     cmds["plug_search"]         = cmd_info("plug_search",cmd_type::ACTION);
 
-    cmds["stop"]                = cmd_info("grav_comp", cmd_type::PEG_POLICY);
+    cmds["stop"]                = cmd_info("stop",      cmd_type::PEG_POLICY);
     cmds["go_table"]            = cmd_info("go_table",  cmd_type::PEG_POLICY);
     cmds["go_socket"]           = cmd_info("go_socket", cmd_type::PEG_POLICY);
     cmds["insert"]              = cmd_info("insert",    cmd_type::PEG_POLICY);
@@ -44,6 +44,10 @@ void Cmd_interface::init_commands(){
     cmds["go_front"]            = cmd_info("go_front",  cmd_type::PEG_POLICY);
     cmds["go_left"]             = cmd_info("go_left",   cmd_type::PEG_POLICY);
     cmds["home"]                = cmd_info("home",      cmd_type::PEG_POLICY);
+    cmds["bel_reset"]           = cmd_info("bel_reset", cmd_type::PEG_POLICY);
+
+
+
 
     cmds["special"]             = cmd_info("special",   cmd_type::PEG_POLICY);
     cmds["greedy"]              = cmd_info("greedy",    cmd_type::PEG_POLICY);

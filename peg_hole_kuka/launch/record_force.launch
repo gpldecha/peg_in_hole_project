@@ -3,8 +3,8 @@
 
 	<include file="$(find record_ros)/launch/record_ros.launch">
 		<arg name="path_save"   value="/home/guillaume/roscode/bag_record"/>
-		<arg name="topic"  	value="/ft_sensor/netft_data /lwr/ee_pose"/>
-		<arg name="file_name" 	value="ft_pose_data"/>
+		<arg name="topic"  	value="/ee_pos_SF /belief_feature_SF /pfilter_record"/>
+		<arg name="file_name" 	value="ft_pose_entropy_data"/>
 	</include>
 
 </launch>

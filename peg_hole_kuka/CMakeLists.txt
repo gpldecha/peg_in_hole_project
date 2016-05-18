@@ -55,12 +55,10 @@ target_link_libraries(peg_kuka_action_node ${catkin_LIBRARIES})
 
 # --- Create Action Client Node Pour action
 
-add_executable(peg_kuka_client_node  ${INCLUDE_DIR}/peg_hole_kuka/client.h
-
-                                     ${SRC_DIR}/client.cpp
-                                     ${SRC_DIR}/client_node.cpp)
-
-target_link_libraries(peg_kuka_client_node ${catkin_LIBRARIES})
+#add_executable(peg_kuka_client_node  ${INCLUDE_DIR}/peg_hole_kuka/client.h
+#                                     ${SRC_DIR}/client.cpp
+#                                     ${SRC_DIR}/client_node.cpp)
+# target_link_libraries(peg_kuka_client_node ${catkin_LIBRARIES})
 
 
 add_executable(peg_cmd_interface_node ${SRC_DIR}/cmd_interface_node.cpp

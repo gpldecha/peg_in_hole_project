@@ -22,16 +22,17 @@ GMM::GMM()
 
     velocity_tmp.zeros();
 
+    b_air = true;
+
 }
 
-void GMM::update(arma::colvec3& velocity,const arma::colvec& belief_state_SF){
-
+void GMM::update(arma::colvec3& velocity,const arma::colvec& belief_state_SF,const std::vector<STATES>& states){
 
     switch(type){
     case GMM_TYPE::GMM:
     {
         ROS_INFO_STREAM_THROTTLE(1.0,"[policy: GMM]");
-        belief_state_SF.print("belief_state_SF");
+        //belief_state_SF.print("belief_state_SF");
         gma_gmm.gmc(belief_state_SF,velocity_tmp);
         gma_gmm.get_ee_linear_velocity(velocity);
         break;
@@ -52,8 +53,22 @@ void GMM::update(arma::colvec3& velocity,const arma::colvec& belief_state_SF){
     }
     }
 
-    velocity =  arma::normalise(velocity);
+    if(State_machine::has_state(STATES::AIR_HIGH,states))
+    {
+        b_air = true;
+    }
 
+    if(!State_machine::has_state(STATES::AIR,states)){
+        b_air = false;
+    }
+
+    if(b_air){
+        velocity.zeros();
+        velocity(0) = -1;
+    }
+
+
+    velocity     =  arma::normalise(velocity);
     velocity_tmp = velocity;
 
 }

@@ -75,6 +75,8 @@ private:
     Planning_stack              planning_stack;
     Go_freature                 go_edge,go_socket;
 
+    bool                        b_air;
+
 
 };
 

@@ -4,7 +4,9 @@ ModeBeliefCompress::ModeBeliefCompress(ros::NodeHandle& nh,const std::string& na
     :BaseBeliefCompression(name),vis_points(nh,"bel_x"),vis_gmm(nh,"Sigma")
 {
 
-    pub = nh.advertise<std_msgs::Float64MultiArray>("belief_features",10);
+    pub     = nh.advertise<std_msgs::Float64MultiArray>("belief_features",10);
+    sub_    = nh.subscribe<std_msgs::Bool>("belief_features/reset",1,&ModeBeliefCompress::reset,this);
+
     bFirst = true;
     feature_msg.data.resize(4);
 
@@ -34,6 +36,7 @@ ModeBeliefCompress::ModeBeliefCompress(ros::NodeHandle& nh,const std::string& na
 
     mode_point(0) = arma::datum::inf;
     mode_point_tmp(0) = arma::datum::inf;
+    bReset            = true;
 
 
 }
@@ -60,16 +63,18 @@ void ModeBeliefCompress::arg_max_x(arma::colvec3& pos,double& w,const arma::colv
     arma::uword idx;
 
     //  % if empty then first time the function is called
-    if(pos_tmp.has_inf()){
+    if(pos_tmp.has_inf() || bReset){
+        bReset = false;
         // randomely generate index (r,c,k)
-        r = arma::randi(1,arma::distr_param(0,P.n_rows-1))(0);
+       /* r = arma::randi(1,arma::distr_param(0,P.n_rows-1))(0);
         c = arma::randi(1,arma::distr_param(0,P.n_cols-1))(0);
         k = arma::randi(1,arma::distr_param(0,P.n_slices-1))(0);
         assert(r < P.n_rows);
         assert(c < P.n_cols);
-        assert(k < P.n_slices);
-
-        idx = pf::sub2ind_col_major(r,c,k,P.n_rows,P.n_cols);
+        assert(k < P.n_slices);*/
+        //idx = pf::sub2ind_col_major(r,c,k,P.n_rows,P.n_cols);
+        multinomial = std::discrete_distribution<int>(P.begin(),P.end());
+        idx         = multinomial(generator);
     }else{
 
         // find the idx of the current chosen moste likely state
@@ -82,38 +87,10 @@ void ModeBeliefCompress::arg_max_x(arma::colvec3& pos,double& w,const arma::colv
 
 
         if(w_idx/max_w < 0.8){
+            // sample
 
-            // if all weights are equal uniform random else take max
-           // r = arma::randi(1,arma::distr_param(0,P.n_rows-1))(0);
-           // c = arma::randi(1,arma::distr_param(0,P.n_cols-1))(0);
-           // k = arma::randi(1,arma::distr_param(0,P.n_slices-1))(0);
-            P.max(idx);
-
-            /*  if all(XYZW(:,end) == XYZW(1,end)){
-                %             idx  = gendist(XYZW(:,4)',1,1);
-                max_s = max(XYZW(:,1:end-1));
-                min_s = min(XYZW(:,1:end-1));
-                ran = @(a,b,N)a + (b-a).*rand(N,1);
-
-                pos(1) = ran(max_s(1),min_s(1),1);
-                pos(2) = ran(max_s(2),min_s(2),1);
-                if(size(max_s(:),1) == 3){
-                    pos(3) = ran(max_s(3),min_s(3),1);
-                }
-
-                idx = find_idx_bel(pos,XYZW);
-
-            }else{
-                 [~,idx] = max(XYZW(:,end));
-               % pd = makedist('Multinomial','probabilities',XYZW(:,end)');
-                %idx = random(pd);
-            }*/
-
-            //assert(r < P.n_rows);
-            //assert(c < P.n_cols);
-            //assert(k < P.n_slices);
-
-            //idx = pf::sub2ind_col_major(r,c,k,P.n_rows,P.n_cols);
+            multinomial = std::discrete_distribution<int>(P.begin(),P.end());
+            idx         = multinomial(generator);
         }
     }
 
@@ -123,6 +100,10 @@ void ModeBeliefCompress::arg_max_x(arma::colvec3& pos,double& w,const arma::colv
 
     pos = points.row(idx).st();
     w   = P.at(idx);
+}
+
+void ModeBeliefCompress::reset(const std_msgs::BoolConstPtr& msg){
+    bReset = true;
 }
 
 void ModeBeliefCompress::update(const arma::colvec3& velocity, const arma::mat &points, const arma::cube& P){

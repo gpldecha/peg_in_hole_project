@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <launch>
 
-	<!--arg name="speech_topic"		default="/allegroHand/lib_cmd" /-->
-	<arg name="speech_topic"		default="NONE" />
+	<arg name="speech_topic"		default="/allegroHand/lib_cmd" />
+	<!--arg name="speech_topic"		default="NONE" /-->
 	<arg name="action_service"  		default="kuka_actions" />
 
 	<arg name="path_sensor_model"   	value="$(find objects)/meshes/plug/config/X.txt"/>
@@ -23,7 +23,7 @@
   	<!-- table socket -->
   	<include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
 	  	<arg name="use_rviz" 			value="False"/>
-		<arg name="origin"   			value="-0.76492 0.036204 0.37817"/>
+		<arg name="origin"   			value="-0.78132 0.032958 0.38055"/>
 		<arg name="orientation"			value="0 0 0 1"/>
 		<arg name="load_saved"			value="False"/>	
 		<arg name="use_vision_broadcaster" 	value="False"/>

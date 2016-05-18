@@ -19,6 +19,8 @@ Specialised::Specialised(wobj::WrapObject &wrap_object):
         std::string path_combo_gmm = "/home/guillaume/MatlabWorkSpace/peg_in_hole_RL/gmr_policies/model/cpp/gmm_xsocket";
         gmm_socket = planners::GMR_EE_Planner(path_combo_gmm);
     }
+
+    b_air = false;
 }
 
 void Specialised::reset(){
@@ -27,7 +29,7 @@ void Specialised::reset(){
 
 
     planning_stack.set_action(actions::GO_TO_SOCKET);
-    socket_policy = SOCKET_POLICY::RIGHT_OUTER;
+    socket_policy = SOCKET_POLICY::LEFT_OUTER;
 }
 
 void Specialised::set_socket_policy(SOCKET_POLICY socket_policy){
@@ -83,35 +85,16 @@ void Specialised::update(arma::colvec3&                 arma_velocity,
                 arma_velocity(0) = -1;
                 ROS_INFO_STREAM_THROTTLE(1.0,"-> OFF table go forward");
             }
-
-        if(Planning_stack::has_state(STATES::STUCK_EDGE,states)){
-            ROS_INFO_STREAM_THROTTLE(1.0, "-> STUCK at an edge");
-            force_control.get_over_edge(arma_velocity);
-        }else{
-            force_control.update_x(arma_velocity);
-        }
-
         break;
     }
     case GO_TO_SOCKET:
     {
-        insert_peg.get_linear_velocity(arma_velocity,mls_WF);
-        if(Planning_stack::has_state(STATES::STUCK_EDGE,states)){
-            ROS_INFO_STREAM_THROTTLE(1.0, "-> STUCK at an edge");
-            force_control.get_over_edge(arma_velocity);
-        }else{
-            force_control.update_x(arma_velocity);
-        }
-
+        insert_peg.update(arma_velocity,mls_SF);
         break;
     }
     case GET_BACK_ONTO_TABLE:
     {
         get_back_on.update(arma_velocity,mls_SF,mls_WF,Y_c);
-        if(Planning_stack::has_state(STATES::STUCK_EDGE,states)){
-            ROS_INFO_STREAM_THROTTLE(1.0, "-> STUCK at an edge");
-            force_control.get_over_edge(arma_velocity);
-        }
         break;
     }
     case FIND_SOCKET_HOLE:
@@ -144,7 +127,7 @@ void Specialised::update(arma::colvec3&                 arma_velocity,
            // gmm_socket.gmr(mode_pos_SF);
           //  gmm_socket.get_ee_linear_velocity(arma_velocity);
 
-            arma_velocity = socket_pos_WF  - mls_WF;
+            arma_velocity = socket_pos_WF  - peg_origin;
             arma_velocity = arma::normalise(arma_velocity);
 
             if(Planning_stack::has_state(STATES::SLIGHTLY_IN,states)){
@@ -154,10 +137,10 @@ void Specialised::update(arma::colvec3&                 arma_velocity,
 
             ROS_INFO_STREAM_THROTTLE(1.0,"policy:   [GO_TO_INSERT]");
         }else if(socket_policy == SOCKET_POLICY::INSERT){
-            arma_velocity(0) = -1;
+        /*    arma_velocity(0) = -1;
             arma_velocity(1) =  0;
             arma_velocity(2) =  0;
-            ROS_INFO_STREAM_THROTTLE(1.0,"policy:   [INSERT]");
+            ROS_INFO_STREAM_THROTTLE(1.0,"policy:   [INSERT]");*/
         }
 
         break;
@@ -166,6 +149,30 @@ void Specialised::update(arma::colvec3&                 arma_velocity,
     {
         break;
     }
+    }
+
+
+
+    ///  keep peg whithin socket region
+    //  ROS_INFO_STREAM_THROTTLE(1.0,"socket_box.dist_edge:   " << peg_sensor_model.get_distance_edge() );
+    if(peg_sensor_model.get_distance_edge() > 0.015){
+        arma_velocity = (socket_pos_WF - mls_WF);
+        arma_velocity = arma::normalise(arma_velocity);
+    }
+
+
+    if(State_machine::has_state(STATES::AIR_HIGH,states))
+    {
+        b_air = true;
+    }
+
+    if(!State_machine::has_state(STATES::AIR,states)){
+        b_air = false;
+    }
+
+    if(b_air){
+        arma_velocity.zeros();
+        arma_velocity(0) = -1;
     }
 
 

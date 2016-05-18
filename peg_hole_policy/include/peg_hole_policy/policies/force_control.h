@@ -18,7 +18,7 @@ public:
 
     void update(const arma::colvec3 &force, const tf::Vector3& ee_position, const tf::Quaternion& ee_orientation);
 
-    void get_over_edge(arma::colvec3& velocity);
+    void get_over_edge(arma::colvec3& velocity, const arma::colvec3& open_x_position, const arma::colvec3 &peg_origin);
 
     void regulise_force(arma::colvec3& velocity, double max_force=8);
 

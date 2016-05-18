@@ -2,13 +2,18 @@
 #define PDF_MODE_FEATURE_H_
 
 #include <ros/ros.h>
+
 #include <std_msgs/Float64MultiArray.h>
+#include <std_msgs/Bool.h>
+
 #include <armadillo>
 #include "visualise/vis_points.h"
 #include "visualise/vis_gmm.h"
 
 #include "base_bel_compress.h"
 #include "particle_filter/particle_filter_definitions.h"
+
+#include <random>
 
 class ModeBeliefCompress : public BaseBeliefCompression{
 
@@ -33,6 +38,8 @@ private:
 
     void arg_max_x(arma::colvec3& pos, double& w, const arma::colvec3& pos_tmp,const arma::mat& points, const arma::cube &P);
 
+    void reset(const std_msgs::BoolConstPtr& msg);
+
 private:
 
     arma::mat*                  points_ptr;
@@ -50,6 +57,7 @@ private:
     arma::rowvec3               mean;
     arma::uword                 index,index_tmp;
     bool                        bFirst;
+    bool                        bReset;
 
     opti_rviz::Vis_points       vis_points;
     arma::fmat                  vis_pts;
@@ -57,6 +65,11 @@ private:
 
     bool bFristModeFeature;
 
+    ros::Subscriber             sub_;
+
+
+    std::discrete_distribution<int> multinomial;
+    std::default_random_engine generator;
 };
 
 
