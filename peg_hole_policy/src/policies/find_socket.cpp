@@ -3,8 +3,8 @@
 
 namespace ph_policy{
 
-Find_socket::Find_socket(ros::NodeHandle& nh,const std::string& path_sensor_model,const std::string& fixed_frame):
-    Base_find(nh,path_sensor_model,fixed_frame,"lwr_peg_link")
+Find_socket::Find_socket(Peg_world_wrapper&       peg_world_wrapper):
+    Base_find(peg_world_wrapper)
 {
     ptr_socket_wbox = &(peg_world_wrapper.get_wrapped_objects().get_wbox("wbox_socket"));
     velocity_reguliser.set_max_speed_ms(0.1);

@@ -8,6 +8,7 @@
 	<arg name="path_sensor_model"   	value="$(find objects)/meshes/plug/config/X.txt"/>
 	<arg name="ft_topic"			default="/ft_sensor/netft_data"/>
 
+
 	<arg name="classifier_topic"		default="/mixed_classifier"/>
 
 	<arg name="F_topic"      		default="/belief_features"/>
@@ -18,21 +19,20 @@
   	<!-- arg -->
   	<arg name="world_frame" 	value="world_frame"/>
   	<arg name="socket_type" 	default="table_sw_one"/>
-  	<arg name="table_urdf" 		value="'$(find peg_in_hole)/urdf/One/table_sw_one.urdf'" />
+	<arg name="ssocket_type"	default="one"/>
 
   	<!-- table socket -->
   	<include file="$(find peg_in_hole)/launch/table/$(arg socket_type).launch">
 	  	<arg name="use_rviz" 			value="False"/>
-		<arg name="origin"   			value="-0.78132 0.032958 0.38055"/>
+		<arg name="origin"   			value="-0.76008 0.10107 0.38705"/>
 		<arg name="orientation"			value="0 0 0 1"/>
 		<arg name="load_saved"			value="False"/>	
 		<arg name="use_vision_broadcaster" 	value="False"/>
 		<arg name="use_broadcaster" 		value="True"/> 
   	</include> 
 
-  <!-- rviz -->
-  <node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" />
-
+  	<!-- rviz -->
+  	<node name="rviz" pkg="rviz" type="rviz"  args="-d $(find peg_hole_kuka)/launch/rviz/peg_hole_kuka.rviz"  required="true" />
 
 	<node name="peg_kuka_action" pkg="peg_hole_kuka" type="peg_kuka_action_node" required="true" output="screen">
   		<param name="speech_topic" 	 		value="$(arg speech_topic)"/>
@@ -44,6 +44,8 @@
 		<param name="classifier_topic"			value="$(arg classifier_topic)"/>
 		<param name="F_topic"      			value="$(arg F_topic)"/>
 		<param name="gmm_param_path"      		value="$(arg gmm_param_path)"/>
+		<param name="socket_type"      			value="$(arg ssocket_type)"/>
+  
   	</node>	
 	
 

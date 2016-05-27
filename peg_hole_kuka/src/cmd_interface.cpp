@@ -47,12 +47,12 @@ void Cmd_interface::init_commands(){
     cmds["bel_reset"]           = cmd_info("bel_reset", cmd_type::PEG_POLICY);
 
 
-
-
     cmds["special"]             = cmd_info("special",   cmd_type::PEG_POLICY);
     cmds["greedy"]              = cmd_info("greedy",    cmd_type::PEG_POLICY);
     cmds["gmm"]                 = cmd_info("gmm",       cmd_type::PEG_POLICY);
     cmds["qem"]                 = cmd_info("qem",       cmd_type::PEG_POLICY);
+    cmds["simple"]              = cmd_info("simple",    cmd_type::PEG_POLICY);
+    cmds["forward"]             = cmd_info("forward",    cmd_type::PEG_POLICY);
 
     cmds["open_loop"]           = cmd_info("open_loop",     cmd_type::PEG_POLICY);
     cmds["passive_ds"]          = cmd_info("passive_ds",    cmd_type::PEG_POLICY);

@@ -257,6 +257,7 @@ int main(int argc,char** argv){
     input["-fixed_frame"]       = "/world";
     input["-peg_link_name"]     = "";
     input["-path_sensor_model"] = "";
+    input["-socket_type"]       = "";
 
 
     if(!opti_rviz::Input::process_input(argc,argv,input)){
@@ -272,7 +273,20 @@ int main(int argc,char** argv){
     std::string peg_link_name           = input["-peg_link_name"];
     std::string srate                   = input["-rate"];
     std::string path_sensor_model       = input["-path_sensor_model"];
+    std::string ssocket_type            = input["-socket_type"];
 
+    SOCKET_TYPE socket_type;
+
+    if(ssocket_type == "one"){
+        socket_type = SOCKET_TYPE::ONE;
+    }else if(ssocket_type == "two"){
+        socket_type = SOCKET_TYPE::TWO;
+    }else if(ssocket_type == "three"){
+        socket_type = SOCKET_TYPE::THREE;
+    }else{
+        ROS_ERROR_STREAM("No such socket type defined: "  + ssocket_type);
+        return 0;
+    }
 
     ros::init(argc, argv, "peg_filter");
     ros::NodeHandle nh;
@@ -290,7 +304,7 @@ int main(int argc,char** argv){
 
     /// ------------------  Virtual Sensor for Particles -------------------------
 
-    Peg_world_wrapper peg_world_wrapper(nh,true,"peg_world_wrapper",path_sensor_model,fixed_frame,peg_link_name); // don't publish needs the model for the likelihood
+    Peg_world_wrapper peg_world_wrapper(nh,socket_type,true,"peg_world_wrapper",path_sensor_model,fixed_frame,peg_link_name); // don't publish needs the model for the likelihood
     psm::Contact_distance_model contact_distance_model(*(peg_world_wrapper.peg_sensor_model.get()));
 
     psm::Sensor_manager sensor_manager(nh);
@@ -327,10 +341,10 @@ int main(int argc,char** argv){
     ///
     ///
 
-    bool bExperiment    = true;
+    bool bExperiment    = false;
 
     // Debug
-    int init_pmf_type   =  8;
+    int init_pmf_type   =  10;
     int init_pmf_pos    =  1;
 
     // experiment
@@ -362,7 +376,27 @@ int main(int argc,char** argv){
         peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
     }else if (Y_type == 3)
     {
-        peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
+
+        if(socket_type == SOCKET_TYPE::ONE){
+            ROS_WARN("SETTING LIKELIHOOD TO SOCKET ONE");
+            peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
+
+        }else if(socket_type == SOCKET_TYPE::TWO){
+
+            ROS_WARN("SETTING LIKELIHOOD TO SOCKET TWO");
+            peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood_stwo,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
+
+
+        }else if(socket_type == SOCKET_TYPE::THREE){
+
+            ROS_WARN("SETTING LIKELIHOOD TO SOCKET THREE");
+            peg_likelihood   =  std::bind(&likeli::Mixed_likelihood::likelihood_sthree,&mixed_likelihood,std::placeholders::_1,std::placeholders::_2,std::placeholders::_3,std::placeholders::_4);
+
+        }else{
+            ROS_ERROR("PEG FILTER NO SUCH SOCKET TYPE");
+        }
+
+
     }else{
         ROS_ERROR_STREAM("No such [" << Y_type << "] defined!");
         exit(0);
@@ -607,7 +641,7 @@ int main(int argc,char** argv){
 
             }else if(Y_ft(0) == 1 && !Y_virtual(psm::Contact_distance_model::C_SOCKET))
             {
-                u(0) = 0;
+               // u(0) = 0;
             }
 
             switch (Y_type) {

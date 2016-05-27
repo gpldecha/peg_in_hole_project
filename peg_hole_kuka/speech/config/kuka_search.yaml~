@@ -21,4 +21,5 @@ allegro_hand_control:
      'policy': gmm
      'open loop': open_loop
      'passive ds': passive_ds
-     'record': record	
+     'record': record
+     'forward': forward

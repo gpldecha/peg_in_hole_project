@@ -25,6 +25,8 @@ passive ds
 
 record
 
+forward
+
 filter
 filter reset
 

@@ -14,7 +14,8 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
                                  const std::string& belief_state_topic,
                                  const std::string& record_topic_name,
                                  Peg_sensor_model&  peg_sensor_model,
-                                 wobj::WrapObject& wrapped_objects):
+                                 wobj::WrapObject& wrapped_objects,
+                                 SOCKET_TYPE socket_type):
     world_frame(fixed_frame),
     ee_peg_listener(fixed_frame,"lwr_peg_link"),
     get_back_on(wrapped_objects.get_wbox("link_wall")),
@@ -23,9 +24,11 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
     peg_sensor_model(peg_sensor_model),
     state_machine(peg_sensor_model),
     Ros_ee_j(nh),
+    ros_passive_ds(nh),
     switch_controller(nh),
     pub_ee_pos_SF(nh,"ee_pos_SF"),
-    pub_belief_SF(nh,"belief_feature_SF")
+    pub_belief_SF(nh,"belief_feature_SF"),
+    socket_type(socket_type)
 {
 
     {
@@ -71,8 +74,8 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
 
 
 
-    specialised_policy.reset(   new ph_policy::Specialised(peg_sensor_model.get_wrapped_objects())                     );
-    gmm_policy.reset(           new ph_policy::GMM()                                                                                        );
+    specialised_policy.reset(   new ph_policy::Specialised(peg_sensor_model.get_wrapped_objects(),socket_type)                     );
+    gmm_policy.reset(           new ph_policy::GMM(socket_type)                                                                                        );
     search_policy.reset(        new ph_policy::Search_policy(nh,get_back_on,*(specialised_policy.get()),*(gmm_policy.get()),state_machine,peg_sensor_model)  );
 
 
@@ -146,7 +149,9 @@ bool Peg_hole_policy::update(){
 
     ros::Time time = ros::Time::now();
 
+    ee_peg_listener.update(current_origin_WF,current_orient_WF);
 
+    target_orient_WF = current_orient_WF;
 
     ROS_INFO_STREAM("Staring Peg hole loop");
     ros::Rate loop_rate(control_rate);
@@ -191,8 +196,13 @@ bool Peg_hole_policy::update(){
 
                 tf::Matrix3x3 current_orient;
                 current_orient.setRotation(current_orient_WF);
+
+                if(ctrl_type == ctrl_types::PASSIVE_DS){
+                    open_loop_x_origin_arma_WF = arma_current_origin_WF;
+                }
+
                 search_policy->get_velocity(velocity,des_orient_WF,arma_current_origin_WF,current_orient,Y_c,force,belief_state_WF,belief_state_SF,socket_pos_WF,open_loop_x_origin_arma_WF);
-                opti_rviz::debug::tf_debuf(open_loop_x_origin_tf,open_loop_x_orient_tf,"x_open_loop");
+               // opti_rviz::debug::tf_debuf(open_loop_x_origin_tf,open_loop_x_orient_tf,"x_open_loop");
 
                 search_policy_type = search_policy->get_policy();
 
@@ -211,24 +221,28 @@ bool Peg_hole_policy::update(){
             }
             };
 
-
-            smooth_velocity();
+            if(ctrl_type ==  ctrl_types::CARTESIAN){
+                smooth_velocity();
+            }else if(ctrl_type == ctrl_types::PASSIVE_DS)
+            {
+                velocity = velocity / (velocity.length() + std::numeric_limits<double>::min());
+                velocity = 0.1 * velocity;
+            }
 
             rviz_velocity();
-
             set_angular_velocity();
 
-            // Debug
-            //velocity.setZero();
-
-
             opti_rviz::type_conv::tf2vec(velocity,linear_vel_cmd_);
-            orientation_cmd_ = Eigen::Quaterniond(des_orient_WF.w(),des_orient_WF.x(),des_orient_WF.y(),des_orient_WF.z());
+            //orientation_cmd_ = Eigen::Quaterniond(des_orient_WF.w(),des_orient_WF.x(),des_orient_WF.y(),des_orient_WF.z());
+            orientation_cmd_ = Eigen::Quaterniond(target_orient_WF.w(),target_orient_WF.x(),target_orient_WF.y(),target_orient_WF.z());
+
+
+
+
             ROS_INFO_STREAM_THROTTLE(1.0,"linear_vel_cmd_: " << linear_vel_cmd_[0] << " " << linear_vel_cmd_[1] << " " << linear_vel_cmd_[2] );
             // SET COMMAND VALUES
             set_command(linear_vel_cmd_,angular_vel_cmd_,orientation_cmd_);
         }
-
 
         pub_belief_SF.publish(belief_state_SF);
         pub_ee_pos_SF.publish(current_origin_SF);
@@ -245,9 +259,7 @@ bool Peg_hole_policy::update(){
     current_policy = policy::NONE;
     linear_vel_cmd_.setZero();
     angular_vel_cmd_.setZero();
-
     ROS_INFO_STREAM("Peg Hole Policy OFF!");
-
     return true;
 }
 
@@ -301,8 +313,18 @@ void Peg_hole_policy::set_command(const Eigen::Vector3d& linear_vel_cmd,
     orient_msg.z = orientation_cmd.z();
     orient_msg.w = orientation_cmd.w();
 
-    sendCartVel(des_ee_vel_msg);
-    sendOrient(orient_msg);
+
+    if(ctrl_type == ctrl_types::CARTESIAN)
+    {
+        sendCartVel(des_ee_vel_msg);
+
+    }else if(ctrl_type == ctrl_types::PASSIVE_DS)
+    {
+
+        ros_passive_ds.sendCartVel(des_ee_vel_msg);
+        ros_passive_ds.sendOrient(orient_msg);
+    }
+
 }
 
 void Peg_hole_policy::disconnect(){
@@ -393,18 +415,27 @@ void Peg_hole_policy::check_record(bool start){
 
 void Peg_hole_policy::openloopx_callback(const geometry_msgs::PoseStampedConstPtr &msg){
 
+    if(ctrl_type == ctrl_types::CARTESIAN){
 
-    open_loop_x_origin_tf.setX(msg->pose.position.x);
-    open_loop_x_origin_tf.setY(msg->pose.position.y);
-    open_loop_x_origin_tf.setZ(msg->pose.position.z);
+        open_loop_x_origin_tf.setX(msg->pose.position.x);
+        open_loop_x_origin_tf.setY(msg->pose.position.y);
+        open_loop_x_origin_tf.setZ(msg->pose.position.z);
 
-    opti_rviz::type_conv::tf2vec(open_loop_x_origin_tf,open_loop_x_origin_arma_WF);
+        opti_rviz::type_conv::tf2vec(open_loop_x_origin_tf,open_loop_x_origin_arma_WF);
 
-    open_loop_x_orient_tf.setX(msg->pose.orientation.x);
-    open_loop_x_orient_tf.setY(msg->pose.orientation.y);
-    open_loop_x_orient_tf.setZ(msg->pose.orientation.z);
-    open_loop_x_orient_tf.setW(msg->pose.orientation.w);
+        open_loop_x_orient_tf.setX(msg->pose.orientation.x);
+        open_loop_x_orient_tf.setY(msg->pose.orientation.y);
+        open_loop_x_orient_tf.setZ(msg->pose.orientation.z);
+        open_loop_x_orient_tf.setW(msg->pose.orientation.w);
 
+    }else{
+
+        open_loop_x_origin_tf.setZero();
+        open_loop_x_origin_tf.setZero();
+        open_loop_x_origin_tf.setW(1);
+
+        open_loop_x_origin_arma_WF = arma_current_origin_WF;
+     }
 }
 
 bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, peg_hole_policy::String_cmd::Response& res){
@@ -450,6 +481,13 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         search_policy->reset();
         search_policy->command("qem");
 
+    }else if(cmd == "simple"){
+        reset_belief(res.res);
+
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->reset();
+        search_policy->command("simple");
 
     }else if(cmd == "pause"){
         current_policy = policy::NONE;
@@ -471,7 +509,7 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         ctrl_type           = ctrl_types::JOINT_POSITION;
         {
             using namespace opti_rviz;
-            joint_pos_msg.data  = {{deg2rad(-29.2),deg2rad(34.35),deg2rad(20),deg2rad(-105),deg2rad(-16.13),deg2rad(-47.46),deg2rad(0)}};
+            joint_pos_msg.data  = {{deg2rad(-24),deg2rad(36.5),deg2rad(6.6),deg2rad(-98.87),deg2rad(-25.5),deg2rad(-47),deg2rad(8.9)}};
         }
         damp_msg.data       = {{0.7,0.7,0.7,0.7,0.7,0.7,0.7}};
         stiff_msg.data      = {{100,100,100,100,100,100,100}};
@@ -486,6 +524,10 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         search_policy->command("insert");
         res.res = "insert..!";
         ros::spinOnce();
+    }else if(cmd == "forward"){
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::PASSIVE_DS;
+        search_policy->command("forward");
     }else if(cmd=="go_socket"){
         // search_policy.set_action(actions::FIND_SOCKET_HOLE);
         // search_policy.set_socket_policy(SOCKET_POLICY::TO_SOCKET);
@@ -526,7 +568,6 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         return false;
     }
     std::cout<< res.res << std::endl;
-
 
     return true;
 }

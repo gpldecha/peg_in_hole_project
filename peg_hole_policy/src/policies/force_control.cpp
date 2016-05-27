@@ -6,6 +6,25 @@
 
 namespace ph_policy{
 
+
+
+GetOverObstacle::GetOverObstacle(){
+
+}
+
+void GetOverObstacle::get_over_it(arma::colvec3& velocity, const arma::colvec3& open_x_position_WF, const arma::colvec3 &peg_origin_WF){
+
+    // run this when stuck at an edge
+
+
+    target_WF = peg_origin_WF;
+    target_WF(0) = target_WF(0) + 0.02;
+
+
+}
+
+
+
 Force_control::Force_control(ros::NodeHandle& nh)
     :vis_cylinder(nh,"force_profile"),
       vis_vector(nh,"force")
@@ -85,13 +104,13 @@ void Force_control::update(const arma::colvec3& force,const tf::Vector3& ee_posi
 
 void Force_control::get_over_edge(arma::colvec3& velocity,const arma::colvec3& open_x_position, const arma::colvec3& peg_origin){
 
-
+    ROS_WARN_STREAM_THROTTLE(1.0,"GET_OVER_EDGE");
 
     if(arma::norm(open_x_position - peg_origin) > 0.02)
     {
        velocity.zeros();
        velocity(0) = 1;
-
+       opti_rviz::type_conv::vec2tf(velocity,vel_tmp);
     }else{
 
         double fac_y =  -20 * F_n(1);

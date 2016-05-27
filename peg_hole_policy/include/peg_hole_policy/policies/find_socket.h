@@ -11,7 +11,7 @@ class Find_socket : public Base_find{
 
 public:
 
-    Find_socket(ros::NodeHandle& nh,const std::string& path_sensor_model,const std::string& fixed_frame);
+    Find_socket(Peg_world_wrapper &peg_world_wrapper);
 
     virtual void get_linear_velocity(tf::Vector3& velocity,const tf::Vector3& peg_origin);
 

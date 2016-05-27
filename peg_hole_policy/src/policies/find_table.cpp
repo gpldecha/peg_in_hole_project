@@ -3,8 +3,8 @@
 namespace ph_policy{
 
 
-Find_table::Find_table(ros::NodeHandle& nh,const std::string& path_sensor_model,const std::string& fixed_frame):
-    Base_find(nh,path_sensor_model,fixed_frame,"lwr_peg_link")
+Find_table::Find_table(Peg_world_wrapper&       peg_world_wrapper):
+    Base_find(peg_world_wrapper)
 {
 
     peg_world_wrapper.get_wrapped_objects().print_info(wobj::NAMES);

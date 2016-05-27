@@ -68,8 +68,7 @@ void Mixed_likelihood::set_resolution(const pf::Point_mass_filter::delta* delta_
 }
 
 void Mixed_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::mat &X, const arma::mat33& Rot){
-
-    /**
+ /**
  *  Y : Measurement from the robot.
  *
  *  FT Sensor ---------------------
@@ -373,6 +372,632 @@ void Mixed_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::
             L[i] = L[i] / sum_L;
         }
     }
+
+}
+
+
+void Mixed_likelihood::likelihood_stwo(double* L, const arma::colvec& Y, const arma::mat &X, const arma::mat33 &Rot){
+    /**
+    *  Y : Measurement from the robot.
+    *
+    *  FT Sensor ---------------------
+    *
+    *  Y(0) : Contact / No contact
+    *
+    *  Y(1) : Fx
+    *  Y(2) : Fy
+    *  Y(3) : Fz
+    *
+    *  Y(4) : prob top   contact
+    *  Y(5) : prob bot   contact
+    *  Y(6) : prob left  contact
+    *  Y(7) : prob right contact
+    *
+    *  FT Virtual Sensor ------------
+    *
+    *  Y(0) : Contact / No contact
+    *  Y(1) : Distance to Edge
+    *  Y(2) : Edge_vy
+    *  Y(3) : Edge_vz
+    *
+    *  Y(4) : prob left  contact
+    *  Y(5) : prob right contact
+    *  Y(6) : prob top   contact
+    *  Y(7) : prob bot   contact
+    *
+    *  Y(8) : bool / is inside socket or not
+    *  Y(9) : real : closet distance to ring
+    *
+    **/
+
+
+       sum_L              = 0;
+       bSense_SURF        = set_sense(Y(0));
+       bSense_edge        = false;
+
+       arma::colvec Y_      = Y;
+
+
+       geo::fCVec3 vec_peg; vec_peg.zeros();
+       geo::fCVec3 forward_FR_proj;
+       vec_peg(0) = 0.015;
+
+       rot = arma::conv_to<arma::fmat>::from(Rot);
+
+
+       if (Y_type == Y_TYPE::FT)
+       {
+           force_yz = std::sqrt(F(1) * F(1) + F(2) * F(2));
+           F(0)        = Y(1)/6;
+           F(1)        = Y(2)/6;
+           F(2)        = Y(3)/6;
+           F_n         = F;
+           force_norm  = arma::norm(F_n);
+
+           F_n         = F_n / (force_norm + std::numeric_limits<double>::min());
+           ROS_INFO_STREAM_THROTTLE(1.0,"------> force_yz:   " << force_yz);
+           if( force_yz > 0.5 )
+           {
+               bSense_edge = true;
+           }
+           arrow_direction[0]  = F(0);
+           arrow_direction[1]  = F(1);
+           arrow_direction[2]  = F(2);
+           arrow_direction =  0.05 * (arrow_direction);
+           opti_rviz::type_conv::vec2tf(peg_origin,arrow_origin);
+           arrows[0].set_pos_dir(arrow_origin,arrow_direction);
+           vis_vectors.update(arrows);
+           vis_vectors.publish();
+
+       }else{
+
+           if(Y_(1) < 0.01)
+           {
+               bSense_edge = true;
+           }
+       }
+
+
+       bool bdebug = true;
+
+       b_t_c       = false;
+       b_b_c       = false;
+       b_l_c       = false;
+       b_r_c       = false;
+       b_insert    = false;
+       b_ring      = false;
+
+       if(Y_(4) > 0.2){b_l_c=true;}
+       if(Y_(5) > 0.2){b_r_c=true;}
+       if(Y_(6) > 0.2){b_t_c=true;}
+       if(Y_(7) > 0.2){b_b_c=true;}
+       if(Y_(8) == 1){b_insert=true;}
+       //if(Y_(9) < 0.006){b_ring=true;}
+
+       if(b_insert){
+           ROS_INFO_STREAM_THROTTLE(1.0,"b_insert: true");
+       }
+
+       average_value = 1.0/static_cast<double>(X.n_rows);
+
+
+       for(std::size_t i = 0; i < X.n_rows;i++){
+
+           lik_one = 1;
+
+
+           /// Check Contact no Contact.
+
+           point_i        =  arma::conv_to<arma::fmat>::from(X.row(i).st());
+           forward_FR_proj = (rot * rot_tmp * vec_peg) + point_i;
+
+           if(i == 0){
+               opti_rviz::debug::tf_debuf(forward_FR_proj,"forward_FR_proj");
+           }
+
+
+           wall_box.distance_to_features(forward_FR_proj);
+
+           socket_box.distance_to_features(point_i);
+
+           if(wall_box.is_inside())
+           {
+              lik_one = 0;
+
+           }
+
+           if(socket_box.is_inside())
+           {
+               lik_one = 0;
+           }
+
+
+           /// Check if close to peg origin
+
+           if( std::sqrt( (peg_origin(1) - point_i(1)) * (peg_origin(1) - point_i(1)) +  (peg_origin(2) - point_i(2)) * (peg_origin(2) - point_i(2)) ) < 0.005)
+           {
+               close_peg = true;
+           }else{
+               close_peg = false;
+           }
+
+           /// Check Plug Ring Circle
+
+           wsocket.distance_to_features(point_i);
+
+           plat_dir        = wsocket.plate.C - wsocket.get_surface_projection();
+           plat_dir_radius = arma::norm(plat_dir);
+           plat_dir_n      = plat_dir/(plat_dir_radius + std::numeric_limits<double>::min());
+
+           center_dir      = wsocket.plate.C - point_i;
+           dist_center     = std::sqrt(center_dir(1) *center_dir(1) +  center_dir(2) *center_dir(2));
+           dist_socket_c   = std::sqrt(center_dir(1) *center_dir(1) +  (center_dir(2) + 0.005) * (center_dir(2) + 0.005 ));
+
+           // if(force_norm > 0.6 && sgmf( plat_dir_n(1) * F_n(1) + plat_dir_n(2) * F_n(2) +1,4,1) < 0.1){
+           //     lik_one=0;
+           // }
+
+          // if(dist_center > 0.015 && dist_center < 0.03){
+          //     in_circle=true;
+          // }else{
+            in_circle=false;
+          // }
+
+           /// Likelihood inserted
+           if(b_insert){
+               if(dist_socket_c < 0.005)
+               {
+                   in_s = true;
+                   std::cout<< "in_s: true" << std::endl;
+               }else{
+                   in_s = false;
+               }
+           }
+           /// Check Block Edges
+
+           if(b_t_c) // prob top   contact
+           {
+               // check if point is inside block top
+               socket_top_edge.distance_to_features(point_i);
+               if(socket_top_edge.is_inside())
+               {
+                   in_ts=true;
+               }else{
+                   in_ts=false;
+               }
+           }
+
+           if(b_b_c){ // prob bottom   contact
+
+               // check if point is bottom block top
+               socket_bottom_edge.distance_to_features(point_i);
+               if(socket_bottom_edge.is_inside())
+               {
+                   in_bs=true;
+               }else{
+                   in_bs=false;
+               }
+           }
+
+           if(b_l_c) // prob left  contact
+           {
+               // check if point is in left block
+               socket_left_edge.distance_to_features(point_i);
+               if(socket_left_edge.is_inside())
+               {
+                   in_ls=true;
+               }else{
+                   in_ls=false;
+               }
+           }
+
+           if(b_r_c) // prob right  contact
+           {
+               socket_right_edge.distance_to_features(point_i);
+               if(socket_right_edge.is_inside())
+               {
+                   in_rs=true;
+               }else{
+                   in_rs=false;
+               }
+           }
+
+           if(b_insert){
+
+               if(!in_s){ lik_one  = 0;}
+
+           }else if(b_ring){
+               if(!in_circle){
+                   lik_one = 0;
+               }
+           }else if(bSense_edge){
+
+               if(b_t_c && !b_l_c && !b_r_c  && !b_b_c){            // only    top
+                   if(!in_ts){
+                       lik_one = 0;
+                   }
+               }else if (b_l_c && !b_t_c && !b_b_c && !b_r_c){      // only    left
+                   if(!in_ls){
+                       lik_one = 0;
+                   }
+               }else if (b_r_c && !b_t_c && !b_b_c && !b_l_c){      // only    right
+                   if(!in_rs && (!in_circle))
+                   {
+                       lik_one = 0;
+                   }
+               }else if (b_b_c && !b_l_c && !b_r_c && !b_t_c){      // only    bottom
+                   if(!in_bs){
+                       lik_one = 0;
+                   }
+               }else if (b_t_c && b_l_c && !b_r_c  && !b_b_c)       // top     left
+               {
+                   if( (!in_ts) && (!in_ls)){
+                       lik_one = 0;
+                   }
+               }else if (b_t_c && b_r_c && !b_l_c)        // top     right
+               {
+                   if( (!in_ts) && (!in_rs)){
+                       lik_one = 0;
+                   }
+               }else if (b_b_c && b_l_c && !b_r_c && !b_t_c){       // bottom  left
+                   if( (!in_bs) && (!in_ls)){
+                       lik_one = 0;
+                   }
+               }else if (b_b_c && b_r_c && !b_l_c && !b_t_c){       // bottom  right
+                   if( (!in_bs) && (!in_rs)){
+                       lik_one = 0;
+                   }
+               }else if(!b_t_c && !b_l_c && !b_r_c  && !b_b_c){
+                   //  if(!in_circle){
+                   //     lik_one = 0;
+                   //  }
+               }else{
+                   /// something weired happened
+
+                   // if( (!in_bs) && (!in_rs) && (!in_ts) && (!in_ls)){
+                   //     lik_one = 0;
+                   // }
+               }
+           }
+
+
+
+           L[i] = lik_one;
+
+           if(close_peg && (L[i] == 0))
+           {
+               L[i] = 1;
+           }
+
+
+           // }
+           sum_L = sum_L + L[i];
+       }
+
+
+
+       if(sum_L == 0){
+           ROS_INFO_STREAM_THROTTLE(1.0,"-----------__>sum_L : 0");
+           for(std::size_t i = 0; i < X.n_rows;i++){
+               L[i] = 1;
+           }
+       }else{
+
+           // normalise likelihood
+           for(std::size_t i = 0; i < X.n_rows;i++){
+               L[i] = L[i] / sum_L;
+           }
+       }
+
+
+}
+
+
+void Mixed_likelihood::likelihood_sthree(double* L, const arma::colvec& Y, const arma::mat &X, const arma::mat33 &Rot){
+    /**
+    *  Y : Measurement from the robot.
+    *
+    *  FT Sensor ---------------------
+    *
+    *  Y(0) : Contact / No contact
+    *
+    *  Y(1) : Fx
+    *  Y(2) : Fy
+    *  Y(3) : Fz
+    *
+    *  Y(4) : prob top   contact
+    *  Y(5) : prob bot   contact
+    *  Y(6) : prob left  contact
+    *  Y(7) : prob right contact
+    *
+    *  FT Virtual Sensor ------------
+    *
+    *  Y(0) : Contact / No contact
+    *  Y(1) : Distance to Edge
+    *  Y(2) : Edge_vy
+    *  Y(3) : Edge_vz
+    *
+    *  Y(4) : prob left  contact
+    *  Y(5) : prob right contact
+    *  Y(6) : prob top   contact
+    *  Y(7) : prob bot   contact
+    *
+    *  Y(8) : bool / is inside socket or not
+    *  Y(9) : real : closet distance to ring
+    *
+    **/
+
+
+       sum_L              = 0;
+       bSense_SURF        = set_sense(Y(0));
+       bSense_edge        = false;
+
+       arma::colvec Y_      = Y;
+
+
+       geo::fCVec3 vec_peg; vec_peg.zeros();
+       geo::fCVec3 forward_FR_proj;
+       vec_peg(0) = 0.015;
+
+       rot = arma::conv_to<arma::fmat>::from(Rot);
+
+
+       if (Y_type == Y_TYPE::FT)
+       {
+           force_yz = std::sqrt(F(1) * F(1) + F(2) * F(2));
+           F(0)        = Y(1)/6;
+           F(1)        = Y(2)/6;
+           F(2)        = Y(3)/6;
+           F_n         = F;
+           force_norm  = arma::norm(F_n);
+
+           F_n         = F_n / (force_norm + std::numeric_limits<double>::min());
+           ROS_INFO_STREAM_THROTTLE(1.0,"------> force_yz:   " << force_yz);
+           if( force_yz > 0.5 )
+           {
+               bSense_edge = true;
+           }
+           arrow_direction[0]  = F(0);
+           arrow_direction[1]  = F(1);
+           arrow_direction[2]  = F(2);
+           arrow_direction =  0.05 * (arrow_direction);
+           opti_rviz::type_conv::vec2tf(peg_origin,arrow_origin);
+           arrows[0].set_pos_dir(arrow_origin,arrow_direction);
+           vis_vectors.update(arrows);
+           vis_vectors.publish();
+
+       }else{
+
+           if(Y_(1) < 0.01)
+           {
+               bSense_edge = true;
+           }
+       }
+
+
+       b_t_c       = false;
+       b_b_c       = false;
+       b_l_c       = false;
+       b_r_c       = false;
+       b_insert    = false;
+       b_ring      = false;
+
+       if(Y_(4) > 0.2){b_l_c=true;}
+       if(Y_(5) > 0.2){b_r_c=true;}
+       if(Y_(6) > 0.2){b_t_c=true;}
+       if(Y_(7) > 0.2){b_b_c=true;}
+       if(Y_(8) == 1){b_insert=true;}
+       if(Y_(9) < 0.006){b_ring=true;}
+
+
+       if(b_insert){
+           ROS_INFO_STREAM_THROTTLE(1.0,"b_insert: true");
+       }
+
+       average_value = 1.0/static_cast<double>(X.n_rows);
+
+
+       for(std::size_t i = 0; i < X.n_rows;i++){
+
+           lik_one = 1;
+
+
+           /// Check Contact no Contact.
+
+           point_i        =  arma::conv_to<arma::fmat>::from(X.row(i).st());
+           forward_FR_proj = (rot * rot_tmp * vec_peg) + point_i;
+
+           if(i == 0){
+               opti_rviz::debug::tf_debuf(forward_FR_proj,"forward_FR_proj");
+           }
+
+
+           wall_box.distance_to_features(forward_FR_proj);
+
+           /* if(wall_box.is_inside())
+           {
+               L[i] = 0;
+
+           }else{*/
+
+           /// Check if close to peg origin
+
+           if( std::sqrt( (peg_origin(1) - point_i(1)) * (peg_origin(1) - point_i(1)) +  (peg_origin(2) - point_i(2)) * (peg_origin(2) - point_i(2)) ) < 0.005)
+           {
+               close_peg = true;
+           }else{
+               close_peg = false;
+           }
+
+           /// Check Plug Ring Circle
+
+           wsocket.distance_to_features(point_i);
+
+           plat_dir        = wsocket.plate.C - wsocket.get_surface_projection();
+           plat_dir_radius = arma::norm(plat_dir);
+           plat_dir_n      = plat_dir/(plat_dir_radius + std::numeric_limits<double>::min());
+
+           center_dir      = wsocket.plate.C - point_i;
+           dist_center     = std::sqrt(center_dir(1) *center_dir(1) +  center_dir(2) *center_dir(2));
+           dist_socket_c   = std::sqrt(center_dir(1) *center_dir(1) +  (center_dir(2) + 0.005) * (center_dir(2) + 0.005 ));
+
+           // if(force_norm > 0.6 && sgmf( plat_dir_n(1) * F_n(1) + plat_dir_n(2) * F_n(2) +1,4,1) < 0.1){
+           //     lik_one=0;
+           // }
+
+           if(dist_center > 0.015 && dist_center < 0.03){
+               in_circle=true;
+           }else{
+               in_circle=false;
+           }
+
+           /// Likelihood inserted
+           if(b_insert){
+               if(dist_socket_c < 0.005)
+               {
+                   in_s = true;
+                   //   std::cout<< "in_s: true" << std::endl;
+               }else{
+                   in_s = false;
+               }
+           }
+
+           /// Check Block Edges
+
+           if(b_t_c) // prob top   contact
+           {
+               // check if point is inside block top
+               socket_top_edge.distance_to_features(point_i);
+               if(socket_top_edge.is_inside())
+               {
+                   in_ts=true;
+               }else{
+                   in_ts=false;
+               }
+           }
+
+           if(b_b_c){ // prob bottom   contact
+
+               // check if point is bottom block top
+               socket_bottom_edge.distance_to_features(point_i);
+               if(socket_bottom_edge.is_inside())
+               {
+                   in_bs=true;
+               }else{
+                   in_bs=false;
+               }
+           }
+
+           if(b_l_c) // prob left  contact
+           {
+               // check if point is in left block
+               socket_left_edge.distance_to_features(point_i);
+               if(socket_left_edge.is_inside())
+               {
+                   in_ls=true;
+               }else{
+                   in_ls=false;
+               }
+           }
+
+           if(b_r_c) // prob right  contact
+           {
+               socket_right_edge.distance_to_features(point_i);
+               if(socket_right_edge.is_inside())
+               {
+                   in_rs=true;
+               }else{
+                   in_rs=false;
+               }
+           }
+
+
+           if(b_insert){
+
+               if(!in_s){ lik_one  = 0;}
+
+           }else if(b_ring){
+               if(!in_circle){
+                   lik_one = 0;
+               }
+           }else if(bSense_edge){
+
+               if(b_t_c && !b_l_c && !b_r_c  && !b_b_c){            // only    top
+                   if(!in_ts && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if (b_l_c && !b_t_c && !b_b_c && !b_r_c){      // only    left
+                   if(!in_ls && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if (b_r_c && !b_t_c && !b_b_c && !b_l_c){      // only    right
+                   if(!in_rs && (!in_circle))
+                   {
+                       lik_one = 0;
+                   }
+               }else if (b_b_c && !b_l_c && !b_r_c && !b_t_c){      // only    bottom
+                   if(!in_bs  && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if (b_t_c && b_l_c && !b_r_c  && !b_b_c)       // top     left
+               {
+                   if( (!in_ts) && (!in_ls)  && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if (b_t_c && b_r_c && !b_l_c && !b_b_c)        // top     right
+               {
+                   if( (!in_ts) && (!in_rs)  && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if (b_b_c && b_l_c && !b_r_c && !b_t_c){       // bottom  left
+                   if( (!in_bs) && (!in_ls)  && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if (b_b_c && b_r_c && !b_l_c && !b_t_c){       // bottom  right
+                   if( (!in_bs) && (!in_rs) && (!in_circle)){
+                       lik_one = 0;
+                   }
+               }else if(!b_t_c && !b_l_c && !b_r_c  && !b_b_c){
+                   //  if(!in_circle){
+                   //     lik_one = 0;
+                   //  }
+               }else{
+                   /// something weired happened
+
+                   // if( (!in_bs) && (!in_rs) && (!in_ts) && (!in_ls)){
+                   //     lik_one = 0;
+                   // }
+               }
+           }
+
+
+
+           L[i] = lik_one;
+
+           if(close_peg && (L[i] == 0))
+           {
+               L[i] = 1;
+           }
+
+
+           // }
+           sum_L = sum_L + L[i];
+       }
+
+
+
+       if(sum_L == 0){
+           ROS_INFO_STREAM_THROTTLE(1.0,"-----------__>sum_L : 0");
+           for(std::size_t i = 0; i < X.n_rows;i++){
+               L[i] = 1;
+           }
+       }else{
+
+           // normalise likelihood
+           for(std::size_t i = 0; i < X.n_rows;i++){
+               L[i] = L[i] / sum_L;
+           }
+       }
 
 }
 

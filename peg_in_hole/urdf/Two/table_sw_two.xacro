@@ -6,7 +6,6 @@
 <xacro:include filename="$(find peg_in_hole)/urdf/Two/socket_wall_two.xacro" />
 
 <joint name="link_table_wall" type="fixed">
-	<!-- " r-->
 	<origin xyz="0 ${-0.24 + 0.03} ${-0.2 - 0.04}" rpy="0 0 ${M_PI/2}"/>
 	<parent link="link_wall"/>
 	<child  link="average_table_link"/>

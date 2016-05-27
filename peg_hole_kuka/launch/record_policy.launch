@@ -2,9 +2,9 @@
 <launch>
 
 	<include file="$(find record_ros)/launch/record_ros.launch">
-		<arg name="path_save"   value="/home/guillaume/roscode/bag_record/peg_in_hole"/>
-		<arg name="topic"  	value="/ft_sensor/netft_data /lwr/ee_pose /belief_features /belief_features"/>
-		<arg name="file_name" 	value="peg_hole_data"/>
+		<arg name="path_save"   value="/home/guillaume/roscode/bag_record"/>
+		<arg name="topic"  	value="/ft_sensor/netft_data /lwr/ee_pose /belief_features /ee_pos_SF /belief_feature_SF"/>
+		<arg name="file_name" 	value="experiment_data_one"/>
 	</include>
 
 </launch>

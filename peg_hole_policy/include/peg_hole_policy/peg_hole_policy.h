@@ -32,9 +32,12 @@
 
 #include <optitrack_rviz/listener.h>
 
-#include <lwr_ros_interface/ros_ee_j.h>
 #include <lwr_ros_action/base_action.h>
+
+
+#include <lwr_ros_interface/ros_ee_j.h>
 #include "lwr_ros_interface/switch_controller.h"
+#include "lwr_ros_interface/ros_passive_ds.h"
 
 #include <boost/scoped_ptr.hpp>
 #include <memory>
@@ -49,6 +52,7 @@ enum class policy{
 
 enum class ctrl_types{
     CARTESIAN,
+    PASSIVE_DS,
     JOINT_POSITION
 };
 
@@ -63,8 +67,9 @@ public:
                     const std::string& ft_classifier_topic,
                     const std::string& belief_state_topic,
                     const std::string& record_topic_name,
-                     Peg_sensor_model&  peg_sensor_model,
-                    wobj::WrapObject& wrapped_objects);
+                    Peg_sensor_model&  peg_sensor_model,
+                    wobj::WrapObject& wrapped_objects,
+                    SOCKET_TYPE socket_type);
 
    virtual bool update();
 
@@ -110,11 +115,16 @@ private:
 
 private:
 
+    ros_controller_interface::Ros_passive_ds ros_passive_ds;
+
+private:
+
     tf::Vector3             current_dx;
     tf::Vector3             des_origin_;
     tf::Quaternion          des_orient_WF;
     tf::Vector3             current_origin_WF, current_origin_tmp;
     tf::Quaternion          current_orient_WF;
+    tf::Quaternion          target_orient_WF;
     tf::Quaternion          qdiff;
     tf::Vector3             velocity, velocity_tmp;
 
@@ -206,8 +216,7 @@ private:
 
     ros_controller_interface::Switch_controller     switch_controller;
 
-
-
+    SOCKET_TYPE                                     socket_type;
 
 };
 

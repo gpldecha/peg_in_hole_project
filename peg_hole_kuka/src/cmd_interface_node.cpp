@@ -43,6 +43,7 @@ int main(int argc,char** argv)
     peg_console.AddConsoleCommand("greedy");
     peg_console.AddConsoleCommand("gmm");
     peg_console.AddConsoleCommand("qem");
+    peg_console.AddConsoleCommand("simple");
 
 
     peg_console.AddConsoleCommand("grav_comp");
@@ -51,6 +52,8 @@ int main(int argc,char** argv)
     peg_console.AddConsoleCommand("go_peg_right");
     peg_console.AddConsoleCommand("disconnect");
     peg_console.AddConsoleCommand("insert");
+    peg_console.AddConsoleCommand("forward");
+
 
     peg_console.AddConsoleCommand("bel_reset");
 
@@ -62,7 +65,6 @@ int main(int argc,char** argv)
 
     peg_console.AddConsoleCommand("record");
 
-   // peg_console.AddConsoleCommand("open_loop");
    // peg_console.AddConsoleCommand("passive_ds");
 
     cmd_interface.set_console(peg_console.get_console());

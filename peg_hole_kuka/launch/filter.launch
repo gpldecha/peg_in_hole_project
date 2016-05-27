@@ -7,7 +7,7 @@
 
 	<arg name="action_topic" 		value=	"lwr_peg_link"/>
 	<arg name="peg_link_name" 		value=	"lwr_peg_link"/>
-
+	<arg name="socket_type"         	value=  "one"/>	
 
 
 	<!-- launch FT sensor -->
@@ -24,7 +24,8 @@
 
 	<!-- launch peg sensor -->
 	<include file="$(find peg_sensor)/launch/peg_sensor.launch">
-		<arg name="y_topic" value="$(arg virtual_sensor_topic)"/>
+		<arg name="y_topic" 	value="$(arg virtual_sensor_topic)"/>
+		<arg name="socket_type" value="$(arg socket_type)"/>
 	</include>	
 
 

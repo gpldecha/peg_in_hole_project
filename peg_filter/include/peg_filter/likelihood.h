@@ -165,6 +165,19 @@ public:
      */
     void likelihood(double* L, const arma::colvec& Y, const arma::mat &X, const arma::mat33 &Rot);
 
+
+    /**
+     * @brief       : likelihood_stwo
+     * @param L     : output likelihood
+     * @param Y     : (K x 1) input sensor value
+     * @param X     : hypothetical position
+     */
+    void likelihood_stwo(double* L, const arma::colvec& Y, const arma::mat &X, const arma::mat33 &Rot);
+
+
+    void likelihood_sthree(double* L, const arma::colvec& Y, const arma::mat &X, const arma::mat33 &Rot);
+
+
 private:
 
     const pf::Point_mass_filter::delta* ptr_delta_;

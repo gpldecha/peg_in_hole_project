@@ -22,3 +22,4 @@ allegro_hand_control:
      'open loop': open_loop
      'passive ds': passive_ds
      'record': record
+     'forward': forward

@@ -13,6 +13,7 @@
 #include "peg_hole_policy/policies/go_feature.h"
 #include "peg_hole_policy/policies/force_control.h"
 #include "peg_hole_policy/policies/insert_peg.h"
+#include "peg_sensor/peg_world_wrapper/peg_world_wrapper.h"
 
 namespace ph_policy{
 
@@ -42,7 +43,7 @@ public:
 
 public:
 
-    Specialised(wobj::WrapObject& wrap_object);
+    Specialised(wobj::WrapObject& wrap_object,SOCKET_TYPE socket_type);
 
     void reset();
 
@@ -64,7 +65,12 @@ public:
 
 public:
 
-    SOCKET_POLICY              socket_policy;
+    inline double dist_yz(const arma::colvec3& v1, const arma::colvec3& v2){
+        return std::sqrt( (v1(1) - v2(1)) * (v1(1) - v2(1)) + (v1(2) - v2(2)) * (v1(2) - v2(2))  );
+    }
+
+
+    SOCKET_POLICY               socket_policy;
 
 private:
 
@@ -77,6 +83,9 @@ private:
 
     bool                        b_air;
 
+    arma::colvec3               mls_SF_tmp;
+
+    SOCKET_TYPE                 socket_type;
 
 };
 

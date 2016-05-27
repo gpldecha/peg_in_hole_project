@@ -3,7 +3,8 @@
 
 namespace ph_policy{
 
-GMM::GMM()
+GMM::GMM(SOCKET_TYPE socket_type):
+  socket_type(socket_type)
 {
 
     ROS_INFO("GMM policy Constructor [gmm_search.cpp]");
@@ -17,37 +18,42 @@ GMM::GMM()
     gma_qem         =  planners::GMAPlanner(qem_model);
     ROS_INFO_STREAM("----> Initialise GREEDY_MODEL <----");
     gmr_greedy      =  planners::GMR_EE_Planner(greedy_model);
-
     ROS_INFO("Finished GMM policy Constructor [gmm_search.cpp]");
-
     velocity_tmp.zeros();
-
     b_air = true;
 
+    belief_state_SF_tmp.resize(4);
 }
 
 void GMM::update(arma::colvec3& velocity,const arma::colvec& belief_state_SF,const std::vector<STATES>& states){
+
+
+    belief_state_SF_tmp = belief_state_SF;
+
+    if(socket_type == SOCKET_TYPE::TWO){
+        belief_state_SF_tmp(0) = 0.015;
+    }
 
     switch(type){
     case GMM_TYPE::GMM:
     {
         ROS_INFO_STREAM_THROTTLE(1.0,"[policy: GMM]");
         //belief_state_SF.print("belief_state_SF");
-        gma_gmm.gmc(belief_state_SF,velocity_tmp);
+        gma_gmm.gmc(belief_state_SF_tmp,velocity_tmp);
         gma_gmm.get_ee_linear_velocity(velocity);
         break;
     }
     case GMM_TYPE::QEM:
     {
         ROS_INFO_STREAM_THROTTLE(1.0,"[policy: QEM]");
-        gma_qem.gmc(belief_state_SF,velocity_tmp);
+        gma_qem.gmc(belief_state_SF_tmp,velocity_tmp);
         gma_qem.get_ee_linear_velocity(velocity);
         break;
     }
     case GMM_TYPE::GREEDY:
     {
         ROS_INFO_STREAM_THROTTLE(1.0,"[policy: GREEDY]");
-        gmr_greedy.gmr(belief_state_SF(arma::span(0,2)));
+        gmr_greedy.gmr(belief_state_SF_tmp(arma::span(0,2)));
         gmr_greedy.get_ee_linear_velocity(velocity);
         break;
     }
@@ -67,10 +73,8 @@ void GMM::update(arma::colvec3& velocity,const arma::colvec& belief_state_SF,con
         velocity(0) = -1;
     }
 
-
     velocity     =  arma::normalise(velocity);
     velocity_tmp = velocity;
-
 }
 
 void GMM::set_gmm(GMM_TYPE type){

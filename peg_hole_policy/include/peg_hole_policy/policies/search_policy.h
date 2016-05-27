@@ -15,6 +15,10 @@
 #include "peg_hole_policy/policies/force_control.h"
 #include "peg_hole_policy/policies/specialised_policy.h"
 #include "peg_hole_policy/policies/gmm_search.h"
+#include "peg_hole_policy/policies/simple_policies.h"
+
+#include <random>
+
 
 namespace ph_policy{
 
@@ -23,7 +27,7 @@ class Search_policy{
 
 public:
 
-    enum class POLICY{SPECIALISED,GMM,INSERT};
+    enum class POLICY{SPECIALISED,GMM,INSERT,SIMPLE_POLICY,FORWARD};
 
 
 public:
@@ -83,16 +87,24 @@ private:
     Specialised&                specialised_policy;
     ph_policy::GMM&             gmm;
     Get_back_on&                get_back_on;
+    Simple_policies             simple_policies;
+    Forward_insert              forward_policy;
+
     bool                        close_to_socket;
     bool                        in_socket;
     ros::Time                   start_time;
     double                      search_time;
+
+    double                      noise_time;
+    ros::Time                   noise_start_time;
 
 
     tf::Quaternion              des_orient_;
 
     POLICY                      policy;
 
+    std::default_random_engine          generator;
+    std::normal_distribution<double>    pdf_norm;
 
 
     Force_control           force_control;

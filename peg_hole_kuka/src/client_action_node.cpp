@@ -36,6 +36,7 @@ int main(int argc, char** argv)
 
     param_name_value[node_name + "/speech_topic"]        = "";
     param_name_value[node_name + "/action_service"]      = "";
+    param_name_value[node_name + "/socket_type"]          = "";
 
 
 
@@ -49,6 +50,21 @@ int main(int argc, char** argv)
     std::string ft_topic            =  param_name_value[node_name + "/ft_topic"];
     std::string classifier_topic    =  param_name_value[node_name + "/classifier_topic"];
     std::string belief_state_topic  =  param_name_value[node_name + "/F_topic"];
+    std::string ssocket_type        =  param_name_value[node_name + "/socket_type"];
+
+    SOCKET_TYPE socket_type;
+
+    if(ssocket_type == "one"){
+        socket_type = SOCKET_TYPE::ONE;
+    }else if(ssocket_type == "two"){
+        socket_type = SOCKET_TYPE::TWO;
+    }else if(ssocket_type == "three"){
+        socket_type = SOCKET_TYPE::THREE;
+    }else{
+        ROS_ERROR_STREAM("No such socket type defined: "  + ssocket_type);
+        return 0;
+    }
+
 
     std::string speech_topic        =  param_name_value[node_name + "/speech_topic"];
     std::string action_serivce      =  param_name_value[node_name + "/action_service"];
@@ -61,7 +77,7 @@ int main(int argc, char** argv)
     /**  ------------- Initialise control policies ------------- **/
 
 
-    Peg_world_wrapper   peg_world_wrapper(nh,false,"peg_hole_kuka_action",path_sensor_model,world_frame,"lwr_peg_link"); // don't publish need model for planning
+    Peg_world_wrapper   peg_world_wrapper(nh,socket_type,false,"peg_hole_kuka_action",path_sensor_model,world_frame,"lwr_peg_link"); // don't publish need model for planning
 
     if(peg_world_wrapper.peg_sensor_model.get() == NULL)
     {
@@ -80,7 +96,8 @@ int main(int argc, char** argv)
                                                belief_state_topic,
                                                record_service_name,
                                                peg_sensor_model,
-                                               wrapped_object);
+                                               wrapped_object,
+                                               socket_type);
 
     actions["plug_search"] = &peg_hole_policy;
     kuka_action_client.push_back(actions);

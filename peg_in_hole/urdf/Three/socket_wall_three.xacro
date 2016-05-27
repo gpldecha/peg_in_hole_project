@@ -22,7 +22,7 @@
 	<visual>
 		<origin xyz="0 0 0" rpy="0 0 0"/>
 		<geometry>
-   			<mesh filename="package://objects/meshes/${socket_t}/${socket_t}.dae"/>
+   			<mesh filename="package://objects/meshes/${socket_t}/${socket_t}.dae" scale="0.9 1 1"/>
 		</geometry>
         </visual>
 

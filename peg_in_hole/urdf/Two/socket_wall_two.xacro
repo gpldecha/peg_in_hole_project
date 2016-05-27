@@ -46,7 +46,7 @@
 		<origin xyz="${-0.01} 0 0" rpy="0 0 ${-M_PI/2}"/>
 	</xacro:if>
 	<xacro:if value="${use_socket_two}">
-		<origin xyz="${-0.0025} 0 0" rpy="0 0 ${-M_PI/2}"/>
+		<origin xyz="${-0.038} 0 0.0" rpy="0 0 ${-M_PI/2}"/>
 	</xacro:if>
 	<xacro:if value="${use_socket_three}">
 		<origin xyz="${-0.0025} 0 0" rpy="0 0 ${-M_PI/2}"/>

@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv){
 
-    std::map<std::string,std::string> input;
+   /* std::map<std::string,std::string> input;
     input["-urdf"]              = "";
     input["-rate"]              = "100";
     input["-fixed_frame"]       = "world_frame";
@@ -37,7 +37,7 @@ int main(int argc, char** argv){
 
         ros::spinOnce();
         rate.sleep();
-    }
+    }*/
 
 
     return 0;

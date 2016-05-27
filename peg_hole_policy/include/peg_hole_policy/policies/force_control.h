@@ -10,6 +10,24 @@
 
 namespace ph_policy{
 
+
+class GetOverObstacle{
+
+public:
+
+    GetOverObstacle();
+
+    void get_over_it(arma::colvec3& velocity, const arma::colvec3& open_x_position_WF, const arma::colvec3 &peg_origin_WF);
+
+private:
+
+    bool bFirst;
+    arma::colvec3 target_WF;
+
+
+};
+
+
 class Force_control{
 
 public:

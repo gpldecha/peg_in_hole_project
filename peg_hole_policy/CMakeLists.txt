@@ -61,11 +61,11 @@ set(H_FILES ${INCLUDE_DIR}/peg_hole_policy/peg_hole_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/force_control.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/gmm_search.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/get_back_on.h
+            ${INCLUDE_DIR}/peg_hole_policy/policies/simple_policies.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/specialised_policy.h
 )
 
 set(S_FILES ${SRC_DIR}/peg_hole_policy.cpp
-
             ${SRC_DIR}/stack_planner/planning_stack.cpp
             ${SRC_DIR}/stack_planner/state_machine.cpp
             ${SRC_DIR}/policies/greedy_policy.cpp
@@ -79,6 +79,7 @@ set(S_FILES ${SRC_DIR}/peg_hole_policy.cpp
             ${SRC_DIR}/policies/search_policy.cpp
             ${SRC_DIR}/policies/go_feature.cpp
             ${SRC_DIR}/policies/force_control.cpp
+            ${SRC_DIR}/policies/simple_policies.cpp
 )
 
 add_library(${PROJECT_NAME} ${H_FILES} ${S_FILES} )

@@ -108,6 +108,12 @@ private:
 
     bool is_off_table(const arma::colvec3& mode_SF, const arma::colvec3& force, STATES uncertainty);
 
+    inline double dist_yz(const arma::colvec3& v1, const arma::colvec3& v2){
+        return std::sqrt( (v1(1) - v2(1)) * (v1(1) - v2(1)) + (v1(2) - v2(2)) * (v1(2) - v2(2))  );
+    }
+
+
+
 private:
 
     Peg_sensor_model    &peg_sensor_model;
