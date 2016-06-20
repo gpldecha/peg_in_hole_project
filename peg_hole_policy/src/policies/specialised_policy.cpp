@@ -164,12 +164,13 @@ void Specialised::update(arma::colvec3&                 arma_velocity,
 //        /
 
         opti_rviz::debug::tf_debuf(socket_pos_WF,"socket_pos_WF");
-    if(dist_yz(socket_pos_WF,peg_origin) > 0.08){
+    if(dist_yz(socket_pos_WF,peg_origin) > 0.058){
+        ROS_WARN_STREAM_THROTTLE(1.0,"TO FARE AWAY");
         arma_velocity = -mls_SF;
         arma_velocity(0) = 0;
     }
 
-
+/*
     if(State_machine::has_state(STATES::AIR_HIGH,states))
     {
         b_air = true;
@@ -182,7 +183,7 @@ void Specialised::update(arma::colvec3&                 arma_velocity,
     if(b_air){
         arma_velocity.zeros();
         arma_velocity(0) = -1;
-    }
+    }*/
 
 
    arma_velocity = arma::normalise(arma_velocity);

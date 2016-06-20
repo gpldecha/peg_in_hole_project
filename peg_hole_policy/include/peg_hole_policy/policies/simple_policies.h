@@ -1,5 +1,5 @@
 #ifndef SIMPLE_POLICIES_H_
-#define SMPLE_POLICIES_H_
+#define SIMPLE_POLICIES_H_
 
 
 #include "peg_hole_policy/stack_planner/state_machine.h"

@@ -96,7 +96,7 @@
                 }, 
                 "x_limits": {
                   "type": "repr", 
-                  "repr": "[183.77574944496155, 184.77574944496155]"
+                  "repr": "[39.22820591926575, 40.22820591926575]"
                 }
               }, 
               "groups": {}
@@ -131,15 +131,15 @@
                 }, 
                 "topics": {
                   "type": "repr", 
-                  "repr": "[u'/ft_classifier/data[6]', u'/ft_classifier/data[4]', u'/ft_classifier/data[7]', u'/ft_classifier/data[5]']"
+                  "repr": "[u'/ft_sensor/netft_data/wrench/torque/z', u'/ft_sensor/netft_data/wrench/torque/x', u'/ft_sensor/netft_data/wrench/torque/y']"
                 }, 
                 "y_limits": {
                   "type": "repr", 
-                  "repr": "[9.357622968839299e-14, 1.0369604578330662]"
+                  "repr": "[-0.6091044297176358, 0.430515499261755]"
                 }, 
                 "x_limits": {
                   "type": "repr", 
-                  "repr": "[183.88325095176697, 184.88325095176697]"
+                  "repr": "[39.36550545692444, 40.36550545692444]"
                 }
               }, 
               "groups": {}
@@ -182,7 +182,7 @@
                 }, 
                 "x_limits": {
                   "type": "repr", 
-                  "repr": "[184.04542303085327, 185.04542303085327]"
+                  "repr": "[39.502909898757935, 40.502909898757935]"
                 }
               }, 
               "groups": {}
@@ -349,8 +349,8 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)", 
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb00010000000007860000007100000d01000002b0000007870000008d00000d00000002af000000000000')", 
-          "pretty-print": "       q               "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb00010000000007040000007100000c7f000002b0000007050000008d00000c7e000002af000000000000')", 
+          "pretty-print": "       q         ~     "
         }, 
         "state": {
           "type": "repr(QByteArray.hex)", 

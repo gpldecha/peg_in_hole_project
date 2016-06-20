@@ -108,12 +108,12 @@ void Mixed_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::
 
     arma::colvec Y_      = Y;
 
-
     geo::fCVec3 vec_peg; vec_peg.zeros();
     geo::fCVec3 forward_FR_proj;
     vec_peg(0) = 0.015;
 
     rot = arma::conv_to<arma::fmat>::from(Rot);
+
 
 
     if (Y_type == Y_TYPE::FT)
@@ -149,6 +149,7 @@ void Mixed_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::
     }
 
 
+
     b_t_c       = false;
     b_b_c       = false;
     b_l_c       = false;
@@ -169,6 +170,8 @@ void Mixed_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::
     }
 
     average_value = 1.0/static_cast<double>(X.n_rows);
+
+
 
 
     for(std::size_t i = 0; i < X.n_rows;i++){
@@ -284,6 +287,13 @@ void Mixed_likelihood::likelihood(double *L, const arma::colvec &Y, const arma::
                 in_rs=false;
             }
         }
+
+      /*  bSense_edge = true;
+        b_insert    = false;
+        b_ring      = false;
+        b_l_c       = true;
+        b_t_c       = true;
+        in_circle   = false;*/
 
 
         if(b_insert){
@@ -773,6 +783,7 @@ void Mixed_likelihood::likelihood_sthree(double* L, const arma::colvec& Y, const
                bSense_edge = true;
            }
        }
+
 
 
        b_t_c       = false;

@@ -154,13 +154,13 @@ void init_delta_length(int init_pmf_type, pf::Point_mass_filter::delta &delta_,p
         length_.n = 0.03;
         length_.k = 0.03;
     }else if(init_pmf_type == 10){ //  check likelihood
-        delta_.m  = 0.01;
-        delta_.n  = 0.003;
-        delta_.k  = 0.003;
+        delta_.m  = 0.005;
+        delta_.n  = 0.005;
+        delta_.k  = 0.005;
 
-        length_.m = 0.01;
-        length_.n = 0.2;
-        length_.k = 0.2;
+        length_.m = 0.035;
+        length_.n = 0.15;
+        length_.k = 0.15;
     }
 }
 
@@ -207,11 +207,11 @@ void initialise_prior_pdf(int init_pmf_pos,int init_pmf_type,pf::Point_mass_filt
     init_delta_length(init_pmf_type,delta_,length_);
 
 
-    pos_tmp = pos_socket;
-    pos_tmp(0) = pos_peg(0);
+    pos_tmp     = pos_socket;
+    pos_tmp(0)  = pos_tmp(0) + 0.01;
 
-    pos_tmp.print("pos_tmp");
-    pmf.reset(pos_peg,delta_,length_);
+    //pos_tmp.print("pos_tmp");
+    pmf.reset(pos_tmp,delta_,length_);
 }
 
 void initialise_prior_experiment(int expermient_type,pf::Point_mass_filter& pmf, double x, double y, double z){
@@ -241,6 +241,11 @@ void initialise_prior_experiment(int expermient_type,pf::Point_mass_filter& pmf,
         pos_pmf(2)  = pos_pmf(2) + 0.085;
         pos_pmf(0)  = peg_position(0);
     }
+
+    pos_pmf(0)  = peg_position(0);
+    pos_pmf(1)  = peg_position(1);
+    //pos_pmf(2)  = peg_position(2);
+
     pmf.reset(pos_pmf,delta_,length_);
 }
 
@@ -341,7 +346,7 @@ int main(int argc,char** argv){
     ///
     ///
 
-    bool bExperiment    = false;
+    bool bExperiment    = true;
 
     // Debug
     int init_pmf_type   =  10;
@@ -581,20 +586,8 @@ int main(int argc,char** argv){
    vis_pc_rec.set_channel(opti_rviz::Vis_point_cloud::CHANNEL_TYPE::Intensity);
    vis_pc_rec.initialise("world",pmf.points);
 
-   //opti_rviz::Vis_point_cloud  vis_pc_rec(nh,"pfilter_record_color");
-   //vis_pc_rec.set_channel(opti_rviz::Vis_point_cloud::CHANNEL_TYPE::Intensity);
-   //vis_pc_rec.initialise("world",pmf.points);
 
-
-
-//   void set_display_type(display_mode type);
-//   void set_channel(CHANNEL_TYPE channel_type);
-
-   // double time_taken;
-   // int count = 0;
-   // int number = 10;
-   // arma::colvec3 m_u;
-    arma::colvec3 plan_norm;
+   arma::colvec3 plan_norm;
     plan_norm(0) = 1; plan_norm(1) = 0; plan_norm(2) = 0;
     arma::colvec3 target,mode_SF, mode, tt, bb;
 
@@ -685,7 +678,6 @@ int main(int argc,char** argv){
                     C_EDGE_V1       =9
                     C_EDGE_V2       =10
                     C_EDGE_V3       =11
-
                 */
 
                 Y_mixed(0)  = Y_ft(0);                                                  // contact / no contact
@@ -714,7 +706,6 @@ int main(int argc,char** argv){
             /// belief feature (belief compression) computation
             belief_compression.update(u,pmf.points,pmf.P);
         }
-
 
         /// particle filter visualisation
 

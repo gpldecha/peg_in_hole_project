@@ -2,6 +2,7 @@
 #include <control_toolbox/filters.h>
 #include <optitrack_rviz/type_conversion.h>
 #include <optitrack_rviz/publisher.h>
+#include <optitrack_rviz/debug.h>
 
 #include <chrono>
 
@@ -76,8 +77,8 @@ Peg_hole_policy::Peg_hole_policy(ros::NodeHandle& nh,
 
     specialised_policy.reset(   new ph_policy::Specialised(peg_sensor_model.get_wrapped_objects(),socket_type)                     );
     gmm_policy.reset(           new ph_policy::GMM(socket_type)                                                                                        );
-    search_policy.reset(        new ph_policy::Search_policy(nh,get_back_on,*(specialised_policy.get()),*(gmm_policy.get()),state_machine,peg_sensor_model)  );
-
+    demo_policy.reset(          new ph_policy::Demo_policies(peg_sensor_model.get_wrapped_objects(),socket_type,*(gmm_policy.get())));
+    search_policy.reset(        new ph_policy::Search_policy(nh,get_back_on,*(specialised_policy.get()),*(demo_policy.get()),*(gmm_policy.get()),state_machine,peg_sensor_model)  );
 
 
     /// ------------------ Publishers for transformed frame of reference
@@ -105,9 +106,17 @@ void Peg_hole_policy::reset(){
     current_origin_tmp = current_origin_WF;
 
     net_ft_reset_bias();
-
     q_des_q_.setRPY(0,0,0);
 
+
+    ros_passive_ds.eig_msg.data[0]  = 50;
+    ros_passive_ds.eig_msg.data[1]  = 10;
+    ros_passive_ds.damp_msg.data    = 0.1;
+    ros_passive_ds.stiff_msg.data   = 10;
+
+    ros_passive_ds.sendDampEig(ros_passive_ds.eig_msg);
+    ros_passive_ds.sendRotDamp(ros_passive_ds.damp_msg);
+    ros_passive_ds.sendRotStiff(ros_passive_ds.stiff_msg);
 }
 
 void Peg_hole_policy::rviz_velocity(){
@@ -151,7 +160,6 @@ bool Peg_hole_policy::update(){
 
     ee_peg_listener.update(current_origin_WF,current_orient_WF);
 
-    target_orient_WF = current_orient_WF;
 
     ROS_INFO_STREAM("Staring Peg hole loop");
     ros::Rate loop_rate(control_rate);
@@ -162,24 +170,21 @@ bool Peg_hole_policy::update(){
         ee_peg_listener.update(current_origin_WF,current_orient_WF);
         opti_rviz::type_conv::tf2vec(current_origin_WF,arma_current_origin_WF);
 
-
         des_orient_WF       = current_orient_WF;
         des_origin_         = current_origin_WF;
-
 
         opti_rviz::type_conv::tf2vec(current_origin_WF,arma_current_origin_WF);
 
         current_origin_SF   = arma_current_origin_WF - socket_pos_WF;
 
-        current_dx      = (current_origin_WF - current_origin_tmp) * (1.0 / control_rate);
-        wrench_         = ft_listener_.current_msg.wrench;
-        force(0)        = wrench_.force.x;
-        force(1)        = wrench_.force.y;
-        force(2)        = wrench_.force.z;
+        current_dx          = (current_origin_WF - current_origin_tmp) * (1.0 / control_rate);
+        wrench_             = ft_listener_.current_msg.wrench;
+        force(0)            = wrench_.force.x;
+        force(1)            = wrench_.force.y;
+        force(2)            = wrench_.force.z;
 
         search_policy->update_force_vis(force,current_origin_WF,current_orient_WF);
         opti_rviz::debug::tf_debuf(x_des_q_,q_des_q_,"x_des_q_");
-
 
 
         if(ctrl_type != ctrl_types::JOINT_POSITION){
@@ -197,20 +202,27 @@ bool Peg_hole_policy::update(){
                 tf::Matrix3x3 current_orient;
                 current_orient.setRotation(current_orient_WF);
 
-                if(ctrl_type == ctrl_types::PASSIVE_DS){
-                    open_loop_x_origin_arma_WF = arma_current_origin_WF;
-                }
+                //if(ctrl_type == ctrl_types::PASSIVE_DS){
+                //    open_loop_x_origin_arma_WF = arma_current_origin_WF;
+               // }
+
 
                 search_policy->get_velocity(velocity,des_orient_WF,arma_current_origin_WF,current_orient,Y_c,force,belief_state_WF,belief_state_SF,socket_pos_WF,open_loop_x_origin_arma_WF);
-               // opti_rviz::debug::tf_debuf(open_loop_x_origin_tf,open_loop_x_orient_tf,"x_open_loop");
+                opti_rviz::debug::tf_debuf(open_loop_x_origin_tf,open_loop_x_orient_tf,"x_open_loop");
 
                 search_policy_type = search_policy->get_policy();
 
-                if(arma::norm(open_loop_x_origin_arma_WF - arma_current_origin_WF) > 0.035)
+                if(arma::norm(open_loop_x_origin_arma_WF - arma_current_origin_WF) > 0.04)
                 {
                     ROS_WARN_THROTTLE(1.0,"open loop target too far away from current position!");
                     velocity.setZero();
                 }
+
+              /*  if(arma::norm(open_loop_x_origin_arma_WF - arma_current_origin_WF) > 0.035)
+                {
+                    ROS_WARN_THROTTLE(1.0,"open loop target too far away from current position!");
+                    velocity.setZero();
+                }*/
 
                 break;
             }
@@ -233,11 +245,7 @@ bool Peg_hole_policy::update(){
             set_angular_velocity();
 
             opti_rviz::type_conv::tf2vec(velocity,linear_vel_cmd_);
-            //orientation_cmd_ = Eigen::Quaterniond(des_orient_WF.w(),des_orient_WF.x(),des_orient_WF.y(),des_orient_WF.z());
-            orientation_cmd_ = Eigen::Quaterniond(target_orient_WF.w(),target_orient_WF.x(),target_orient_WF.y(),target_orient_WF.z());
-
-
-
+            orientation_cmd_ = Eigen::Quaterniond(des_orient_WF.w(),des_orient_WF.x(),des_orient_WF.y(),des_orient_WF.z());
 
             ROS_INFO_STREAM_THROTTLE(1.0,"linear_vel_cmd_: " << linear_vel_cmd_[0] << " " << linear_vel_cmd_[1] << " " << linear_vel_cmd_[2] );
             // SET COMMAND VALUES
@@ -293,9 +301,9 @@ void Peg_hole_policy::smooth_velocity(){
     }
 }
 
-void Peg_hole_policy::set_command(const Eigen::Vector3d& linear_vel_cmd,
-                                  const Eigen::Vector3d& angular_vel_cmd,
-                                  const Eigen::Quaterniond &orientation_cmd){
+void Peg_hole_policy::set_command(const Eigen::Vector3d&     linear_vel_cmd,
+                                  const Eigen::Vector3d&     angular_vel_cmd,
+                                  const Eigen::Quaterniond&  orientation_cmd){
 
     /// LINEAR VELOCITY
     des_ee_vel_msg.linear.x = linear_vel_cmd[0];
@@ -313,14 +321,11 @@ void Peg_hole_policy::set_command(const Eigen::Vector3d& linear_vel_cmd,
     orient_msg.z = orientation_cmd.z();
     orient_msg.w = orientation_cmd.w();
 
-
     if(ctrl_type == ctrl_types::CARTESIAN)
     {
         sendCartVel(des_ee_vel_msg);
-
     }else if(ctrl_type == ctrl_types::PASSIVE_DS)
     {
-
         ros_passive_ds.sendCartVel(des_ee_vel_msg);
         ros_passive_ds.sendOrient(orient_msg);
     }
@@ -415,7 +420,7 @@ void Peg_hole_policy::check_record(bool start){
 
 void Peg_hole_policy::openloopx_callback(const geometry_msgs::PoseStampedConstPtr &msg){
 
-    if(ctrl_type == ctrl_types::CARTESIAN){
+   // if(ctrl_type == ctrl_types::CARTESIAN){
 
         open_loop_x_origin_tf.setX(msg->pose.position.x);
         open_loop_x_origin_tf.setY(msg->pose.position.y);
@@ -428,14 +433,14 @@ void Peg_hole_policy::openloopx_callback(const geometry_msgs::PoseStampedConstPt
         open_loop_x_orient_tf.setZ(msg->pose.orientation.z);
         open_loop_x_orient_tf.setW(msg->pose.orientation.w);
 
-    }else{
+ /*   }else{
 
         open_loop_x_origin_tf.setZero();
         open_loop_x_origin_tf.setZero();
         open_loop_x_origin_tf.setW(1);
 
         open_loop_x_origin_arma_WF = arma_current_origin_WF;
-     }
+     }*/
 }
 
 bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, peg_hole_policy::String_cmd::Response& res){
@@ -489,6 +494,29 @@ bool Peg_hole_policy::cmd_callback(peg_hole_policy::String_cmd::Request& req, pe
         search_policy->reset();
         search_policy->command("simple");
 
+    }else if(cmd == "gmm_1"){
+
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->reset();
+        std::vector<std::string> args = {{"one"}};
+        search_policy->command("demo",args);
+
+    }else if(cmd == "gmm_2"){
+
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->reset();
+        std::vector<std::string> args = {{"two"}};
+        search_policy->command("demo",args);
+
+    }else if(cmd == "gmm_3"){
+
+        current_policy = policy::SEARCH_POLICY;
+        ctrl_type      = ctrl_types::CARTESIAN;
+        search_policy->reset();
+        std::vector<std::string> args = {{"three"}};
+        search_policy->command("demo",args);
     }else if(cmd == "pause"){
         current_policy = policy::NONE;
         ctrl_type      = ctrl_types::CARTESIAN;

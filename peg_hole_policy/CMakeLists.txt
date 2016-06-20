@@ -50,7 +50,7 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${INCLUDE_DIR})
 set(H_FILES ${INCLUDE_DIR}/peg_hole_policy/peg_hole_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/stack_planner/state_machine.h
             ${INCLUDE_DIR}/peg_hole_policy/stack_planner/planning_stack.h
-
+            ${INCLUDE_DIR}/peg_hole_policy/policies/demo_policies.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/greedy_policy.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/find_table.h
             ${INCLUDE_DIR}/peg_hole_policy/policies/search_policy.h
@@ -69,6 +69,7 @@ set(S_FILES ${SRC_DIR}/peg_hole_policy.cpp
             ${SRC_DIR}/stack_planner/planning_stack.cpp
             ${SRC_DIR}/stack_planner/state_machine.cpp
             ${SRC_DIR}/policies/greedy_policy.cpp
+            ${SRC_DIR}/policies/demo_policies.cpp
             ${SRC_DIR}/policies/specialised_policy.cpp
             ${SRC_DIR}/policies/find_table.cpp
             ${SRC_DIR}/policies/find_socket.cpp

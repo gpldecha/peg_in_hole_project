@@ -54,6 +54,9 @@ int main(int argc,char** argv)
     peg_console.AddConsoleCommand("insert");
     peg_console.AddConsoleCommand("forward");
 
+    peg_console.AddConsoleCommand("gmm_1");
+    peg_console.AddConsoleCommand("gmm_2");
+    peg_console.AddConsoleCommand("gmm_3");
 
     peg_console.AddConsoleCommand("bel_reset");
 

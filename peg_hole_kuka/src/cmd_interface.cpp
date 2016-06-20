@@ -54,6 +54,12 @@ void Cmd_interface::init_commands(){
     cmds["simple"]              = cmd_info("simple",    cmd_type::PEG_POLICY);
     cmds["forward"]             = cmd_info("forward",    cmd_type::PEG_POLICY);
 
+    // for demos
+    cmds["gmm_1"]               = cmd_info("gmm_1",   cmd_type::PEG_POLICY);
+    cmds["gmm_2"]               = cmd_info("gmm_2",   cmd_type::PEG_POLICY);
+    cmds["gmm_3"]               = cmd_info("gmm_3",   cmd_type::PEG_POLICY);
+
+
     cmds["open_loop"]           = cmd_info("open_loop",     cmd_type::PEG_POLICY);
     cmds["passive_ds"]          = cmd_info("passive_ds",    cmd_type::PEG_POLICY);
     cmds["go_peg_right"]        = cmd_info("go_peg_right",  cmd_type::PEG_POLICY);

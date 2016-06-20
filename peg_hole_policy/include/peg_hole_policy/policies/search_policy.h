@@ -16,6 +16,7 @@
 #include "peg_hole_policy/policies/specialised_policy.h"
 #include "peg_hole_policy/policies/gmm_search.h"
 #include "peg_hole_policy/policies/simple_policies.h"
+#include "peg_hole_policy/policies/demo_policies.h"
 
 #include <random>
 
@@ -27,7 +28,7 @@ class Search_policy{
 
 public:
 
-    enum class POLICY{SPECIALISED,GMM,INSERT,SIMPLE_POLICY,FORWARD};
+    enum class POLICY{SPECIALISED,DEMOS,GMM,INSERT,SIMPLE_POLICY,FORWARD};
 
 
 public:
@@ -35,6 +36,7 @@ public:
     Search_policy(ros::NodeHandle&      nh,
                   Get_back_on&          get_back_on,
                   Specialised&          specialised_policy,
+                  Demo_policies&        demo_policies,
                   ph_policy::GMM&       gmm,
                   State_machine&        state_machine,
                   Peg_sensor_model&     peg_sensor_model);
@@ -81,10 +83,11 @@ private:
     arma::colvec3               target_WF;
     tf::Vector3                 tf_mls_WF;
 
-    Insert_peg                 insert_peg;
-    Peg_sensor_model&          peg_sensor_model;
+    Insert_peg                  insert_peg;
+    Peg_sensor_model&           peg_sensor_model;
 
     Specialised&                specialised_policy;
+    Demo_policies&              demo_policies;
     ph_policy::GMM&             gmm;
     Get_back_on&                get_back_on;
     Simple_policies             simple_policies;

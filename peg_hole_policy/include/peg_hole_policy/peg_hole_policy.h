@@ -24,6 +24,7 @@
 #include "peg_hole_policy/String_cmd.h"
 #include "peg_hole_policy/policies/search_policy.h"
 #include "peg_hole_policy/policies/specialised_policy.h"
+#include "peg_hole_policy/policies/demo_policies.h"
 
 #include "record_ros/String_cmd.h"
 
@@ -81,7 +82,7 @@ private:
 
     void set_command(const Eigen::Vector3d& linear_vel_cmd,
                      const Eigen::Vector3d& angular_vel_cmd,
-                     const Eigen::Quaterniond& orientation_cmd);
+                     const Eigen::Quaterniond &orientation_cmd);
 
 private:
 
@@ -198,7 +199,9 @@ private:
 
     /// POLICIES
 
+    boost::shared_ptr<ph_policy::Demo_policies>     demo_policy;
     boost::shared_ptr<ph_policy::Specialised>       specialised_policy;
+
     boost::shared_ptr<ph_policy::GMM>               gmm_policy;
     boost::scoped_ptr<ph_policy::Search_policy>     search_policy;
     ph_policy::Get_back_on                          get_back_on;

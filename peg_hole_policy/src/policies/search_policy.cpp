@@ -7,11 +7,13 @@ namespace ph_policy{
 Search_policy::Search_policy(ros::NodeHandle&      nh,
                              Get_back_on&          get_back_on,
                              Specialised&          specialised_policy,
+                             Demo_policies&         demo_policies,
                              GMM&                   qem,
                              State_machine&        state_machine,
                              Peg_sensor_model&     peg_sensor_model):
     get_back_on(get_back_on),
     specialised_policy(specialised_policy),
+    demo_policies(demo_policies),
     gmm(qem),
     state_machine(state_machine),
     force_control(nh),
@@ -36,6 +38,18 @@ std::string Search_policy::command(const std::string& cmd,const std::vector<std:
     {
         policy = POLICY::SPECIALISED;
         res = specialised_policy.command(args[0]);
+    }else if(cmd == "demo"){
+        policy = POLICY::DEMOS;
+        if(args[0] == "one"){
+            demo_policies.set_demo(Demo_policies::DEMO_TYPE::DEMO_1);
+        }else if(args[0] == "two"){
+            demo_policies.set_demo(Demo_policies::DEMO_TYPE::DEMO_2);
+        }else if(args[0] == "three"){
+            demo_policies.set_demo(Demo_policies::DEMO_TYPE::DEMO_3);
+        }else{
+            ROS_WARN_STREAM("Search_policy::command no such arg: " + args[0]);
+        }
+        res = specialised_policy.command("Demo Policy set " + args[0]);
     }else if(cmd == "forward"){
         policy = POLICY::FORWARD;
         forward_policy.reset();
@@ -70,6 +84,7 @@ std::string Search_policy::command(const std::string& cmd,const std::vector<std:
 void Search_policy::reset(){
 
     specialised_policy.reset();
+    demo_policies.reset();
     get_back_on.reset();
     forward_policy.reset();
     close_to_socket = false;
@@ -119,7 +134,7 @@ void Search_policy::get_velocity(tf::Vector3&           velocity,
 
 
     target_WF    = socket_pos_WF;
-   // target_WF(2) = target_WF(2) - 0.001;
+    // target_WF(2) = target_WF(2) - 0.001;
 
     opti_rviz::debug::tf_debuf(target_WF,"TARGET_FINAL");
 
@@ -170,7 +185,7 @@ void Search_policy::get_velocity(tf::Vector3&           velocity,
 
 
     /// inside socket holes
-   /* if(Y_c(8) == 1  && State_machine::has_state(STATES::LOW_UNCERTAINTY,states)){
+    /* if(Y_c(8) == 1  && State_machine::has_state(STATES::LOW_UNCERTAINTY,states)){
         policy = POLICY::INSERT;
     }else if(dist_yz(target_WF,peg_origin_WF) < 0.01 && search_time > 30 && State_machine::has_state(STATES::LOW_UNCERTAINTY,states)){
         policy = POLICY::INSERT;
@@ -178,6 +193,12 @@ void Search_policy::get_velocity(tf::Vector3&           velocity,
 */
 
     switch(policy){
+    case POLICY::DEMOS:
+    {
+
+        demo_policies.update(arma_velocity,mls_WF,mls_SF,socket_pos_WF,peg_origin_WF,Y_c,states,insert_peg,get_back_on,force_control,peg_sensor_model,belief_state_SF,open_loop_x_origin_arma_WF);
+        break;
+    }
     case POLICY::SPECIALISED:
     {
         specialised_policy.update(arma_velocity,mls_WF,mls_SF,socket_pos_WF,peg_origin_WF,Y_c,states,insert_peg,get_back_on,force_control,peg_sensor_model);
@@ -186,8 +207,6 @@ void Search_policy::get_velocity(tf::Vector3&           velocity,
     case POLICY::GMM:
     {
         gmm.update(arma_velocity,belief_state_SF,states);
-
-
         break;
     }
     case POLICY::INSERT:
@@ -209,13 +228,10 @@ void Search_policy::get_velocity(tf::Vector3&           velocity,
 
             arma_velocity = target_WF - peg_origin_WF;
 
-           // if(ros::Time::now() - noise_start_time).toSec() > 1){
-          //      arma_velocity(1) = arma_velocity(1) + pdf_norm(generator);
-          //      arma_velocity(2) = arma_velocity(2) + pdf_norm(generator);
-          //  }
-
-
-
+            // if(ros::Time::now() - noise_start_time).toSec() > 1){
+            //      arma_velocity(1) = arma_velocity(1) + pdf_norm(generator);
+            //      arma_velocity(2) = arma_velocity(2) + pdf_norm(generator);
+            //  }
         }else{
 
             arma_velocity(1) = target_WF(1)  - peg_origin_WF(1);
@@ -244,22 +260,25 @@ void Search_policy::get_velocity(tf::Vector3&           velocity,
     }
     }
 
-    /// Takes care if we are stuck at an edge
-    if(policy != POLICY::INSERT && policy != POLICY::FORWARD){
-        if(State_machine::has_state(STATES::STUCK_EDGE,states)){
-            force_control.get_over_edge(arma_velocity,open_loop_x_origin_arma_WF,peg_origin_WF);
-        }else{
-            force_control.update_x(arma_velocity);
+
+    if(POLICY::DEMOS != policy){
+        /// Takes care if we are stuck at an edge
+        if(policy != POLICY::INSERT && policy != POLICY::FORWARD){
+            if(State_machine::has_state(STATES::STUCK_EDGE,states)){
+                force_control.get_over_edge(arma_velocity,open_loop_x_origin_arma_WF,peg_origin_WF);
+            }else{
+                force_control.update_x(arma_velocity);
+            }
         }
-    }
 
-    force_control.force_safety(arma_velocity,8);
+        force_control.force_safety(arma_velocity,8);
 
-    if(policy != POLICY::INSERT && policy != POLICY::FORWARD){
-        arma_velocity = arma::normalise(arma_velocity);
-        if(!arma_velocity.is_finite()){
-            ROS_WARN_THROTTLE(1.0,"arma_velocity is not finite() [Search_policy::get_velocity]!");
-            arma_velocity.zeros();
+        if(policy != POLICY::INSERT && policy != POLICY::FORWARD){
+            arma_velocity = arma::normalise(arma_velocity);
+            if(!arma_velocity.is_finite()){
+                ROS_WARN_THROTTLE(1.0,"arma_velocity is not finite() [Search_policy::get_velocity]!");
+                arma_velocity.zeros();
+            }
         }
     }
 
